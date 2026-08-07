@@ -20,20 +20,20 @@ mod error {
 
 	#[derive(Debug)]
 	pub enum Error {
-		InitError(reqwest::Error),
-		EnumError(&'static str),
-		QueryFormatError(serde_url_params::Error),
-		UrlError(url::ParseError),
+		Init(reqwest::Error),
+		MissingEnum(&'static str),
+		QueryFormat(serde_url_params::Error),
+		UrlParse(url::ParseError),
 		ClientNotSet,
 	}
 
 	impl Display for Error {
 		fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 			match self {
-				Error::InitError(e) => write!(f, "Client initialization error: {}", e),
-				Error::EnumError(e) => write!(f, "Enum conversion error: {}", e),
-				Error::QueryFormatError(e) => write!(f, "Query format error: {}", e),
-				Error::UrlError(e) => write!(f, "URL error: {}", e),
+				Error::Init(e) => write!(f, "Client initialization error: {}", e),
+				Error::MissingEnum(e) => write!(f, "Missing enum: {}", e),
+				Error::QueryFormat(e) => write!(f, "Query format error: {}", e),
+				Error::UrlParse(e) => write!(f, "URL parse error: {}", e),
 				Error::ClientNotSet => write!(f, "Client not set"),
 			}
 		}
@@ -41,19 +41,19 @@ mod error {
 
 	impl From<reqwest::Error> for Error {
 		fn from(err: reqwest::Error) -> Self {
-			Error::InitError(err)
+			Error::Init(err)
 		}
 	}
 
 	impl From<serde_url_params::Error> for Error {
 		fn from(err: serde_url_params::Error) -> Self {
-			Error::QueryFormatError(err)
+			Error::QueryFormat(err)
 		}
 	}
 
 	impl From<url::ParseError> for Error {
 		fn from(err: url::ParseError) -> Self {
-			Error::UrlError(err)
+			Error::UrlParse(err)
 		}
 	}
 

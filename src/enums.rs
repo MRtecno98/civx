@@ -60,7 +60,7 @@ impl TryFrom<&str> for CheckpointType {
 			"Standard" => Ok(CheckpointType::Standard),
 			"Trained" => Ok(CheckpointType::Trained),
 			"Merge" => Ok(CheckpointType::Merge),
-			_ => Err(Error::EnumError("Invalid checkpoint type")),
+			_ => Err(Error::MissingEnum("Invalid checkpoint type")),
 		}
 	}
 
@@ -85,7 +85,7 @@ impl TryFrom<&str> for Period {
 			"Month" => Ok(Period::Month),
 			"Week" => Ok(Period::Week),
 			"Day" => Ok(Period::Day),
-			_ => Err(Error::EnumError("Invalid period")),
+			_ => Err(Error::MissingEnum("Invalid period")),
 		}
 	}
 
@@ -108,7 +108,7 @@ impl TryFrom<&str> for SortKind {
 			"HighestRated" => Ok(SortKind::HighestRated),
 			"MostDownloaded" => Ok(SortKind::MostDownloaded),
 			"Newest" => Ok(SortKind::Newest),
-			_ => Err(Error::EnumError("Invalid sort kind")),
+			_ => Err(Error::MissingEnum("Invalid sort kind")),
 		}
 	}
 

@@ -9,20 +9,21 @@ const ENUMS_URL: &str = "https://civitai.com/api/v1/enums";
 const JSON_FILENAME: &str = "enums.json";
 
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
 	let dest = PathBuf::from(
 		env::var("OUT_DIR")
 			.expect("OUT_DIR not found"))
 		.join(ENUMS_FILENAME);
 
-	let code = prettyplease::unparse(&syn::parse2(
-		generate_enums().await.unwrap()).unwrap());
+	let code = prettyplease::unparse(
+		&syn::parse2(generate_enums().await?)?);
 
-	std::fs::write(&dest, code)
-		.expect(&format!("Failed to write to {}", dest.display()));
+	std::fs::write(&dest, code)?;
 
 	println!("cargo:rerun-if-changed=build.rs");
 	println!("cargo:rerun-if-changed={}", JSON_FILENAME);
+
+	Ok(())
 }
 
 #[cfg(feature = "enums")]
@@ -102,11 +103,11 @@ fn generate_enum(name: &str, variants: &[&str]) -> TokenStream {
 			Unknown(String)
 		}
 
-		impl ToString for #name_ident {
-			fn to_string(&self) -> String {
+		impl std::fmt::Display for #name_ident {
+			fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 				match self {
-					#(#name_ident::#variants_ident => #variants.to_string(),)*
-					#name_ident::Unknown(s) => s.clone()
+					#(#name_ident::#variants_ident => write!(f, #variants),)*
+					#name_ident::Unknown(s) => write!(f, "{}", s)
 				}
 			}
 		}

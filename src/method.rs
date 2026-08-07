@@ -1,7 +1,6 @@
 use std::fmt::Display;
 
 use serde::{Serialize, de::DeserializeOwned};
-use serde_url_params;
 
 use crate::Result;
 
