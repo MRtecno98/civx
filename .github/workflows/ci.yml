@@ -10,7 +10,7 @@ jobs:
     env:
       CARGO_TERM_COLOR: always
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           components: clippy
@@ -27,7 +27,7 @@ jobs:
     env:
       CARGO_TERM_COLOR: always
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions-rust-lang/setup-rust-toolchain@v1
 
       - name: Run tests with default features
@@ -46,7 +46,7 @@ jobs:
     env:
         CARGO_TERM_COLOR: always
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions-rust-lang/setup-rust-toolchain@v1
 
       - name: Build with default features
