@@ -1,0 +1,31 @@
+[package]
+name = "civx"
+version = "0.1.0"
+edition = "2024"
+build = "build.rs"
+
+[features]
+enums = []
+
+[dependencies]
+bitmask-enum = "2.2.5"
+bon = "3.9.3"
+chrono = { version = "0.4.45", features = ["serde"] }
+reqwest = { version = "0.13.4", features = ["cookies", "json", "stream"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.151"
+serde_url_params = "0.2.1"
+tokio = { version = "1.53.1", features = ["fs", "net"] }
+url = "2.5.8"
+
+[dev-dependencies]
+tokio = { version = "1.53.1", features = ["full"] }
+
+[build-dependencies]
+prettyplease = "0.3.0"
+proc-macro2 = "1.0.107"
+quote = "1.0.47"
+syn = "3.0.3"
+tokio = { version = "1.53.1", features = ["full"] }
+reqwest = { version = "0.13.4", features = ["cookies", "json"] }
+serde_json = "1.0.151"
