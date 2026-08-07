@@ -1,0 +1,56 @@
+name: CI
+
+on: ["push", "pull_request"]
+
+jobs:
+  # Job 1: Controlli rapidi (Analisi statica)
+  lint:
+    name: Lint with Clippy
+    runs-on: ubuntu-latest
+    env:
+      CARGO_TERM_COLOR: always
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: clippy
+
+      - name: Lint with default features
+        run: cargo clippy -- -D warnings
+
+      - name: Lint with all features
+        run: cargo clippy --all-features -- -D warnings
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    env:
+      CARGO_TERM_COLOR: always
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+
+      - name: Run tests with default features
+        run: cargo test --verbose
+
+      - name: Run tests with all features
+        run: cargo test --all-features --verbose
+
+  # build for all three major platforms (Linux, Windows, macOS)
+  build:
+    name: Build for all platforms
+    runs-on: ${{ matrix.os }}
+    strategy:
+        matrix:
+            os: [ubuntu-latest, windows-latest, macos-latest]
+    env:
+        CARGO_TERM_COLOR: always
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+
+      - name: Build with default features
+        run: cargo build --verbose
+
+      - name: Build with all features
+        run: cargo build --all-features --verbose
