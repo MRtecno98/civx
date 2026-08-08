@@ -19,6 +19,7 @@ tokio = { version = "1.53.1", features = ["fs", "net"] }
 url = { version = "2.5.8", features = ["serde"] }
 
 [dev-dependencies]
+serde_test = "1.0.177"
 tokio = { version = "1.53.1", features = ["full"] }
 
 [build-dependencies]
