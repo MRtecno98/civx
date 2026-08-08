@@ -1,7 +1,7 @@
 use bon::Builder;
 use serde::Serialize;
 
-use crate::{CivitAI, Method, Query, queries::impl_builder_send};
+use crate::{CivitAI, Method, Query, models::{Paginated, Tag}, queries::impl_builder_send};
 
 #[derive(Serialize, Builder)]
 pub struct ListTags<'a> {
@@ -18,7 +18,7 @@ impl_builder_send!(list_tags_builder, ListTagsBuilder, ListTags<'a>);
 
 impl Method for ListTags<'_> {
 	type Input = Self;
-	type Output = serde_json::Value;
+	type Output = Paginated<Tag>;
 
 	type Type = Query;
 

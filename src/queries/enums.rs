@@ -1,10 +1,10 @@
-use crate::{Method, NoArgs};
+use crate::{Method, NoArgs, models::Enums};
 
 pub struct GetEnums;
 
 impl Method for GetEnums {
 	type Input = ();
-	type Output = serde_json::Value;
+	type Output = Enums;
 
 	type Type = NoArgs;
 

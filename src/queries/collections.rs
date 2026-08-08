@@ -1,7 +1,7 @@
 use bon::Builder;
 use serde::Serialize;
 
-use crate::{CivitAI, Method, Path, Query, enums::SortKind, queries::{Pagination, impl_builder_send}};
+use crate::{CivitAI, Method, Path, Query, enums::SortKind, models::{Collection, Paginated}, queries::{Pagination, impl_builder_send}};
 
 #[derive(Serialize, Builder)]
 pub struct ListCollections<'a> {
@@ -24,7 +24,7 @@ impl_builder_send!(list_collections_builder, ListCollectionsBuilder, ListCollect
 
 impl Method for ListCollections<'_> {
 	type Input = Self;
-	type Output = serde_json::Value;
+	type Output = Paginated<Collection>;
 
 	type Type = Query;
 
@@ -36,7 +36,7 @@ pub struct GetCollection;
 
 impl Method for GetCollection {
 	type Input = u32;
-	type Output = serde_json::Value;
+	type Output = Collection;
 
 	type Type = Path;
 

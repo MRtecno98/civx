@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use bon::Builder;
 use serde::Serialize;
 
@@ -28,7 +30,7 @@ impl_builder_send!(check_permissions_builder, CheckPermissionsBuilder, CheckPerm
 
 impl Method for CheckPermissions<'_> {
 	type Input = Self;
-	type Output = serde_json::Value;
+	type Output = HashMap<String, bool>;
 
 	type Type = Query;
 

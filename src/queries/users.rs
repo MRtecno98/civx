@@ -1,13 +1,13 @@
 use bon::Builder;
 use serde::Serialize;
 
-use crate::{CivitAI, Method, NoArgs, Query, queries::{impl_builder_send, serialize_comma_separated}};
+use crate::{CivitAI, Method, NoArgs, Query, models::{CurrentUser, Paginated, UserLookup}, queries::{impl_builder_send, serialize_comma_separated}};
 
 pub struct GetMe;
 
 impl Method for GetMe {
 	type Input = ();
-	type Output = serde_json::Value;
+	type Output = CurrentUser;
 
 	type Type = NoArgs;
 
@@ -32,7 +32,7 @@ impl_builder_send!(lookup_users_builder, LookupUsersBuilder, LookupUsers<'a>);
 
 impl Method for LookupUsers<'_> {
 	type Input = Self;
-	type Output = serde_json::Value;
+	type Output = Paginated<UserLookup>;
 
 	type Type = Query;
 

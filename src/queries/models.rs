@@ -1,7 +1,6 @@
 use bon::Builder;
 use serde::Serialize;
-use serde_json::Value;
-use crate::{Body, CivitAI, Method, Path, Query, enums::{CheckpointType, ModelType, Period, SortKind}, queries::{Pagination, impl_builder_send}};
+use crate::{Body, CivitAI, Method, Path, Query, enums::{CheckpointType, ModelType, Period, SortKind}, models::{Model, ModelVersion, ModelVersionHashLookup, ModelVersionMinimal, Paginated}, queries::{Pagination, impl_builder_send}};
 
 #[derive(Serialize, Builder)]
 pub struct ListModels<'a> {
@@ -42,7 +41,7 @@ impl_builder_send!(list_models_builder, ListModelsBuilder, ListModels<'a>);
 
 impl Method for ListModels<'_> {
 	type Input = Self;
-	type Output = Value;
+	type Output = Paginated<Model>;
 
 	type Type = Query;
 
@@ -54,7 +53,7 @@ pub struct GetModel;
 
 impl Method for GetModel {
 	type Input = u32;
-	type Output = Value;
+	type Output = Model;
 
 	type Type = Path;
 
@@ -66,7 +65,7 @@ pub struct GetModelVersion;
 
 impl Method for GetModelVersion {
 	type Input = u32;
-	type Output = Value;
+	type Output = ModelVersion;
 
 	type Type = Path;
 
@@ -78,7 +77,7 @@ pub struct GetByHash;
 
 impl Method for GetByHash {
 	type Input = String;
-	type Output = Value;
+	type Output = ModelVersion;
 
 	type Type = Path;
 
@@ -90,7 +89,7 @@ pub struct GetByHashBulk;
 
 impl Method for GetByHashBulk {
 	type Input = Vec<String>;
-	type Output = Value;
+	type Output = Vec<ModelVersion>;
 
 	type Type = Body;
 
@@ -102,7 +101,7 @@ pub struct GetIdsByHashBulk;
 
 impl Method for GetIdsByHashBulk {
 	type Input = Vec<String>;
-	type Output = Value;
+	type Output = Vec<ModelVersionHashLookup>;
 
 	type Type = Body;
 
@@ -114,7 +113,7 @@ pub struct GetModelVersionMinimal;
 
 impl Method for GetModelVersionMinimal {
 	type Input = u32;
-	type Output = Value;
+	type Output = ModelVersionMinimal;
 
 	type Type = Path;
 

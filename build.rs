@@ -1,5 +1,6 @@
 use std::{env, path::PathBuf};
 
+use itertools::Itertools;
 use proc_macro2::TokenStream;
 use quote::{format_ident, quote};
 use serde_json::Value;
@@ -63,8 +64,21 @@ async fn fetch_enums() -> Result<Value, Box<dyn std::error::Error>> {
 	})
 }
 
+fn fix_enums(value: &mut Value) {
+	if value["ActiveBaseModel"].as_array_mut().is_some_and(
+			|m| m.contains(&Value::String("Krea 2".to_string()))) {
+		value["ActiveBaseModel"].as_array_mut().unwrap().push("Krea2".into());
+	}
+
+	if value["BaseModel"].as_array_mut().is_some_and(
+			|m| m.contains(&Value::String("Krea 2".to_string()))) {
+		value["BaseModel"].as_array_mut().unwrap().push("Krea2".into());
+	}
+}
+
 async fn generate_enums() -> Result<TokenStream, Box<dyn std::error::Error>> {
-	let value = fetch_enums().await?;
+	let mut value = fetch_enums().await?;
+	fix_enums(&mut value);
 
 	let dict = value.as_object()
 		.ok_or("Expected JSON object")?;
@@ -94,19 +108,28 @@ fn sanitize(s: &str) -> String {
 fn generate_enum(name: &str, variants: &[&str]) -> TokenStream {
 	let name_ident = format_ident!("{}", sanitize(name));
 	let variants_ident = variants.iter()
-		.map(|&v| format_ident!("{}", sanitize(v))).collect::<Vec<_>>();
+		.map(|&v| format_ident!("{}", sanitize(v)))
+		.collect::<Vec<_>>();
+
+	// Because of fix_enums there may copies of the same ident for multiple strings
+	// When going from Ident to String we use the deduped list and the normal one
+	// for the reverse.
+	let variants_ident_deduped = variants_ident.iter()
+		.unique()
+		.cloned()
+		.collect::<Vec<_>>();
 
 	quote! {
-		#[derive(serde::Serialize, serde::Deserialize, Debug, Clone, PartialEq, Eq)]
+		#[derive(Debug, Clone, PartialEq, Eq)]
 		pub enum #name_ident {
-			#(#variants_ident,)*
+			#(#variants_ident_deduped,)*
 			Unknown(String)
 		}
 
 		impl std::fmt::Display for #name_ident {
 			fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 				match self {
-					#(#name_ident::#variants_ident => write!(f, #variants),)*
+					#(#name_ident::#variants_ident_deduped => write!(f, #variants),)*
 					#name_ident::Unknown(s) => write!(f, "{}", s)
 				}
 			}
@@ -118,6 +141,25 @@ fn generate_enum(name: &str, variants: &[&str]) -> TokenStream {
 					#(#variants => #name_ident::#variants_ident,)*
 					_ => #name_ident::Unknown(s.as_ref().to_string())
 				}
+			}
+		}
+
+		impl<'de> serde::Deserialize<'de> for #name_ident {
+			fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+			where
+				D: serde::Deserializer<'de>,
+			{
+				let s: &'de str = serde::Deserialize::deserialize(deserializer)?;
+				Ok(#name_ident::from(s))
+			}
+		}
+
+		impl serde::Serialize for #name_ident {
+			fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
+			where
+				S: serde::Serializer,
+			{
+				serializer.serialize_str(self.to_string().as_str())
 			}
 		}
 	}

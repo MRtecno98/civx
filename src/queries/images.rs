@@ -1,7 +1,7 @@
 use bon::Builder;
 use serde::Serialize;
 
-use crate::{CivitAI, Method, Query, enums::{MediaType, NsfwLevel, Period, SortKind}, queries::{Pagination, impl_builder_send, serialize_comma_separated}};
+use crate::{CivitAI, Method, Query, enums::{MediaType, NsfwLevel, Period, SortKind}, models::{Image, Paginated}, queries::{Pagination, impl_builder_send, serialize_comma_separated}};
 
 #[derive(Serialize, Builder)]
 pub struct ListImages<'a> {
@@ -45,7 +45,7 @@ impl_builder_send!(list_images_builder, ListImagesBuilder, ListImages<'a>);
 
 impl Method for ListImages<'_> {
 	type Input = Self;
-	type Output = serde_json::Value;
+	type Output = Paginated<Image>;
 
 	type Type = Query;
 

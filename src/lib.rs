@@ -1,10 +1,14 @@
 pub mod queries;
+pub mod models;
 pub mod enums;
 
 mod method;
 mod client;
+mod air;
 
 pub use method::*;
+pub use air::*;
+
 pub use client::CivitAI;
 pub use error::Result;
 
