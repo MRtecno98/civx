@@ -57,8 +57,9 @@ pub enum Availability {
 	// TODO: Doc doesn't say others
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Default, Debug, Clone, PartialEq, Eq)]
 pub enum ModerationStatus {
+	#[default]
 	Healthy,
 	Archived,
 	TakenDown,
@@ -188,12 +189,6 @@ impl From<&str> for NsfwLevel {
 			"X" => NsfwLevel::X,
 			_ => NsfwLevel::None, // Default to None if unknown
 		}
-	}
-}
-
-impl Default for ModerationStatus {
-	fn default() -> Self {
-		ModerationStatus::Healthy
 	}
 }
 

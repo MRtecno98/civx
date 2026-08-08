@@ -36,7 +36,7 @@ pub struct Model {
 	pub model_versions: Vec<ModelVersionEntry>,
 }
 
-#[derive(Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Deserialize, Default, Debug, Clone, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 #[serde(default)]
 pub struct ModelStats {
@@ -45,18 +45,6 @@ pub struct ModelStats {
 	pub thumbs_down_count: u64,
 	pub comment_count: u64,
 	pub tipped_amount_count: u64,
-}
-
-impl Default for ModelStats {
-	fn default() -> Self {
-		Self {
-			download_count: 0,
-			thumbs_up_count: 0,
-			thumbs_down_count: 0,
-			comment_count: 0,
-			tipped_amount_count: 0,
-		}
-	}
 }
 
 #[derive(Deserialize, Debug, Clone, PartialEq, Eq)]
