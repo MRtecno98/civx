@@ -31,10 +31,10 @@ jobs:
       - uses: actions-rust-lang/setup-rust-toolchain@v1
 
       - name: Run tests with default features
-        run: cargo test --verbose
+        run: cargo test --verbose -- --show-output
 
       - name: Run tests with all features
-        run: cargo test --all-features --verbose
+        run: cargo test --all-features --verbose -- --show-output
 
   # build for all three major platforms (Linux, Windows, macOS)
   build:
