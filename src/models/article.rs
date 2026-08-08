@@ -63,7 +63,7 @@ pub enum ArticleUserPropic {
 
 	#[serde(rename_all = "camelCase")]
 	Detailed {
-		profile_picture: Option<Image>,
+		profile_picture: Option<Box<Image>>,
 	}
 }
 

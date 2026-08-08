@@ -92,7 +92,7 @@ impl<'de> Deserialize<'de> for AIR {
 	}
 }
 
-impl<'de> Serialize for AIR {
+impl Serialize for AIR {
 	fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
 	where
 		S: serde::Serializer {
