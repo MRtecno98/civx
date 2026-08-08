@@ -1,9 +1,10 @@
 use bon::Builder;
 use serde::Serialize;
 
-use crate::{CivitAI, Method, Query, enums::{MediaType, NsfwLevel, Period, SortKind}, models::{Image, Paginated}, queries::{Pagination, impl_builder_send, serialize_comma_separated}};
+use crate::{CivitAI, Method, Query, enums::{ImageSortKind, MediaType, NsfwLevel, Period}, models::{Image, Paginated}, queries::{Pagination, impl_builder_send, serialize_comma_separated}};
 
 #[derive(Serialize, Builder)]
+#[builder(on(String, into))]
 pub struct ListImages<'a> {
 	#[serde(skip)]
 	#[builder(field)]
@@ -25,7 +26,7 @@ pub struct ListImages<'a> {
 	pub user_id: Option<u32>,
 
 	pub period: Option<Period>,
-	pub sort: Option<SortKind>,
+	pub sort: Option<ImageSortKind>,
 	pub browsing_level: Option<NsfwLevel>,
 
     #[serde(serialize_with = "serialize_comma_separated", 
@@ -51,4 +52,20 @@ impl Method for ListImages<'_> {
 
 	const METHOD: reqwest::Method = reqwest::Method::GET;
 	const ENDPOINT: &'static str = "/api/v1/images";
+}
+
+#[cfg(test)]
+mod tests {
+	use crate::{CivitAI, enums::ImageSortKind};
+	use std::error::Error;
+
+	#[tokio::test]
+	async fn list_images_deser() -> Result<(), Box<dyn Error>> {
+		CivitAI::new()?.list_images()
+			.pagination(Some(10), None, None)
+			.sort(ImageSortKind::MostReactions)
+			.send().await?;
+
+		Ok(())
+	}
 }

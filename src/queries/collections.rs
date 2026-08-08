@@ -1,9 +1,10 @@
 use bon::Builder;
 use serde::Serialize;
 
-use crate::{CivitAI, Method, Path, Query, enums::SortKind, models::{Collection, Paginated}, queries::{Pagination, impl_builder_send}};
+use crate::{CivitAI, Method, Path, Query, enums::CollectionSortKind, models::{Collection, Paginated}, queries::{Pagination, impl_builder_send}};
 
 #[derive(Serialize, Builder)]
+#[builder(on(String, into))]
 pub struct ListCollections<'a> {
 	#[serde(skip)]
 	#[builder(field)]
@@ -16,7 +17,7 @@ pub struct ListCollections<'a> {
 	pub pagination: Option<Pagination>,
 
 	pub query: Option<String>,
-	pub sort: Option<SortKind>,
+	pub sort: Option<CollectionSortKind>,
 	pub nsfw: Option<bool>,
 }
 
@@ -41,5 +42,30 @@ impl Method for GetCollection {
 	type Type = Path;
 
 	const METHOD: reqwest::Method = reqwest::Method::GET;
-	const ENDPOINT: &'static str = "/api/v1/collections/{id}";
+	const ENDPOINT: &'static str = "/api/v1/collections/{}";
+}
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+
+	use crate::CivitAI;
+	use std::error::Error;
+
+	#[tokio::test]
+	async fn list_collections_deser() -> Result<(), Box<dyn Error>> {
+		CivitAI::new()?.list_collections()
+			.sort(CollectionSortKind::MostFollowers)
+			.pagination(Some(10), None, None)
+			.send().await?;
+
+		Ok(())
+	}
+
+	#[tokio::test]
+	async fn get_collection_deser() -> Result<(), Box<dyn Error>> {
+		CivitAI::new()?.get_collection(10505430).await?;
+
+		Ok(())
+	}
 }

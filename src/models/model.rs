@@ -2,12 +2,12 @@ use chrono::{DateTime, Utc};
 use serde::Deserialize;
 use url::Url;
 
-use crate::{AIR, enums::{Availability, BaseModel, BaseModelType, ModelFileType, ModelType, ModerationStatus, NsfwLevel, PublishingStatus, UploadType, Usage}, models::{files::{File, Hashes}, image::Image}};
+use crate::{AIR, enums::{Availability, BaseModel, BaseModelType, ModelFileType, ModelType, ModerationStatus, NsfwLevel, PublishingStatus, ResourceType, UploadType, Usage}, models::{GenerationMetadata, files::{File, Hashes}}};
 
 #[derive(Deserialize, Debug, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct Model {
-	pub id: u64,
+	pub id: i64,
 	pub name: String,
 	pub description: String,
 
@@ -51,14 +51,14 @@ pub struct ModelStats {
 #[serde(rename_all = "camelCase")]
 pub struct ModelCreator {
 	pub username: String,
-	pub image: Url,
+	pub image: Option<Url>,
 }
 
 #[derive(Deserialize, Debug, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct ModelVersionEntry {
 	// Fields taken from documentation
-	pub id: u64,
+	pub id: i64,
 	pub index: u32,
 	pub name: String,
 	pub base_model: BaseModel,
@@ -92,15 +92,18 @@ pub enum PaidAccessInfo {
 #[derive(Deserialize, Debug, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct ModelVersion {
-	pub id: u64,
-	pub model_id: u64,
+	pub id: i64,
+	pub model_id: i64,
 	pub name: String,
 	pub description: Option<String>,
 	pub base_model: BaseModel,
 	pub base_model_type: BaseModelType,
 	pub air: AIR,
 	pub status: PublishingStatus,
+	
+	#[serde(default)]
 	pub availability: Availability,
+	
 	pub nsfw_level: NsfwLevel,
 	pub created_at: DateTime<Utc>,
 	pub updated_at: DateTime<Utc>,
@@ -118,7 +121,7 @@ pub struct ModelVersion {
 	pub model: VersionModelInfo,
 
 	pub files: Vec<File>,
-	pub images: Vec<Image>,
+	pub images: Vec<ModelImageEntry>,
 
 	pub download_url: Url,
 }
@@ -127,9 +130,30 @@ pub struct ModelVersion {
 #[serde(rename_all = "camelCase")]
 pub struct VersionModelInfo {
 	pub name: String,
+	#[serde(rename = "type")]
 	pub model_type: ModelType,
 	pub nsfw: bool,
 	pub poi: bool,
+}
+
+#[derive(Deserialize, Debug, Clone, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct ModelImageEntry {
+	pub url: Url,
+	pub nsfw_level: NsfwLevel,
+	pub width: u32,
+	pub height: u32,
+	pub hash: String,
+	#[serde(rename = "type")]
+	pub resource_type: ResourceType,
+	pub minor: bool,
+	pub poi: bool,
+	pub meta: Option<GenerationMetadata>,
+	pub availability: Availability,
+	pub has_meta: bool,
+	pub has_positive_prompt: bool,
+	pub on_site: bool,
+	pub remix_of_id: Option<i64>,
 }
 
 #[derive(Deserialize, Debug, Clone, PartialEq)]
@@ -154,8 +178,8 @@ pub struct ModelVersionMinimal {
 	pub require_auth: bool,
 	pub check_permission: bool,
 	pub early_access_ends_at: Option<DateTime<Utc>>,
-	pub free_trial_limit: u32,
-	pub additional_resource_charge: u32,
+	pub free_trial_limit: Option<u32>,
+	pub additional_resource_charge: bool,
 	pub minor: bool,
 	pub sfw_only: bool,
 }
@@ -163,6 +187,6 @@ pub struct ModelVersionMinimal {
 #[derive(Deserialize, Debug, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct ModelVersionHashLookup {
-	pub model_version_id: u64,
+	pub model_version_id: i64,
 	pub hash: String,
 }

@@ -21,10 +21,40 @@ pub enum Period {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[serde(into = "&str", try_from = "&str")]
 pub enum SortKind {
 	HighestRated,
 	MostDownloaded,
 	Newest,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[serde(into = "&str", try_from = "&str")]
+pub enum ArticleSortKind {
+	Newest,
+	MostBookmarks,
+	MostReactions,
+	MostComments,
+	MostCollected,
+	RecentlyUpdated,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[serde(into = "&str", try_from = "&str")]
+pub enum CollectionSortKind {
+	Newest,
+	MostFollowers,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[serde(into = "&str", try_from = "&str")]
+pub enum ImageSortKind {
+	MostReactions,
+	MostComments,
+	MostCollected,
+	Newest,
+	Oldest,
+	Random,
 }
 
 #[bitmask(u8)]
@@ -40,19 +70,23 @@ pub enum NsfwLevel {
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub enum Usage {
 	Image,
+	Rent,
+	Sell,
 	RentCivit,
 	Download,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[serde(rename_all = "lowercase")]
 pub enum MediaType {
 	Image,
 	Video,
 	Audio,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Default, Debug, Clone, PartialEq, Eq)]
 pub enum Availability {
+	#[default]
 	Public,
 	// TODO: Doc doesn't say others
 }
@@ -84,6 +118,7 @@ pub enum UploadType {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[serde(into = "&str", try_from = "&str")]
 pub enum ResourceType {
 	Model,
 	Image,
@@ -91,9 +126,10 @@ pub enum ResourceType {
 	Post,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Default, Debug, Clone, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum MembershipTier {
+	#[default]
 	Free,
 	Founder,
 	Bronze,
@@ -109,59 +145,11 @@ pub enum UserStatus {
 	Banned
 }
 
-impl AsRef<str> for CheckpointType {
-	fn as_ref(&self) -> &str {
-		match self {
-			CheckpointType::Standard => "Standard",
-			CheckpointType::Trained => "Trained",
-			CheckpointType::Merge => "Merge",
-		}
-	}
-}
-
-impl TryFrom<&str> for CheckpointType {
-	fn try_from(value: &str) -> Result<Self, Self::Error> {
+impl From<SortKind> for &str {
+	fn from(value: SortKind) -> Self {
 		match value {
-			"Standard" => Ok(CheckpointType::Standard),
-			"Trained" => Ok(CheckpointType::Trained),
-			"Merge" => Ok(CheckpointType::Merge),
-			_ => Err(Error::MissingEnum("Invalid checkpoint type")),
-		}
-	}
-
-	type Error = Error;
-}
-
-impl AsRef<str> for Period {
-	fn as_ref(&self) -> &str {
-		match self {
-			Period::AllTime => "AllTime",
-			Period::Month => "Month",
-			Period::Week => "Week",
-			Period::Day => "Day",
-		}
-	}
-}
-
-impl TryFrom<&str> for Period {
-	fn try_from(value: &str) -> Result<Self, Self::Error> {
-		match value {
-			"AllTime" => Ok(Period::AllTime),
-			"Month" => Ok(Period::Month),
-			"Week" => Ok(Period::Week),
-			"Day" => Ok(Period::Day),
-			_ => Err(Error::MissingEnum("Invalid period")),
-		}
-	}
-
-	type Error = Error;
-}
-
-impl AsRef<str> for SortKind {
-	fn as_ref(&self) -> &str {
-		match self {
-			SortKind::HighestRated => "HighestRated",
-			SortKind::MostDownloaded => "MostDownloaded",
+			SortKind::HighestRated => "Highest Rated",
+			SortKind::MostDownloaded => "Most Downloaded",
 			SortKind::Newest => "Newest",
 		}
 	}
@@ -170,14 +158,118 @@ impl AsRef<str> for SortKind {
 impl TryFrom<&str> for SortKind {
 	fn try_from(value: &str) -> Result<Self, Self::Error> {
 		match value {
-			"HighestRated" => Ok(SortKind::HighestRated),
-			"MostDownloaded" => Ok(SortKind::MostDownloaded),
+			"Highest Rated" => Ok(SortKind::HighestRated),
+			"Most Downloaded" => Ok(SortKind::MostDownloaded),
 			"Newest" => Ok(SortKind::Newest),
 			_ => Err(Error::MissingEnum("Invalid sort kind")),
 		}
 	}
 
 	type Error = Error;
+}
+
+impl From<ArticleSortKind> for &str {
+	fn from(value: ArticleSortKind) -> Self {
+		match value {
+			ArticleSortKind::MostBookmarks => "Most Bookmarks",
+			ArticleSortKind::MostReactions => "Most Reactions",
+			ArticleSortKind::MostComments => "Most Comments",
+			ArticleSortKind::MostCollected => "Most Collected",
+			ArticleSortKind::Newest => "Newest",
+			ArticleSortKind::RecentlyUpdated => "Recently Updated",
+		}
+	}
+}
+
+impl TryFrom<&str> for ArticleSortKind {
+	type Error = Error;
+
+	fn try_from(value: &str) -> Result<Self, Self::Error> {
+		match value {
+			"Most Bookmarks" => Ok(ArticleSortKind::MostBookmarks),
+			"Most Reactions" => Ok(ArticleSortKind::MostReactions),
+			"Most Comments" => Ok(ArticleSortKind::MostComments),
+			"Most Collected" => Ok(ArticleSortKind::MostCollected),
+			"Newest" => Ok(ArticleSortKind::Newest),
+			"Recently Updated" => Ok(ArticleSortKind::RecentlyUpdated),
+			_ => Err(Error::MissingEnum("Invalid article sort kind")),
+		}
+	}
+}
+
+impl From<CollectionSortKind> for &str {
+	fn from(value: CollectionSortKind) -> Self {
+		match value {
+			CollectionSortKind::Newest => "Newest",
+			CollectionSortKind::MostFollowers => "Most Followers",
+		}
+	}
+}
+
+impl TryFrom<&str> for CollectionSortKind {
+	type Error = Error;
+
+	fn try_from(value: &str) -> Result<Self, Self::Error> {
+		match value {
+			"Newest" => Ok(CollectionSortKind::Newest),
+			"Most Followers" => Ok(CollectionSortKind::MostFollowers),
+			_ => Err(Error::MissingEnum("Invalid collection sort kind")),
+		}
+	}
+}
+
+impl From<ImageSortKind> for &str {
+	fn from(value: ImageSortKind) -> Self {
+		match value {
+			ImageSortKind::MostReactions => "Most Reactions",
+			ImageSortKind::MostComments => "Most Comments",
+			ImageSortKind::MostCollected => "Most Collected",
+			ImageSortKind::Newest => "Newest",
+			ImageSortKind::Oldest => "Oldest",
+			ImageSortKind::Random => "Random",
+		}
+	}
+}
+
+impl TryFrom<&str> for ImageSortKind {
+	type Error = Error;
+
+	fn try_from(value: &str) -> Result<Self, Self::Error> {
+		match value {
+			"Most Reactions" => Ok(ImageSortKind::MostReactions),
+			"Most Comments" => Ok(ImageSortKind::MostComments),
+			"Most Collected" => Ok(ImageSortKind::MostCollected),
+			"Newest" => Ok(ImageSortKind::Newest),
+			"Oldest" => Ok(ImageSortKind::Oldest),
+			"Random" => Ok(ImageSortKind::Random),
+			_ => Err(Error::MissingEnum("Invalid image sort kind")),
+		}
+	}
+}
+
+impl From<ResourceType> for &str {
+	fn from(value: ResourceType) -> Self {
+		match value {
+			ResourceType::Model => "model",
+			ResourceType::Image => "image",
+			ResourceType::Article => "article",
+			ResourceType::Post => "post",
+		}
+	}
+}
+
+impl TryFrom<&str> for ResourceType {
+	type Error = Error;
+
+	fn try_from(value: &str) -> Result<Self, Self::Error> {
+		match &value.to_lowercase()[..] {
+			"model" => Ok(ResourceType::Model),
+			"image" => Ok(ResourceType::Image),
+			"article" => Ok(ResourceType::Article),
+			"post" => Ok(ResourceType::Post),
+			_ => Err(Error::MissingEnum("Invalid resource type")),
+		}
+	}
 }
 
 impl From<&str> for NsfwLevel {
@@ -189,6 +281,12 @@ impl From<&str> for NsfwLevel {
 			"X" => NsfwLevel::X,
 			_ => NsfwLevel::None, // Default to None if unknown
 		}
+	}
+}
+
+impl Default for NsfwLevel {
+	fn default() -> Self {
+		NsfwLevel::None
 	}
 }
 

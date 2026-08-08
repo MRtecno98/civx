@@ -16,6 +16,7 @@ impl Method for GetMe {
 }
 
 #[derive(Serialize, Builder)]
+#[builder(on(String, into))]
 pub struct LookupUsers<'a> {
 	#[serde(skip)]
 	#[builder(field)]

@@ -1,12 +1,13 @@
 use bon::Builder;
 use serde::Serialize;
 
-use crate::{CivitAI, Method, Path, Query, enums::SortKind, models::{Article, Paginated}, queries::{Pagination, impl_builder_send, serialize_comma_separated}};
+use crate::{CivitAI, Method, Path, Query, enums::ArticleSortKind, models::{Article, Paginated}, queries::{Pagination, impl_builder_send, serialize_comma_separated}};
 
 /// An article is a long-form post published on Civitai — a guide, workflow write-up, 
 /// changelog, or announcement. These endpoints expose the same public article feed 
 /// that powers the website.
 #[derive(Serialize, Builder)]
+#[builder(on(String, into))]
 pub struct ListArticles<'a> {
 	#[serde(skip)]
 	#[builder(field)]
@@ -23,7 +24,7 @@ pub struct ListArticles<'a> {
 	pub tags: Option<Vec<u32>>,
 
 	pub username: Option<String>,
-	pub sort: Option<SortKind>,
+	pub sort: Option<ArticleSortKind>,
 	pub nsfw: Option<bool>,
 }
 
@@ -54,4 +55,29 @@ impl Method for GetArticle {
 
 	const METHOD: reqwest::Method = reqwest::Method::GET;
 	const ENDPOINT: &'static str = "/api/v1/articles/{id}";
+}
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+
+	use crate::CivitAI;
+	use std::error::Error;
+
+	#[tokio::test]
+	async fn list_articles_deser() -> Result<(), Box<dyn Error>> {
+		CivitAI::new()?.list_articles()
+			.nsfw(true)
+			.sort(ArticleSortKind::MostBookmarks)
+			.send().await?;
+
+		Ok(())
+	}
+
+	#[tokio::test]
+	async fn get_article_deser() -> Result<(), Box<dyn Error>> {
+		CivitAI::new()?.get_article(1).await?;
+
+		Ok(())
+	}
 }

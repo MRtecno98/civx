@@ -7,7 +7,7 @@ use crate::enums::{BaseModel, MediaType, ModelType, NsfwLevel};
 #[derive(Deserialize, Debug, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct Image {
-	pub id: u64,
+	pub id: i64,
 	pub url: Url,
 	pub hash: String,
 	pub width: u32,
@@ -21,31 +21,31 @@ pub struct Image {
 	pub browsing_level: NsfwLevel,
 	pub created_at: DateTime<Utc>,
 
-	pub post_id: u64,
+	pub post_id: i64,
 	pub username: String,
 
-	pub base_model: BaseModel,
+	pub base_model: Option<BaseModel>,
 	pub model_version_ids: Vec<u64>,
 
 	pub stats: ImageStats,
 
-	pub meta: GenerationMetadata,
+	pub meta: Option<GenerationMetadata>,
 }
 
 #[derive(Deserialize, Debug, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct GenerationMetadata {
 	#[serde(rename = "Size")]
-	pub size: String,
-	pub seed: u64,
-	pub steps: u32,
-	pub sampler: String,
-	pub cfg_scale: f32,
-	pub clip_skip: u32,
-	pub prompt: String,
-	pub negative_prompt: String,
+	pub size: Option<String>,
+	pub seed: Option<u64>,
+	pub steps: Option<u32>,
+	pub sampler: Option<String>,
+	pub cfg_scale: Option<f32>,
+	pub clip_skip: Option<u32>,
+	pub prompt: Option<String>,
+	pub negative_prompt: Option<String>,
 
-	#[serde(rename = "civitaiResources")]
+	#[serde(default, rename = "civitaiResources")]
 	pub resources: Vec<ImageResource>,
 }
 
@@ -56,7 +56,7 @@ pub struct ImageResource {
 	pub file_type: ModelType,
 
 	pub weight: Option<f32>,
-	pub model_version_id: u64,
+	pub model_version_id: i64,
 }
 
 #[derive(Deserialize, Debug, Clone, PartialEq, Eq)]

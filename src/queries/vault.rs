@@ -17,6 +17,7 @@ impl Method for GetVault {
 }
 
 #[derive(Serialize, Builder)]
+#[builder(on(String, into))]
 pub struct ListVault<'a> {
 	#[serde(skip)]
 	#[builder(field)]
@@ -58,6 +59,7 @@ impl Method for ListVault<'_> {
 }
 
 #[derive(Serialize, Builder)]
+#[builder(on(String, into))]
 pub struct CheckInVault<'a> {
 	#[serde(skip)]
 	#[builder(field)]
@@ -81,6 +83,7 @@ impl Method for CheckInVault<'_> {
 }
 
 #[derive(Serialize, Builder)]
+#[builder(on(String, into))]
 pub struct ToggleVaultVersion<'a> {
 	#[serde(skip)]
 	#[builder(field)]

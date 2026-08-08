@@ -5,7 +5,8 @@ use url::Url;
 #[serde(rename_all = "camelCase")]
 pub struct Creator {
 	pub username: String,
+	#[serde(default)]
 	pub model_count: u64,
 	pub link: Url,
-	pub image: Url,
+	pub image: Option<Url>,
 }

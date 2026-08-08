@@ -6,6 +6,7 @@ use serde::Serialize;
 use crate::{CivitAI, Method, Query, queries::{impl_builder_send, serialize_comma_separated}};
 
 #[derive(Serialize, Builder)]
+#[builder(on(String, into))]
 pub struct CheckPermissions<'a> {
 	#[serde(skip)]
 	#[builder(field)]

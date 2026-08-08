@@ -39,9 +39,9 @@ impl CivitAI {
 		}
 	}
 
-	pub fn new_auth(token: String) -> Result<Self> {
+	pub fn new_auth(token: impl AsRef<str>) -> Result<Self> {
 		Ok(Self {
-			token: Some(token),
+			token: Some(token.as_ref().into()),
 			..Self::new()?
 		})
 	}
@@ -80,7 +80,7 @@ impl CivitAI {
 	impl_method!(ListModels, ListModelsBuilder, list_models);
 	impl_method!(GetModel, get_model, args(id));
 	impl_method!(GetModelVersion, get_model_version, args(version_id));
-	impl_method!(GetModelVersionMinimal, get_model_version_mini, args(version_id));
+	impl_method!(GetModelVersionMinimal, get_model_version_minimal, args(version_id));
 	impl_method!(GetByHash, get_by_hash, args(hash));
 	impl_method!(GetByHashBulk, get_by_hash_bulk, args(hashes));
 
@@ -93,6 +93,7 @@ impl CivitAI {
 	impl_method!(GetCollection, get_collection, args(id));
 
 	impl_method!(ListCreators, ListCreatorsBuilder, list_creators);
+	impl_method!(GetEnums, get_enums, noargs);
 
 	impl_method!(ListTags, ListTagsBuilder, list_tags);
 

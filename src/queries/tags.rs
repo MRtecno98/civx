@@ -4,6 +4,7 @@ use serde::Serialize;
 use crate::{CivitAI, Method, Query, models::{Paginated, Tag}, queries::impl_builder_send};
 
 #[derive(Serialize, Builder)]
+#[builder(on(String, into))]
 pub struct ListTags<'a> {
 	#[serde(skip)]
 	#[builder(field)]

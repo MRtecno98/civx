@@ -3,7 +3,7 @@ use crate::CivitAI;
 
 #[tokio::test]
 async fn it_works() -> Result<(), Box<dyn Error>> {
-	let civitai = CivitAI::new()?;
+	let civitai = CivitAI::new_auth("9a2c521c05b61d4e893b58915bb2f523")?;
 
 	let result = civitai.lookup_users()
 		.ids(vec![123,456,789])
@@ -26,6 +26,9 @@ async fn it_works() -> Result<(), Box<dyn Error>> {
 			println!()
 		}
 	}
+
+	let me = civitai.get_me().await?;
+	println!("Me: {} ({})", me.username, me.id);
 
 	Ok(())
 }

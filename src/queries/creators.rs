@@ -4,6 +4,7 @@ use serde::Serialize;
 use crate::{CivitAI, Method, Query, models::{Creator, Paginated}, queries::impl_builder_send};
 
 #[derive(Serialize, Builder)]
+#[builder(on(String, into))]
 pub struct ListCreators<'a> {
 	#[serde(skip)]
 	#[builder(field)]
@@ -24,4 +25,20 @@ impl Method for ListCreators<'_> {
 
 	const METHOD: reqwest::Method = reqwest::Method::GET;
 	const ENDPOINT: &'static str = "/api/v1/creators";
+}
+
+#[cfg(test)]
+mod tests {
+	use crate::CivitAI;
+	use std::error::Error;
+
+	#[tokio::test]
+	async fn list_creators_deser() -> Result<(), Box<dyn Error>> {
+		CivitAI::new()?.list_creators()
+			.limit(10)
+			.query("test")
+			.send().await?;
+
+		Ok(())
+	}
 }

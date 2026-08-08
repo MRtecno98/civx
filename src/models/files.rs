@@ -9,7 +9,7 @@ use crate::enums::{ModelFileType, ScanResult};
 #[derive(Deserialize, Debug, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct File {
-	pub id: u64,
+	pub id: i64,
 	pub name: String,
 
 	#[serde(rename = "type")]

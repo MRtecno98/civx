@@ -6,7 +6,7 @@ use crate::enums::{Availability, ResourceType};
 #[derive(Deserialize, Debug, Clone, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Collection {
-	pub id: u64,
+	pub id: i64,
 	pub name: String,
 	pub description: String,
 
@@ -15,14 +15,14 @@ pub struct Collection {
 
 	pub read: Availability,
 	pub is_public: bool,
-	pub item_count: u64,
-	pub cover_image_url: Url,
+	pub item_count: Option<u64>,
+	pub cover_image_url: Option<Url>,
 	pub user: CollectionUser,
 }
 
 #[derive(Deserialize, Debug, Clone, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct CollectionUser {
-	pub id: u64,
+	pub id: i64,
 	pub username: String,
 }
