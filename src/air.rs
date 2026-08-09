@@ -273,6 +273,18 @@ mod tests {
 	use super::*;
     use serde_test::{assert_tokens, Token};
 
+	#[test]
+	pub fn air_serde_full() {
+		assert_tokens(&AIR {
+			ecosystem: Ecosystem::SDXL,
+			resource_type: ResourceType::Checkpoint,
+			source: Source::CivitAI,
+			id: "827184".to_string(),
+			version: Some("2514310".to_string()),
+			file_id: Some("2402203".to_string()),
+			format: Some(Format::Pth),
+		}, &[Token::String("urn:air:sdxl:checkpoint:civitai:827184@2514310+2402203.pth")]);
+	}
 
 	#[test]
 	pub fn air_serde_real_0() {
