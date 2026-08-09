@@ -60,7 +60,8 @@ mod tests {
 	use std::error::Error;
 
 	#[tokio::test]
-	async fn list_images_deser() -> Result<(), Box<dyn Error>> {
+	#[cfg(feature = "network-tests")]
+	async fn online_list_images() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.list_images()
 			.pagination(Some(10), None, None)
 			.sort(ImageSortKind::MostReactions)

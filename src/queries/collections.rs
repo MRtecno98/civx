@@ -53,7 +53,8 @@ mod tests {
 	use std::error::Error;
 
 	#[tokio::test]
-	async fn list_collections_deser() -> Result<(), Box<dyn Error>> {
+	#[cfg(feature = "network-tests")]
+	async fn online_list_collections() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.list_collections()
 			.sort(CollectionSortKind::MostFollowers)
 			.pagination(Some(10), None, None)
@@ -63,7 +64,8 @@ mod tests {
 	}
 
 	#[tokio::test]
-	async fn get_collection_deser() -> Result<(), Box<dyn Error>> {
+	#[cfg(feature = "network-tests")]
+	async fn online_get_collection() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.get_collection(10505430).await?;
 
 		Ok(())

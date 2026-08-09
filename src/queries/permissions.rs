@@ -7,6 +7,7 @@ use crate::{CivitAI, Method, Query, queries::{impl_builder_send, serialize_comma
 
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
+#[serde(rename_all = "camelCase")]
 pub struct CheckPermissions<'a> {
 	#[serde(skip)]
 	#[builder(field)]
@@ -37,4 +38,21 @@ impl Method for CheckPermissions<'_> {
 
 	const METHOD: reqwest::Method = reqwest::Method::GET;
 	const ENDPOINT: &'static str = "/api/v1/permissions/check";
+}
+
+#[cfg(test)]
+mod tests {
+	use crate::CivitAI;
+	use std::error::Error;
+
+	#[tokio::test]
+	#[cfg(feature = "network-tests")]
+	async fn online_check_permissions() -> Result<(), Box<dyn Error>> {
+		CivitAI::new()?.check_permissions()
+			.entity_ids(vec![2731187])
+			.user_id(1234)
+			.send().await?;
+
+		Ok(())
+	}
 }

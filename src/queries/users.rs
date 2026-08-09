@@ -40,3 +40,27 @@ impl Method for LookupUsers<'_> {
 	const METHOD: reqwest::Method = reqwest::Method::GET;
 	const ENDPOINT: &'static str = "/api/v1/users";
 }
+
+#[cfg(test)]
+mod tests {
+	use crate::tests::*;
+
+	#[tokio::test]
+	#[cfg(feature = "network-tests")]
+	async fn online_lookup_users() -> Result<(), Box<dyn Error>> {
+		CivitAI::new()?.lookup_users()
+			.ids(vec![123, 456, 789])
+			.send().await?;
+
+		Ok(())
+	}
+
+	#[tokio::test]
+	#[cfg(feature = "network-tests")]
+	#[ignore = "requires a token file in the project root"]
+	async fn online_get_me() -> Result<(), Box<dyn Error>> {
+		CivitAI::new_auth(auth_token!())?.get_me().await?;
+
+		Ok(())
+	}
+}

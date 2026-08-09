@@ -33,7 +33,8 @@ mod tests {
 	use std::error::Error;
 
 	#[tokio::test]
-	async fn list_creators_deser() -> Result<(), Box<dyn Error>> {
+	#[cfg(feature = "network-tests")]
+	async fn online_list_creators() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.list_creators()
 			.limit(10)
 			.query("test")

@@ -60,12 +60,11 @@ impl Method for GetArticle {
 #[cfg(test)]
 mod tests {
 	use super::*;
-
-	use crate::CivitAI;
-	use std::error::Error;
+	use crate::tests::*;
 
 	#[tokio::test]
-	async fn list_articles_deser() -> Result<(), Box<dyn Error>> {
+	#[cfg(feature = "network-tests")]
+	async fn online_list_articles() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.list_articles()
 			.nsfw(true)
 			.sort(ArticleSortKind::MostBookmarks)
@@ -75,7 +74,8 @@ mod tests {
 	}
 
 	#[tokio::test]
-	async fn get_article_deser() -> Result<(), Box<dyn Error>> {
+	#[cfg(feature = "network-tests")]
+	async fn online_get_article() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.get_article(1).await?;
 
 		Ok(())

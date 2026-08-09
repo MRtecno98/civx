@@ -128,7 +128,8 @@ mod tests {
 	use std::error::Error;
 
 	#[tokio::test]
-	async fn list_models_deser() -> Result<(), Box<dyn Error>> {
+	#[cfg(feature = "network-tests")]
+	async fn online_list_models() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.list_models()
 			.pagination(Some(10), None, None)
 			.sort(SortKind::HighestRated)
@@ -138,28 +139,32 @@ mod tests {
 	}
 
 	#[tokio::test]
-	async fn get_model_deser() -> Result<(), Box<dyn Error>> {
+	#[cfg(feature = "network-tests")]
+	async fn online_get_model() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.get_model(2731187).await?;
 
 		Ok(())
 	}
 
 	#[tokio::test]
-	async fn get_model_version_deser() -> Result<(), Box<dyn Error>> {
+	#[cfg(feature = "network-tests")]
+	async fn online_get_model_version() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.get_model_version(135867).await?;
 
 		Ok(())
 	}
 
 	#[tokio::test]
-	async fn get_model_version_by_hash_deser() -> Result<(), Box<dyn Error>> {
+	#[cfg(feature = "network-tests")]
+	async fn online_get_model_version_by_hash() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.get_by_hash("0D9BD1B873A7863E128B4672E3E245838858F71469A3CEC58123C16C06F83BD7".into()).await?;
 
 		Ok(())
 	}
 
 	#[tokio::test]
-	async fn get_model_version_by_hash_bulk_deser() -> Result<(), Box<dyn Error>> {
+	#[cfg(feature = "network-tests")]
+	async fn online_get_model_version_by_hash_bulk() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.get_by_hash_bulk(vec![
 			"A5E5A941A3217247DBCECEEE5B67F8D6B1EF2514260E08A5757436BEC7035F93".into(),
 			"B8821A5D58746D1A6306ECC99EDA3B0268FF3DA84C40D18CE68698E3BD402635".into(),
@@ -169,7 +174,8 @@ mod tests {
 	}
 
 	#[tokio::test]
-	async fn get_model_version_minimal_deser() -> Result<(), Box<dyn Error>> {
+	#[cfg(feature = "network-tests")]
+	async fn online_get_model_version_minimal() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.get_model_version_minimal(135867).await?;
 
 		Ok(())

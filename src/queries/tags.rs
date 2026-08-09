@@ -26,3 +26,19 @@ impl Method for ListTags<'_> {
 	const METHOD: reqwest::Method = reqwest::Method::GET;
 	const ENDPOINT: &'static str = "/api/v1/tags";
 }
+
+#[cfg(test)]
+mod tests {
+	use crate::CivitAI;
+	use std::error::Error;
+
+	#[tokio::test]
+	#[cfg(feature = "network-tests")]
+	async fn online_list_tags() -> Result<(), Box<dyn Error>> {
+		CivitAI::new()?.list_tags()
+			.limit(10)
+			.send().await?;
+
+		Ok(())
+	}
+}

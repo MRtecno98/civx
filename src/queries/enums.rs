@@ -18,7 +18,8 @@ mod tests {
 	use std::error::Error;
 
 	#[tokio::test]
-	async fn get_enums_deser() -> Result<(), Box<dyn Error>> {
+	#[cfg(feature = "network-tests")]
+	async fn online_get_enums() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.get_enums().await?;
 
 		Ok(())
