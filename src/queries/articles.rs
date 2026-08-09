@@ -80,4 +80,14 @@ mod tests {
 
 		Ok(())
 	}
+
+	#[tokio::test]
+	async fn mock_list_articles() -> Result<(), Box<dyn Error>> {
+		mock_client!("/api/v1/articles", list_articles, {
+			CivitAI::new_auth(TOKEN)?.list_articles()
+				.nsfw(true)
+				.sort(ArticleSortKind::MostBookmarks)
+				.send().await?;
+		})
+	}
 }

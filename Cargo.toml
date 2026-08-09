@@ -5,7 +5,9 @@ edition = "2024"
 build = "build.rs"
 
 [features]
+default = ["network-tests"]
 enums = []
+network-tests = []
 
 [dependencies]
 bitmask-enum = "2.2.5"
@@ -19,8 +21,10 @@ tokio = { version = "1.53.1", features = ["fs", "net"] }
 url = { version = "2.5.8", features = ["serde"] }
 
 [dev-dependencies]
+include_optional = "1.1.1"
 serde_test = "1.0.177"
 tokio = { version = "1.53.1", features = ["full"] }
+wiremock = "0.6.5"
 
 [build-dependencies]
 prettyplease = "0.3.0"
@@ -31,3 +35,4 @@ tokio = { version = "1.53.1", features = ["full"] }
 reqwest = { version = "0.13.4", features = ["cookies", "json"] }
 serde_json = "1.0.151"
 itertools = "0.15.0"
+cargo-emit = "0.2.1"

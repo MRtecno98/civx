@@ -1,0 +1,798 @@
+{
+  "items": [
+    {
+      "id": 31483,
+      "cover": null,
+      "coverId": 133894064,
+      "title": "Civitai Nodes for ComfyUI: The Whole Toolbox in Your Graph",
+      "publishedAt": "2026-06-16T23:29:07.184Z",
+      "nsfwLevel": 1,
+      "userNsfwLevel": 1,
+      "userId": 1,
+      "createdAt": "2026-06-15T19:27:04.132Z",
+      "updatedAt": "2026-06-16T23:29:07.186Z",
+      "unlisted": false,
+      "availability": "Public",
+      "status": "Published",
+      "tags": [
+        {
+          "id": 128643,
+          "name": "announcement",
+          "isCategory": true
+        },
+        {
+          "id": 1388,
+          "name": "civitai",
+          "isCategory": false
+        }
+      ],
+      "stats": {
+        "favoriteCount": 0,
+        "collectedCount": 67,
+        "commentCount": 53,
+        "likeCount": 117,
+        "dislikeCount": 0,
+        "heartCount": 50,
+        "laughCount": 8,
+        "cryCount": 12,
+        "viewCount": 23822,
+        "tippedAmountCount": 13
+      },
+      "user": {
+        "id": 1,
+        "image": null,
+        "username": "JustMaier",
+        "deletedAt": null,
+        "profilePicture": {
+          "id": 4501221,
+          "name": "justmaier.gif",
+          "url": "6046154e-6d32-4500-8772-602edb4a4600",
+          "nsfwLevel": 1,
+          "hash": null,
+          "userId": 1,
+          "ingestion": "Scanned",
+          "type": "image",
+          "width": null,
+          "height": null,
+          "metadata": {
+            "userId": 1,
+            "profilePicture": true
+          }
+        },
+        "cosmetics": [
+          {
+            "data": null,
+            "cosmetic": {
+              "id": 6,
+              "data": {
+                "variant": "gradient",
+                "gradient": {
+                  "to": "#de2222",
+                  "deg": 180,
+                  "from": "#b31a1a"
+                }
+              },
+              "name": "Moderator Nameplate",
+              "type": "NamePlate",
+              "source": "Event",
+              "leaderboardId": null,
+              "leaderboardPosition": null
+            }
+          },
+          {
+            "data": null,
+            "cosmetic": {
+              "id": 297,
+              "data": {
+                "url": "bacda6c3-7a89-48b8-b76a-b7ac5b6b64ce",
+                "offset": "30%"
+              },
+              "name": "Avatar Cosmetic 1",
+              "type": "ProfileDecoration",
+              "source": "Purchase",
+              "leaderboardId": null,
+              "leaderboardPosition": null
+            }
+          },
+          {
+            "data": null,
+            "cosmetic": {
+              "id": 313,
+              "data": {
+                "url": "7b7b5c59-e975-4a3d-babe-b29aa577d237",
+                "type": "video"
+              },
+              "name": "Profile Background 10",
+              "type": "ProfileBackground",
+              "source": "Purchase",
+              "leaderboardId": null,
+              "leaderboardPosition": null
+            }
+          },
+          {
+            "data": {
+              "earned": [
+                [
+                  9741,
+                  1734154213832
+                ]
+              ],
+              "lights": 1,
+              "donated": 50000,
+              "purchased": 0
+            },
+            "cosmetic": {
+              "id": 763,
+              "data": {
+                "glow": true,
+                "type": "holiday-lights",
+                "color": "red",
+                "texture": {
+                  "url": "url('https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/aff9ee86-45f6-462a-a77d-06ec39483cc3/original=true/texture.png')",
+                  "size": {
+                    "width": 14,
+                    "height": 14
+                  }
+                },
+                "cssFrame": "linear-gradient(90deg, #34502B 4%, #7B9971 47%, #34502B 95%)",
+                "brightness": 0.75
+              },
+              "name": "Holiday Garland 2024 - Red",
+              "type": "ContentDecoration",
+              "source": "Event",
+              "leaderboardId": null,
+              "leaderboardPosition": null
+            }
+          },
+          {
+            "data": null,
+            "cosmetic": {
+              "id": 918,
+              "data": {
+                "url": "a4c419ff-8121-40fe-b3ed-148a71c242a3"
+              },
+              "name": "Third Birthday Badge",
+              "type": "Badge",
+              "source": "Claim",
+              "leaderboardId": null,
+              "leaderboardPosition": null
+            }
+          }
+        ]
+      },
+      "coverImage": {
+        "id": 133894064,
+        "name": "cover.png",
+        "url": "4282e216-e5f7-4aee-ae78-26cefcfb611a",
+        "nsfwLevel": 2,
+        "width": 2752,
+        "height": 1536,
+        "hash": null,
+        "meta": null,
+        "userId": 1,
+        "generationProcess": null,
+        "needsReview": null,
+        "scannedAt": "2026-06-15T20:24:27.184Z",
+        "ingestion": "Scanned",
+        "blockedFor": null,
+        "postId": null,
+        "type": "image",
+        "metadata": {},
+        "createdAt": "2026-06-15T20:24:17.070Z",
+        "hideMeta": false,
+        "tags": [
+          244,
+          531,
+          2241,
+          3573,
+          5231,
+          5232,
+          113342,
+          114923,
+          117093,
+          151305,
+          161946,
+          163865,
+          233029
+        ]
+      },
+      "cosmetic": null
+    },
+    {
+      "id": 32308,
+      "cover": null,
+      "coverId": 136243191,
+      "title": "Comfy on Civitai: Full ComfyUI in Your Browser, No GPU Required",
+      "publishedAt": "2026-07-06T20:51:27.231Z",
+      "nsfwLevel": 1,
+      "userNsfwLevel": 1,
+      "userId": 1,
+      "createdAt": "2026-07-06T17:40:57.664Z",
+      "updatedAt": "2026-07-09T23:21:39.122Z",
+      "unlisted": false,
+      "availability": "Public",
+      "status": "Published",
+      "tags": [
+        {
+          "id": 128643,
+          "name": "announcement",
+          "isCategory": true
+        },
+        {
+          "id": 1388,
+          "name": "civitai",
+          "isCategory": false
+        }
+      ],
+      "stats": {
+        "favoriteCount": 0,
+        "collectedCount": 6,
+        "commentCount": 67,
+        "likeCount": 85,
+        "dislikeCount": 0,
+        "heartCount": 42,
+        "laughCount": 12,
+        "cryCount": 6,
+        "viewCount": 10819,
+        "tippedAmountCount": 0
+      },
+      "user": {
+        "id": 1,
+        "image": null,
+        "username": "JustMaier",
+        "deletedAt": null,
+        "profilePicture": {
+          "id": 4501221,
+          "name": "justmaier.gif",
+          "url": "6046154e-6d32-4500-8772-602edb4a4600",
+          "nsfwLevel": 1,
+          "hash": null,
+          "userId": 1,
+          "ingestion": "Scanned",
+          "type": "image",
+          "width": null,
+          "height": null,
+          "metadata": {
+            "userId": 1,
+            "profilePicture": true
+          }
+        },
+        "cosmetics": [
+          {
+            "data": null,
+            "cosmetic": {
+              "id": 6,
+              "data": {
+                "variant": "gradient",
+                "gradient": {
+                  "to": "#de2222",
+                  "deg": 180,
+                  "from": "#b31a1a"
+                }
+              },
+              "name": "Moderator Nameplate",
+              "type": "NamePlate",
+              "source": "Event",
+              "leaderboardId": null,
+              "leaderboardPosition": null
+            }
+          },
+          {
+            "data": null,
+            "cosmetic": {
+              "id": 297,
+              "data": {
+                "url": "bacda6c3-7a89-48b8-b76a-b7ac5b6b64ce",
+                "offset": "30%"
+              },
+              "name": "Avatar Cosmetic 1",
+              "type": "ProfileDecoration",
+              "source": "Purchase",
+              "leaderboardId": null,
+              "leaderboardPosition": null
+            }
+          },
+          {
+            "data": null,
+            "cosmetic": {
+              "id": 313,
+              "data": {
+                "url": "7b7b5c59-e975-4a3d-babe-b29aa577d237",
+                "type": "video"
+              },
+              "name": "Profile Background 10",
+              "type": "ProfileBackground",
+              "source": "Purchase",
+              "leaderboardId": null,
+              "leaderboardPosition": null
+            }
+          },
+          {
+            "data": {
+              "earned": [
+                [
+                  9741,
+                  1734154213832
+                ]
+              ],
+              "lights": 1,
+              "donated": 50000,
+              "purchased": 0
+            },
+            "cosmetic": {
+              "id": 763,
+              "data": {
+                "glow": true,
+                "type": "holiday-lights",
+                "color": "red",
+                "texture": {
+                  "url": "url('https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/aff9ee86-45f6-462a-a77d-06ec39483cc3/original=true/texture.png')",
+                  "size": {
+                    "width": 14,
+                    "height": 14
+                  }
+                },
+                "cssFrame": "linear-gradient(90deg, #34502B 4%, #7B9971 47%, #34502B 95%)",
+                "brightness": 0.75
+              },
+              "name": "Holiday Garland 2024 - Red",
+              "type": "ContentDecoration",
+              "source": "Event",
+              "leaderboardId": null,
+              "leaderboardPosition": null
+            }
+          },
+          {
+            "data": null,
+            "cosmetic": {
+              "id": 918,
+              "data": {
+                "url": "a4c419ff-8121-40fe-b3ed-148a71c242a3"
+              },
+              "name": "Third Birthday Badge",
+              "type": "Badge",
+              "source": "Claim",
+              "leaderboardId": null,
+              "leaderboardPosition": null
+            }
+          }
+        ]
+      },
+      "coverImage": {
+        "id": 136243191,
+        "name": "cover",
+        "url": "7a90f937-c92b-45d1-921b-245fc69ebc3c",
+        "nsfwLevel": 1,
+        "width": 2752,
+        "height": 1536,
+        "hash": null,
+        "meta": null,
+        "userId": 1,
+        "generationProcess": null,
+        "needsReview": null,
+        "scannedAt": "2026-07-10T23:23:39.655Z",
+        "ingestion": "Scanned",
+        "blockedFor": null,
+        "postId": null,
+        "type": "image",
+        "metadata": {},
+        "createdAt": "2026-07-09T23:21:15.546Z",
+        "hideMeta": false,
+        "tags": [
+          531,
+          1896,
+          3573,
+          3655,
+          5231,
+          5232,
+          5262,
+          114923,
+          151305,
+          161915,
+          234268
+        ]
+      },
+      "cosmetic": null
+    },
+    {
+      "id": 4172,
+      "cover": "4a7f3239-e382-4952-897f-0732c40a5ae8",
+      "coverId": 6892266,
+      "title": "How To Format Output Folder in ComfyUI",
+      "publishedAt": "2024-02-18T23:35:24.357Z",
+      "nsfwLevel": 1,
+      "userNsfwLevel": 0,
+      "userId": 5266,
+      "createdAt": "2024-02-18T23:35:25.910Z",
+      "updatedAt": "2026-04-15T00:37:15.326Z",
+      "unlisted": false,
+      "availability": "Public",
+      "status": "Published",
+      "tags": [
+        {
+          "id": 128648,
+          "name": "tool guide",
+          "isCategory": true
+        },
+        {
+          "id": 150637,
+          "name": "comfyui workflow",
+          "isCategory": false
+        }
+      ],
+      "stats": {
+        "favoriteCount": 4,
+        "collectedCount": 85,
+        "commentCount": 18,
+        "likeCount": 29,
+        "dislikeCount": 0,
+        "heartCount": 9,
+        "laughCount": 0,
+        "cryCount": 0,
+        "viewCount": 12793,
+        "tippedAmountCount": 130
+      },
+      "user": {
+        "id": 5266,
+        "image": null,
+        "username": "lucianosb",
+        "deletedAt": null,
+        "profilePicture": {
+          "id": 4501602,
+          "name": null,
+          "url": "e1923d70-ca5d-4634-5130-188a54357a00",
+          "nsfwLevel": 1,
+          "hash": null,
+          "userId": 5266,
+          "ingestion": "Scanned",
+          "type": "image",
+          "width": null,
+          "height": null,
+          "metadata": {
+            "userId": 5266,
+            "profilePicture": true
+          }
+        },
+        "cosmetics": [
+          {
+            "data": null,
+            "cosmetic": {
+              "id": 295,
+              "data": {
+                "url": "df2b3298-7352-40d6-9fbc-17a08e2a43c5"
+              },
+              "name": "Grandfather Badge",
+              "type": "Badge",
+              "source": "Event",
+              "leaderboardId": null,
+              "leaderboardPosition": null
+            }
+          }
+        ]
+      },
+      "coverImage": {
+        "id": 6892266,
+        "name": "4a7f3239-e382-4952-897f-0732c40a5ae8",
+        "url": "4a7f3239-e382-4952-897f-0732c40a5ae8",
+        "nsfwLevel": 1,
+        "width": 1600,
+        "height": 400,
+        "hash": "U78On*00W[.jRDtdnjRU00?]WAIBHsyDRjsk",
+        "meta": null,
+        "userId": 5266,
+        "generationProcess": null,
+        "needsReview": null,
+        "scannedAt": "2024-02-20T22:02:25.072Z",
+        "ingestion": "Scanned",
+        "blockedFor": null,
+        "postId": null,
+        "type": "image",
+        "metadata": {
+          "hash": "U78On*00W[.jRDtdnjRU00?]WAIBHsyDRjsk",
+          "size": 546169,
+          "width": 1600,
+          "height": 400
+        },
+        "createdAt": "2024-02-20T21:13:26.161Z",
+        "hideMeta": false,
+        "tags": [
+          321,
+          666,
+          794,
+          1895,
+          2309,
+          5448,
+          8447,
+          9143,
+          19179,
+          111763,
+          111779,
+          111786,
+          111787,
+          111788,
+          111839,
+          111906,
+          112169,
+          114857,
+          143215,
+          163495,
+          165582,
+          166307
+        ]
+      },
+      "cosmetic": null
+    },
+    {
+      "id": 3099,
+      "cover": "811e0f08-02b9-4cad-94c3-f65a2db1b605",
+      "coverId": 6894015,
+      "title": "Combine Multiple Images with IPAdapter: A Workflow for ComfyUI",
+      "publishedAt": "2024-04-26T18:56:09.850Z",
+      "nsfwLevel": 1,
+      "userNsfwLevel": 0,
+      "userId": 2977029,
+      "createdAt": "2023-11-26T11:57:24.325Z",
+      "updatedAt": "2026-04-15T22:43:10.500Z",
+      "unlisted": false,
+      "availability": "Public",
+      "status": "Published",
+      "tags": [
+        {
+          "id": 164728,
+          "name": "ipadapter",
+          "isCategory": false
+        },
+        {
+          "id": 150642,
+          "name": "sd1.5",
+          "isCategory": false
+        },
+        {
+          "id": 127048,
+          "name": "workflows",
+          "isCategory": true
+        }
+      ],
+      "stats": {
+        "favoriteCount": 49,
+        "collectedCount": 170,
+        "commentCount": 5,
+        "likeCount": 31,
+        "dislikeCount": 0,
+        "heartCount": 0,
+        "laughCount": 0,
+        "cryCount": 0,
+        "viewCount": 23469,
+        "tippedAmountCount": 286
+      },
+      "user": {
+        "id": 2977029,
+        "image": null,
+        "username": "latentlake",
+        "deletedAt": null,
+        "profilePicture": {
+          "id": 4554772,
+          "name": null,
+          "url": "ce8df9bc-3a98-4586-b2a2-a2a22bee586a",
+          "nsfwLevel": 1,
+          "hash": null,
+          "userId": 2977029,
+          "ingestion": "Scanned",
+          "type": "image",
+          "width": null,
+          "height": null,
+          "metadata": {
+            "userId": 2977029,
+            "profilePicture": true
+          }
+        },
+        "cosmetics": null
+      },
+      "coverImage": {
+        "id": 6894015,
+        "name": "811e0f08-02b9-4cad-94c3-f65a2db1b605",
+        "url": "811e0f08-02b9-4cad-94c3-f65a2db1b605",
+        "nsfwLevel": 1,
+        "width": 1024,
+        "height": 710,
+        "hash": "UAC?Q1ro?ZMy$+t7e+jcr?%MM_-p~qRjXTaK",
+        "meta": null,
+        "userId": 2977029,
+        "generationProcess": null,
+        "needsReview": null,
+        "scannedAt": "2024-02-20T22:06:25.998Z",
+        "ingestion": "Scanned",
+        "blockedFor": null,
+        "postId": null,
+        "type": "image",
+        "metadata": {
+          "hash": "UAC?Q1ro?ZMy$+t7e+jcr?%MM_-p~qRjXTaK",
+          "size": 1531070,
+          "width": 1024,
+          "height": 710
+        },
+        "createdAt": "2024-02-20T21:15:45.763Z",
+        "hideMeta": false,
+        "tags": [
+          66,
+          192,
+          322,
+          414,
+          3819,
+          5133,
+          5163,
+          5193,
+          5248,
+          5484,
+          7894,
+          9090,
+          111754,
+          111768,
+          111770,
+          111783,
+          111794,
+          111870,
+          111981,
+          111982,
+          111983,
+          112204
+        ]
+      },
+      "cosmetic": null
+    },
+    {
+      "id": 13675,
+      "cover": null,
+      "coverId": 70363115,
+      "title": "HiDream Comfyui native workflow",
+      "publishedAt": "2025-04-16T08:29:59.162Z",
+      "nsfwLevel": 1,
+      "userNsfwLevel": 1,
+      "userId": 2221633,
+      "createdAt": "2025-04-16T08:29:06.656Z",
+      "updatedAt": "2026-04-15T23:16:54.267Z",
+      "unlisted": false,
+      "availability": "Public",
+      "status": "Published",
+      "tags": [
+        {
+          "id": 110389,
+          "name": "comfyui",
+          "isCategory": false
+        },
+        {
+          "id": 127048,
+          "name": "workflows",
+          "isCategory": true
+        },
+        {
+          "id": 402828,
+          "name": "hidream",
+          "isCategory": false
+        }
+      ],
+      "stats": {
+        "favoriteCount": 0,
+        "collectedCount": 25,
+        "commentCount": 2,
+        "likeCount": 21,
+        "dislikeCount": 0,
+        "heartCount": 5,
+        "laughCount": 0,
+        "cryCount": 0,
+        "viewCount": 2933,
+        "tippedAmountCount": 400
+      },
+      "user": {
+        "id": 2221633,
+        "image": null,
+        "username": "neofx",
+        "deletedAt": null,
+        "profilePicture": {
+          "id": 69980092,
+          "name": "ComfyUI_00099_.png",
+          "url": "7ce7a53f-0ba8-4e8a-a1b4-0e7a16bb90e6",
+          "nsfwLevel": 2,
+          "hash": "UKGl3G000M~qWan%t2kCtQM{og%Lf+jFoMkC",
+          "userId": 2221633,
+          "ingestion": "Scanned",
+          "type": "image",
+          "width": 1344,
+          "height": 1344,
+          "metadata": {
+            "hash": "UKGl3G000M~qWan%t2kCtQM{og%Lf+jFoMkC",
+            "size": 3146168,
+            "width": 1344,
+            "height": 1344,
+            "userId": 2221633,
+            "profilePicture": true
+          }
+        },
+        "cosmetics": null
+      },
+      "coverImage": {
+        "id": 70363115,
+        "name": "HiDream_00027_.png",
+        "url": "4a61dd18-46d1-4bee-8381-870f8efb68ad",
+        "nsfwLevel": 1,
+        "width": 1344,
+        "height": 768,
+        "hash": "UCFPEE4S4n;1u2Cj-AZ~-m$%t,Rk-6a0M_tR",
+        "meta": {
+          "seed": 343524802374966,
+          "vaes": [
+            "HiDream\\HiDream.safetensors"
+          ],
+          "comfy": "{\"prompt\": {\"44\": {\"inputs\": {\"text\": \"bad quality, artifacts\", \"clip\": [\"161\", 0]}, \"class_type\": \"CLIPTextEncode\", \"_meta\": {\"title\": \"CLIP Text Encode (Negative)\"}}, \"105\": {\"inputs\": {\"vae_name\": \"HiDream\\\\HiDream.safetensors\"}, \"class_type\": \"VAELoader\", \"_meta\": {\"title\": \"Load VAE\"}}, \"161\": {\"inputs\": {\"clip_name1\": \"HiDream\\\\clip_g_hidream.safetensors\", \"clip_name2\": \"HiDream\\\\clip_l_hidream.safetensors\", \"clip_name3\": \"HiDream\\\\t5xxl_fp8_e4m3fn_scaled.safetensors\", \"clip_name4\": \"HiDream\\\\llama_3.1_8b_instruct_fp8_scaled.safetensors\"}, \"class_type\": \"QuadrupleCLIPLoader\", \"_meta\": {\"title\": \"QuadrupleCLIPLoader\"}}, \"162\": {\"inputs\": {\"unet_name\": \"HiDream\\\\hidream-i1-dev-Q4_K_S.gguf\"}, \"class_type\": \"UnetLoaderGGUF\", \"_meta\": {\"title\": \"Unet Loader (GGUF)\"}}, \"164\": {\"inputs\": {\"text\": \"Imagine a raw 8k photo capturing a beautiful 21-year-old latina with long curly blond hair woman with a radiant smile,she we posing in front of an urban graffiti tag mural. all rendered with a natural yet compelling sensuality. Her youthful charm is emphasized by playful pigtails and a quirky flair added by her thigh-high striped socks, creating a striking contrast between the edgy mural backdrop and her graceful, unfiltered beauty\", \"clip\": [\"161\", 0]}, \"class_type\": \"CLIPTextEncode\", \"_meta\": {\"title\": \"CLIP Text Encode (Positive Prompt)\"}}, \"167\": {\"inputs\": {\"filename_prefix\": \"HiDream\", \"images\": [\"169\", 0]}, \"class_type\": \"SaveImage\", \"_meta\": {\"title\": \"Save Image\"}}, \"169\": {\"inputs\": {\"samples\": [\"181\", 0], \"vae\": [\"105\", 0]}, \"class_type\": \"VAEDecode\", \"_meta\": {\"title\": \"VAE Decode\"}}, \"170\": {\"inputs\": {\"width\": 1344, \"height\": 768, \"batch_size\": 1}, \"class_type\": \"EmptyLatentImage\", \"_meta\": {\"title\": \"Empty Latent Image\"}}, \"171\": {\"inputs\": {\"shift\": 9.0, \"model\": [\"175\", 0]}, \"class_type\": \"ModelSamplingSD3\", \"_meta\": {\"title\": \"ModelSamplingSD3\"}}, \"175\": {\"inputs\": {\"backend\": \"inductor\", \"model\": [\"162\", 0]}, \"class_type\": \"TorchCompileModel\", \"_meta\": {\"title\": \"TorchCompileModel\"}}, \"180\": {\"inputs\": {\"sampler_name\": \"lcm\"}, \"class_type\": \"KSamplerSelect\", \"_meta\": {\"title\": \"KSamplerSelect\"}}, \"181\": {\"inputs\": {\"noise\": [\"197\", 0], \"guider\": [\"190\", 0], \"sampler\": [\"180\", 0], \"sigmas\": [\"183\", 0], \"latent_image\": [\"170\", 0]}, \"class_type\": \"SamplerCustomAdvanced\", \"_meta\": {\"title\": \"SamplerCustomAdvanced\"}}, \"183\": {\"inputs\": {\"steps\": 18, \"sigma_max\": 1.0000000000000002, \"sigma_min\": 0.0291675, \"rho\": 0.5000000000000001}, \"class_type\": \"KarrasScheduler\", \"_meta\": {\"title\": \"KarrasScheduler\"}}, \"190\": {\"inputs\": {\"cfg\": 1.0, \"model\": [\"171\", 0], \"positive\": [\"164\", 0], \"negative\": [\"44\", 0]}, \"class_type\": \"CFGGuider\", \"_meta\": {\"title\": \"CFGGuider\"}}, \"197\": {\"inputs\": {\"noise_seed\": 343524802374966}, \"class_type\": \"RandomNoise\", \"_meta\": {\"title\": \"RandomNoise\"}}, \"198\": {\"inputs\": {\"width\": 768, \"height\": 1344, \"batch_size\": 1}, \"class_type\": \"EmptyLatentImage\", \"_meta\": {\"title\": \"Empty Latent Image\"}}}, \"workflow\": {\"id\": \"56d4aafd-359f-4d6d-b993-7290fa2fb2c5\", \"revision\": 0, \"last_node_id\": 198, \"last_link_id\": 480, \"nodes\": [{\"id\": 44, \"type\": \"CLIPTextEncode\", \"pos\": [-142.24935913085938, 1315.24755859375], \"size\": [421.59600830078125, 209.1119842529297], \"flags\": {}, \"order\": 11, \"mode\": 0, \"inputs\": [{\"name\": \"clip\", \"type\": \"CLIP\", \"link\": 475}], \"outputs\": [{\"name\": \"CONDITIONING\", \"type\": \"CONDITIONING\", \"slot_index\": 0, \"links\": [467]}], \"title\": \"CLIP Text Encode (Negative)\", \"properties\": {\"cnr_id\": \"comfy-core\", \"ver\": \"0.3.26\", \"Node name for S&R\": \"CLIPTextEncode\"}, \"widgets_values\": [\"bad quality, artifacts\"], \"color\": \"#322\", \"bgcolor\": \"#533\"}, {\"id\": 193, \"type\": \"Reroute\", \"pos\": [-443.774658203125, 1041.7718505859375], \"size\": [75, 26], \"flags\": {}, \"order\": 8, \"mode\": 0, \"inputs\": [{\"name\": \"\", \"type\": \"*\", \"link\": 473}], \"outputs\": [{\"name\": \"\", \"type\": \"CLIP\", \"links\": [474, 475]}], \"properties\": {\"showOutputText\": false, \"horizontal\": false}}, {\"id\": 161, \"type\": \"QuadrupleCLIPLoader\", \"pos\": [-986.5899047851562, 1037.389404296875], \"size\": [419.6007385253906, 130], \"flags\": {}, \"order\": 0, \"mode\": 0, \"inputs\": [], \"outputs\": [{\"name\": \"CLIP\", \"type\": \"CLIP\", \"links\": [473]}], \"properties\": {\"cnr_id\": \"comfy-core\", \"ver\": \"0.3.28\", \"Node name for S&R\": \"QuadrupleCLIPLoader\"}, \"widgets_values\": [\"HiDream\\\\clip_g_hidream.safetensors\", \"HiDream\\\\clip_l_hidream.safetensors\", \"HiDream\\\\t5xxl_fp8_e4m3fn_scaled.safetensors\", \"HiDream\\\\llama_3.1_8b_instruct_fp8_scaled.safetensors\"]}, {\"id\": 167, \"type\": \"SaveImage\", \"pos\": [1987.06884765625, 985.58837890625], \"size\": [496.23785400390625, 867.9033203125], \"flags\": {}, \"order\": 16, \"mode\": 0, \"inputs\": [{\"name\": \"images\", \"type\": \"IMAGE\", \"link\": 433}], \"outputs\": [], \"properties\": {\"cnr_id\": \"comfy-core\", \"ver\": \"0.3.28\", \"Node name for S&R\": \"SaveImage\"}, \"widgets_values\": [\"HiDream\", \"\"]}, {\"id\": 169, \"type\": \"VAEDecode\", \"pos\": [1765.561767578125, 988.9069213867188], \"size\": [146.87254333496094, 46], \"flags\": {}, \"order\": 15, \"mode\": 0, \"inputs\": [{\"name\": \"samples\", \"type\": \"LATENT\", \"link\": 464}, {\"name\": \"vae\", \"type\": \"VAE\", \"link\": 432}], \"outputs\": [{\"name\": \"IMAGE\", \"type\": \"IMAGE\", \"links\": [433]}], \"properties\": {\"cnr_id\": \"comfy-core\", \"ver\": \"0.3.28\", \"Node name for S&R\": \"VAEDecode\"}, \"widgets_values\": []}, {\"id\": 105, \"type\": \"VAELoader\", \"pos\": [1389.4481201171875, 826.5826416015625], \"size\": [332.7481689453125, 64.84506225585938], \"flags\": {}, \"order\": 1, \"mode\": 0, \"inputs\": [], \"outputs\": [{\"name\": \"VAE\", \"type\": \"VAE\", \"slot_index\": 0, \"links\": [432]}], \"properties\": {\"cnr_id\": \"comfy-core\", \"ver\": \"0.3.26\", \"Node name for S&R\": \"VAELoader\"}, \"widgets_values\": [\"HiDream\\\\HiDream.safetensors\"]}, {\"id\": 181, \"type\": \"SamplerCustomAdvanced\", \"pos\": [1341.1904296875, 986.5440063476562], \"size\": [355.20001220703125, 326], \"flags\": {}, \"order\": 14, \"mode\": 0, \"inputs\": [{\"name\": \"noise\", \"type\": \"NOISE\", \"link\": 480}, {\"name\": \"guider\", \"type\": \"GUIDER\", \"link\": 465}, {\"name\": \"sampler\", \"type\": \"SAMPLER\", \"link\": 469}, {\"name\": \"sigmas\", \"type\": \"SIGMAS\", \"link\": 470}, {\"name\": \"latent_image\", \"type\": \"LATENT\", \"link\": 479}], \"outputs\": [{\"name\": \"output\", \"type\": \"LATENT\", \"links\": [464]}, {\"name\": \"denoised_output\", \"type\": \"LATENT\", \"links\": null}], \"properties\": {\"cnr_id\": \"comfy-core\", \"ver\": \"0.3.28\", \"Node name for S&R\": \"SamplerCustomAdvanced\"}, \"widgets_values\": [\"\"]}, {\"id\": 190, \"type\": \"CFGGuider\", \"pos\": [435.5422058105469, 1017.6575927734375], \"size\": [315, 98], \"flags\": {}, \"order\": 13, \"mode\": 0, \"inputs\": [{\"name\": \"model\", \"type\": \"MODEL\", \"link\": 468}, {\"name\": \"positive\", \"type\": \"CONDITIONING\", \"link\": 466}, {\"name\": \"negative\", \"type\": \"CONDITIONING\", \"link\": 467}], \"outputs\": [{\"name\": \"GUIDER\", \"type\": \"GUIDER\", \"links\": [465]}], \"properties\": {\"cnr_id\": \"comfy-core\", \"ver\": \"0.3.28\", \"Node name for S&R\": \"CFGGuider\"}, \"widgets_values\": [1]}, {\"id\": 171, \"type\": \"ModelSamplingSD3\", \"pos\": [186.8495330810547, 838.3521728515625], \"size\": [210, 58], \"flags\": {}, \"order\": 12, \"mode\": 0, \"inputs\": [{\"name\": \"model\", \"type\": \"MODEL\", \"link\": 442}], \"outputs\": [{\"name\": \"MODEL\", \"type\": \"MODEL\", \"slot_index\": 0, \"links\": [468]}], \"properties\": {\"cnr_id\": \"comfy-core\", \"ver\": \"0.3.26\", \"Node name for S&R\": \"ModelSamplingSD3\"}, \"widgets_values\": [9]}, {\"id\": 162, \"type\": \"UnetLoaderGGUF\", \"pos\": [-964.2173461914062, 846.0731811523438], \"size\": [419.80206298828125, 58], \"flags\": {}, \"order\": 2, \"mode\": 0, \"inputs\": [], \"outputs\": [{\"name\": \"MODEL\", \"type\": \"MODEL\", \"links\": [418, 437, 443]}], \"properties\": {\"cnr_id\": \"comfyui-gguf\", \"ver\": \"298192ed60f8ca821c6fe5f8030cae23424cada5\", \"Node name for S&R\": \"UnetLoaderGGUF\"}, \"widgets_values\": [\"HiDream\\\\hidream-i1-dev-Q4_K_S.gguf\"]}, {\"id\": 175, \"type\": \"TorchCompileModel\", \"pos\": [-302.034423828125, 845.7289428710938], \"size\": [315, 58], \"flags\": {}, \"order\": 9, \"mode\": 0, \"inputs\": [{\"name\": \"model\", \"type\": \"MODEL\", \"link\": 443}], \"outputs\": [{\"name\": \"MODEL\", \"type\": \"MODEL\", \"links\": [442]}], \"properties\": {\"cnr_id\": \"comfy-core\", \"ver\": \"0.3.28\", \"Node name for S&R\": \"TorchCompileModel\"}, \"widgets_values\": [\"inductor\"]}, {\"id\": 183, \"type\": \"KarrasScheduler\", \"pos\": [876.0411376953125, 1267.8243408203125], \"size\": [315, 130], \"flags\": {}, \"order\": 3, \"mode\": 0, \"inputs\": [], \"outputs\": [{\"name\": \"SIGMAS\", \"type\": \"SIGMAS\", \"links\": [470]}], \"properties\": {\"cnr_id\": \"comfy-core\", \"ver\": \"0.3.28\", \"Node name for S&R\": \"KarrasScheduler\"}, \"widgets_values\": [18, 1.0000000000000002, 0.0291675, 0.5000000000000001]}, {\"id\": 164, \"type\": \"CLIPTextEncode\", \"pos\": [-149.29928588867188, 1043.097412109375], \"size\": [420.07513427734375, 217.4784393310547], \"flags\": {}, \"order\": 10, \"mode\": 0, \"inputs\": [{\"name\": \"clip\", \"type\": \"CLIP\", \"link\": 474}], \"outputs\": [{\"name\": \"CONDITIONING\", \"type\": \"CONDITIONING\", \"slot_index\": 0, \"links\": [422, 466]}], \"title\": \"CLIP Text Encode (Positive Prompt)\", \"properties\": {\"cnr_id\": \"comfy-core\", \"ver\": \"0.3.26\", \"Node name for S&R\": \"CLIPTextEncode\"}, \"widgets_values\": [\"Imagine a raw 8k photo capturing a beautiful 21-year-old latina with long curly blond hair woman with a radiant smile,she we posing in front of an urban graffiti tag mural. all rendered with a natural yet compelling sensuality. Her youthful charm is emphasized by playful pigtails and a quirky flair added by her thigh-high striped socks, creating a striking contrast between the edgy mural backdrop and her graceful, unfiltered beauty\"], \"color\": \"#232\", \"bgcolor\": \"#353\"}, {\"id\": 180, \"type\": \"KSamplerSelect\", \"pos\": [873.60986328125, 1142.159912109375], \"size\": [315, 58], \"flags\": {}, \"order\": 4, \"mode\": 0, \"inputs\": [], \"outputs\": [{\"name\": \"SAMPLER\", \"type\": \"SAMPLER\", \"links\": [469]}], \"properties\": {\"cnr_id\": \"comfy-core\", \"ver\": \"0.3.28\", \"Node name for S&R\": \"KSamplerSelect\"}, \"widgets_values\": [\"lcm\"]}, {\"id\": 197, \"type\": \"RandomNoise\", \"pos\": [871.6023559570312, 912.9862670898438], \"size\": [315, 82], \"flags\": {}, \"order\": 5, \"mode\": 0, \"inputs\": [], \"outputs\": [{\"name\": \"NOISE\", \"type\": \"NOISE\", \"links\": [480]}], \"properties\": {\"cnr_id\": \"comfy-core\", \"ver\": \"0.3.28\", \"Node name for S&R\": \"RandomNoise\"}, \"widgets_values\": [343524802374966, \"randomize\"]}, {\"id\": 170, \"type\": \"EmptyLatentImage\", \"pos\": [874.5220947265625, 1477.8922119140625], \"size\": [315, 106], \"flags\": {}, \"order\": 6, \"mode\": 0, \"inputs\": [], \"outputs\": [{\"name\": \"LATENT\", \"type\": \"LATENT\", \"links\": [479]}], \"properties\": {\"cnr_id\": \"comfy-core\", \"ver\": \"0.3.28\", \"Node name for S&R\": \"EmptyLatentImage\"}, \"widgets_values\": [1344, 768, 1]}, {\"id\": 198, \"type\": \"EmptyLatentImage\", \"pos\": [503.9720764160156, 1495.2921142578125], \"size\": [315, 106], \"flags\": {}, \"order\": 7, \"mode\": 0, \"inputs\": [], \"outputs\": [{\"name\": \"LATENT\", \"type\": \"LATENT\", \"links\": []}], \"properties\": {\"cnr_id\": \"comfy-core\", \"ver\": \"0.3.28\", \"Node name for S&R\": \"EmptyLatentImage\"}, \"widgets_values\": [768, 1344, 1]}], \"links\": [[432, 105, 0, 169, 1, \"VAE\"], [433, 169, 0, 167, 0, \"IMAGE\"], [442, 175, 0, 171, 0, \"MODEL\"], [443, 162, 0, 175, 0, \"MODEL\"], [464, 181, 0, 169, 0, \"LATENT\"], [465, 190, 0, 181, 1, \"GUIDER\"], [466, 164, 0, 190, 1, \"CONDITIONING\"], [467, 44, 0, 190, 2, \"CONDITIONING\"], [468, 171, 0, 190, 0, \"MODEL\"], [469, 180, 0, 181, 2, \"SAMPLER\"], [470, 183, 0, 181, 3, \"SIGMAS\"], [473, 161, 0, 193, 0, \"*\"], [474, 193, 0, 164, 0, \"CLIP\"], [475, 193, 0, 44, 0, \"CLIP\"], [479, 170, 0, 181, 4, \"LATENT\"], [480, 197, 0, 181, 0, \"NOISE\"]], \"groups\": [], \"config\": {}, \"extra\": {\"ds\": {\"scale\": 1.771561000000001, \"offset\": [-1474.233063256639, -1060.3726434854152]}, \"groupNodes\": {}, \"node_versions\": {\"ComfyUI_Fill-Nodes\": \"5f646932e6ecf92fa6d6dc5de149867451065353\", \"comfyui_dagthomas\": \"4f901fbf8d05bd1f120a30eac709cf9edcf37ebe\", \"comfy-core\": \"0.3.15\", \"comfyui_patches_ll\": \"1acfbbd58848f7f7a40b1e5c7f88d1be876f4938\", \"ComfyUI-HunyuanVideoMultiLora\": \"d0a2d5fe1fc9e8b4756567e3e0b9751bd570c859\", \"ComfyUI-VideoHelperSuite\": \"c36626c6028faca912eafcedbc71f1d342fb4d2a\", \"ComfyUI-Easy-Use\": \"037080ac3935b5a398a12a6510dd600c762d8983\", \"darkprompts\": \"65154e1975671f343468d488d20ed9ca6230d45f\", \"ComfyUI-Custom-Scripts\": \"a53ef9b617ed1331640d7a2cd97644995908dc00\", \"ComfyUI-Impact-Pack\": \"c6056b132d7e155c3ece42b77e08ea45bde1bfef\"}, \"ue_links\": [], \"VHS_latentpreview\": false, \"VHS_latentpreviewrate\": 0, \"VHS_MetadataImage\": true, \"VHS_KeepIntermediate\": true}, \"version\": 0.4}}",
+          "width": 1344,
+          "height": 768,
+          "models": [],
+          "sampler": "LCM",
+          "modelIds": [],
+          "upscalers": [],
+          "versionIds": [],
+          "controlNets": [],
+          "additionalResources": []
+        },
+        "userId": 2221633,
+        "generationProcess": "txt2img",
+        "needsReview": null,
+        "scannedAt": "2025-04-16T08:29:10.292Z",
+        "ingestion": "Scanned",
+        "blockedFor": null,
+        "postId": null,
+        "type": "image",
+        "metadata": {
+          "hash": "UCFPEE4S4n;1u2Cj-AZ~-m$%t,Rk-6a0M_tR",
+          "size": 1326017,
+          "width": 1344,
+          "height": 768
+        },
+        "createdAt": "2025-04-16T08:29:10.292Z",
+        "hideMeta": false,
+        "tags": [
+          81,
+          102,
+          2240,
+          2687,
+          3350,
+          3647,
+          3800,
+          5109,
+          5133,
+          5228,
+          5262,
+          5772,
+          5997,
+          6870,
+          6997,
+          9418,
+          15772,
+          111890,
+          111951,
+          113933,
+          114246,
+          115513,
+          118729,
+          119303,
+          120942,
+          123744,
+          129427,
+          131390,
+          131392,
+          136696,
+          143276,
+          144823,
+          154120,
+          162068,
+          306553
+        ]
+      },
+      "cosmetic": null
+    }
+  ],
+  "metadata": {
+    "nextCursor": "3297|32592",
+    "nextPage": "https://civitai.com/api/v1/articles?limit=5&sort=Most%20Reactions&query=comfyui&cursor=3297%7C32592"
+  }
+}

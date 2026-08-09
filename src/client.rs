@@ -59,8 +59,21 @@ impl CivitAI {
 					.cookie_store(true).build()?))
 	}
 
+	#[inline(always)]
+	fn base_url(&self) -> impl AsRef<str> {
+		#[cfg(not(test))]
+		{
+			crate::API_BASE
+		}
+
+		#[cfg(test)]
+		{
+			crate::tests::TEST_API_BASE.with_borrow(|c| c.clone())
+		}
+	}
+
 	fn make_request(&self, method: reqwest::Method, url: &str) -> Result<reqwest::RequestBuilder> {
-		let url = Url::parse(crate::API_BASE)?.join(url)?;
+		let url = Url::parse(self.base_url().as_ref())?.join(url)?;
 		let mut request = self.client.request(method, url);
 
 		if let Some(token) = &self.token {

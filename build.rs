@@ -21,8 +21,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 	std::fs::write(&dest, code)?;
 
-	println!("cargo:rerun-if-changed=build.rs");
-	println!("cargo:rerun-if-changed={}", JSON_FILENAME);
+	cargo_emit::rerun_if_changed!(JSON_FILENAME);
+
+	let token_path = PathBuf::from(env::var("CARGO_MANIFEST_DIR")
+		.expect("CARGO_MANIFEST_DIR not found"))
+		.join("tests/test_token");
+
+	if token_path.exists() {
+		let content = std::fs::read_to_string(&token_path)?;
+		cargo_emit::rustc_env!("TEST_TOKEN", "{}", content.trim());
+	}
+
+	cargo_emit::rerun_if_changed!("tests");
+	cargo_emit::rerun_if_changed!("tests/test_token");
 
 	Ok(())
 }
