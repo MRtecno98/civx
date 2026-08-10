@@ -1,6 +1,6 @@
 use url::Url;
 
-use crate::{Method, MethodType, Result, queries::*};
+use crate::{error::Error, Method, MethodType, Result, queries::*};
 
 #[derive(Debug)]
 pub struct CivitAI {
@@ -73,7 +73,13 @@ impl CivitAI {
 	}
 
 	fn make_request(&self, method: reqwest::Method, url: &str) -> Result<reqwest::RequestBuilder> {
-		let url = Url::parse(self.base_url().as_ref())?.join(url)?;
+		let base_url = Url::parse(self.base_url().as_ref())?;
+		let url = base_url.join(url)?;
+
+		if url.domain() != base_url.domain() {
+			return Err(Error::InvalidEndpoint);
+		}
+
 		let mut request = self.client.request(method, url);
 
 		if let Some(token) = &self.token {
@@ -120,4 +126,19 @@ impl CivitAI {
 	impl_method!(ListVault, ListVaultBuilder, list_vault);
 	impl_method!(CheckInVault, CheckInVaultBuilder, check_in_vault);
 	impl_method!(ToggleVaultVersion, ToggleVaultVersionBuilder, toggle_vault_version);
+}
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+
+	#[tokio::test]
+	#[should_panic(expected = "invalid endpoint")]
+	async fn nonrelative_url_should_fail() {
+		let civitai = CivitAI::new().unwrap();
+
+		#[allow(unused_must_use)]
+		civitai.make_request(reqwest::Method::GET, "https://invalid-url.com")
+			.expect("invalid endpoint");
+	}
 }
