@@ -1,8 +1,20 @@
 [package]
 name = "civx"
 version = "0.1.0"
+license = "MIT"
+description = "A Rust client for the new CivitAI site API."
+repository = "https://github.com/MRtecno98/civx"
+keywords = ["civitai", "api", "ai", "client"]
+categories = ["api-bindings", "artificial-intelligence"]
+readme = "README.md"
 edition = "2024"
 build = "build.rs"
+exclude = [
+	"tests/",
+	".github/",
+	".vscode/",
+	".gitignore"
+]
 
 [features]
 enums = []
