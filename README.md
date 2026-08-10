@@ -1,4 +1,5 @@
 [![CI](https://github.com/MRtecno98/civx/actions/workflows/ci.yml/badge.svg)](https://github.com/MRtecno98/civx/actions/workflows/ci.yml)
+![Packaging Status](https://img.shields.io/crates/v/civx)
 ![License: MIT](https://img.shields.io/badge/license-MIT-34d058.svg)
 # CivX
 Asynchronous Rust client for the new [CivitAI site api](https://developer.civitai.com/site/).
@@ -17,7 +18,7 @@ let models = client.list_models()
     .send().await?;
 
 // Some requests only need a single argument
-let illustrious = client.get_model(795765)?;
+let illustrious = client.get_model(795765).await?;
 ```
 
 For more information about available methods and authentication check out the [official documentation](https://developer.civitai.com/site/reference/).
