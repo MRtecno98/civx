@@ -16,6 +16,7 @@ pub(crate) fn reset_api_base() {
 	TEST_API_BASE.replace(crate::API_BASE.to_string());
 }
 
+#[cfg(feature = "network-tests")]
 macro_rules! auth_token {
 	() => {
 		option_env!("TEST_TOKEN").expect(
@@ -30,19 +31,29 @@ macro_rules! fixture {
 }
 
 macro_rules! mock_client {
-	($path:expr, $fixture:ident, $block:block) => {{
-		let mock = MockServer::start().await;
-		crate::tests::set_api_base(mock.uri());
+	($http:expr, $path:expr, $fixture:ident, $block:block) => {{
+		let server = MockServer::start().await;
+		crate::tests::set_api_base(server.uri());
 
 		const TOKEN: &str = "test-token";
 
-		Mock::given(method("GET"))
-			.and(path($path))
-			.and(header("Authorization", format!("Bearer {}", TOKEN)))
-			.respond_with(
-				ResponseTemplate::new(200)
-					.set_body_raw(fixture!($fixture), "application/json"))
-			.mount(&mock).await;
+		let path_str = $path;
+		let (path_str, query) = path_str.split_once('?').unwrap_or((path_str, ""));
+
+		let mut mock = Mock::given(method($http))
+			.and(path(path_str))
+			.and(header("Authorization", format!("Bearer {}", TOKEN)));
+
+		if !query.is_empty() {
+			for (key, value) in query.split('&').filter_map(|kv| kv.split_once('=')) {
+				mock = mock.and(query_param(key, value));
+			}
+		}
+
+		mock.respond_with(
+			ResponseTemplate::new(200)
+				.set_body_raw(fixture!($fixture), "application/json"))
+			.mount(&server).await;
 
 		$block
 
@@ -52,6 +63,7 @@ macro_rules! mock_client {
 	}};
 }
 
+#[cfg(feature = "network-tests")]
 pub(crate) use auth_token;
 pub(crate) use fixture;
 pub(crate) use mock_client;

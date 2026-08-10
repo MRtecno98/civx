@@ -1,0 +1,15 @@
+{
+  "id": 104,
+  "name": "Featured Models",
+  "description": "",
+  "type": "Model",
+  "nsfwLevel": 29,
+  "read": "Public",
+  "isPublic": true,
+  "coverImageUrl": null,
+  "user": {
+    "id": -1,
+    "username": "civitai"
+  },
+  "tags": []
+}

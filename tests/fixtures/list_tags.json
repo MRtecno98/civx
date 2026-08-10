@@ -1,0 +1,90 @@
+{
+  "items": [
+    {
+      "name": "character",
+      "link": "https://civitai.com/api/v1/models?tag=character"
+    },
+    {
+      "name": "anime",
+      "link": "https://civitai.com/api/v1/models?tag=anime"
+    },
+    {
+      "name": "style",
+      "link": "https://civitai.com/api/v1/models?tag=style"
+    },
+    {
+      "name": "woman",
+      "link": "https://civitai.com/api/v1/models?tag=woman"
+    },
+    {
+      "name": "girls",
+      "link": "https://civitai.com/api/v1/models?tag=girls"
+    },
+    {
+      "name": "concept",
+      "link": "https://civitai.com/api/v1/models?tag=concept"
+    },
+    {
+      "name": "game character",
+      "link": "https://civitai.com/api/v1/models?tag=game character"
+    },
+    {
+      "name": "lora",
+      "link": "https://civitai.com/api/v1/models?tag=lora"
+    },
+    {
+      "name": "male",
+      "link": "https://civitai.com/api/v1/models?tag=male"
+    },
+    {
+      "name": "photorealistic",
+      "link": "https://civitai.com/api/v1/models?tag=photorealistic"
+    },
+    {
+      "name": "realistic",
+      "link": "https://civitai.com/api/v1/models?tag=realistic"
+    },
+    {
+      "name": "clothing",
+      "link": "https://civitai.com/api/v1/models?tag=clothing"
+    },
+    {
+      "name": "video game",
+      "link": "https://civitai.com/api/v1/models?tag=video game"
+    },
+    {
+      "name": "cartoon",
+      "link": "https://civitai.com/api/v1/models?tag=cartoon"
+    },
+    {
+      "name": "man",
+      "link": "https://civitai.com/api/v1/models?tag=man"
+    },
+    {
+      "name": "base model",
+      "link": "https://civitai.com/api/v1/models?tag=base model"
+    },
+    {
+      "name": "game",
+      "link": "https://civitai.com/api/v1/models?tag=game"
+    },
+    {
+      "name": "anthro",
+      "link": "https://civitai.com/api/v1/models?tag=anthro"
+    },
+    {
+      "name": "manga",
+      "link": "https://civitai.com/api/v1/models?tag=manga"
+    },
+    {
+      "name": "styles",
+      "link": "https://civitai.com/api/v1/models?tag=styles"
+    }
+  ],
+  "metadata": {
+    "totalItems": 0,
+    "currentPage": 1,
+    "pageSize": 20,
+    "totalPages": 1
+  }
+}

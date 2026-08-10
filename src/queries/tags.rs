@@ -29,8 +29,7 @@ impl Method for ListTags<'_> {
 
 #[cfg(test)]
 mod tests {
-	use crate::CivitAI;
-	use std::error::Error;
+	use crate::tests::*;
 
 	#[tokio::test]
 	#[cfg(feature = "network-tests")]
@@ -40,5 +39,14 @@ mod tests {
 			.send().await?;
 
 		Ok(())
+	}
+
+	#[tokio::test]
+	async fn mock_list_tags() -> Result<(), Box<dyn Error>> {
+		mock_client!("GET", "/api/v1/tags?limit=10", list_tags, {
+			CivitAI::new_auth(TOKEN)?.list_tags()
+				.limit(10)
+				.send().await?;
+		})
 	}
 }

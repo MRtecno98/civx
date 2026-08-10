@@ -42,8 +42,7 @@ impl Method for CheckPermissions<'_> {
 
 #[cfg(test)]
 mod tests {
-	use crate::CivitAI;
-	use std::error::Error;
+	use crate::tests::*;
 
 	#[tokio::test]
 	#[cfg(feature = "network-tests")]
@@ -54,5 +53,15 @@ mod tests {
 			.send().await?;
 
 		Ok(())
+	}
+
+	#[tokio::test]
+	async fn mock_check_permissions() -> Result<(), Box<dyn Error>> {
+		mock_client!("GET", "/api/v1/permissions/check?entityIds=2731187&userId=1234", check_permissions, {
+			CivitAI::new_auth(TOKEN)?.check_permissions()
+				.entity_ids(vec![2731187])
+				.user_id(1234)
+				.send().await?;
+		})
 	}
 }

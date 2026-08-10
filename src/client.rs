@@ -87,7 +87,7 @@ impl CivitAI {
 		let url = M::Type::url(&input)?;
 
 		Ok(M::Type::apply(&input, self.make_request(M::METHOD, url.as_ref())?)
-			.send().await?.json().await?)
+			.send().await?.error_for_status()?.json().await?)
 	}
 
 	impl_method!(ListModels, ListModelsBuilder, list_models);
@@ -96,6 +96,7 @@ impl CivitAI {
 	impl_method!(GetModelVersionMinimal, get_model_version_minimal, args(version_id));
 	impl_method!(GetByHash, get_by_hash, args(hash));
 	impl_method!(GetByHashBulk, get_by_hash_bulk, args(hashes));
+	impl_method!(GetIdsByHashBulk, get_ids_by_hash, args(hashes));
 
 	impl_method!(ListImages, ListImagesBuilder, list_images);
 	

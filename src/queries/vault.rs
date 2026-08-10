@@ -18,6 +18,7 @@ impl Method for GetVault {
 
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
+#[serde(rename_all = "camelCase")]
 pub struct ListVault<'a> {
 	#[serde(skip)]
 	#[builder(field)]
@@ -60,6 +61,7 @@ impl Method for ListVault<'_> {
 
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
+#[serde(rename_all = "camelCase")]
 pub struct CheckInVault<'a> {
 	#[serde(skip)]
 	#[builder(field)]
@@ -84,6 +86,7 @@ impl Method for CheckInVault<'_> {
 
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
+#[serde(rename_all = "camelCase")]
 pub struct ToggleVaultVersion<'a> {
 	#[serde(skip)]
 	#[builder(field)]
@@ -102,4 +105,41 @@ impl Method for ToggleVaultVersion<'_> {
 
 	const METHOD: reqwest::Method = reqwest::Method::POST;
 	const ENDPOINT: &'static str = "/api/v1/vault/toggle-version";
+}
+
+#[cfg(test)]
+mod tests {
+	use crate::tests::*;
+
+	#[tokio::test]
+	async fn mock_get_vault() -> Result<(), Box<dyn Error>> {
+		mock_client!("GET", "/api/v1/vault/get", get_vault, {
+			CivitAI::new_auth(TOKEN)?.get_vault().await?;
+		})
+	}
+
+	#[tokio::test]
+	async fn mock_list_vault() -> Result<(), Box<dyn Error>> {
+		mock_client!("GET", "/api/v1/vault/all", list_vault, {
+			CivitAI::new_auth(TOKEN)?.list_vault()
+				.send().await?;
+		})
+	}
+
+	#[tokio::test]
+	async fn mock_check_in_vault() -> Result<(), Box<dyn Error>> {
+		mock_client!("GET", "/api/v1/vault/check-vault", check_in_vault, {
+			CivitAI::new_auth(TOKEN)?.check_in_vault()
+				.send().await?;
+		})
+	}
+
+	#[tokio::test]
+	async fn mock_toggle_vault_version() -> Result<(), Box<dyn Error>> {
+		mock_client!("POST", "/api/v1/vault/toggle-version?modelVersionId=123", toggle_vault_version, {
+			CivitAI::new_auth(TOKEN)?.toggle_vault_version()
+				.model_version_id(123)
+				.send().await?;
+		})
+	}
 }

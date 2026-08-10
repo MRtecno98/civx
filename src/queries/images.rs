@@ -56,8 +56,8 @@ impl Method for ListImages<'_> {
 
 #[cfg(test)]
 mod tests {
-	use crate::{CivitAI, enums::ImageSortKind};
-	use std::error::Error;
+	use crate::tests::*;
+	use crate::enums::ImageSortKind;
 
 	#[tokio::test]
 	#[cfg(feature = "network-tests")]
@@ -68,5 +68,15 @@ mod tests {
 			.send().await?;
 
 		Ok(())
+	}
+
+	#[tokio::test]
+	async fn mock_list_images() -> Result<(), Box<dyn Error>> {
+		mock_client!("GET", "/api/v1/images?limit=10&sort=Most Reactions", list_images, {
+			CivitAI::new_auth(TOKEN)?.list_images()
+				.pagination(Some(10), None, None)
+				.sort(ImageSortKind::MostReactions)
+				.send().await?;
+		})
 	}
 }

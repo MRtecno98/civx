@@ -54,7 +54,7 @@ impl Method for GetArticle {
 	type Type = Path;
 
 	const METHOD: reqwest::Method = reqwest::Method::GET;
-	const ENDPOINT: &'static str = "/api/v1/articles/{id}";
+	const ENDPOINT: &'static str = "/api/v1/articles/{}";
 }
 
 #[cfg(test)]
@@ -76,18 +76,25 @@ mod tests {
 	#[tokio::test]
 	#[cfg(feature = "network-tests")]
 	async fn online_get_article() -> Result<(), Box<dyn Error>> {
-		CivitAI::new()?.get_article(1).await?;
+		CivitAI::new()?.get_article(33738).await?;
 
 		Ok(())
 	}
 
 	#[tokio::test]
 	async fn mock_list_articles() -> Result<(), Box<dyn Error>> {
-		mock_client!("/api/v1/articles", list_articles, {
+		mock_client!("GET", "/api/v1/articles", list_articles, {
 			CivitAI::new_auth(TOKEN)?.list_articles()
 				.nsfw(true)
 				.sort(ArticleSortKind::MostBookmarks)
 				.send().await?;
+		})
+	}
+
+	#[tokio::test]
+	async fn mock_get_article() -> Result<(), Box<dyn Error>> {
+		mock_client!("GET", "/api/v1/articles/12345", get_article, {
+			CivitAI::new_auth(TOKEN)?.get_article(12345).await?;
 		})
 	}
 }

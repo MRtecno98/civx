@@ -1,0 +1,602 @@
+{
+  "id": 2514310,
+  "modelId": 827184,
+  "name": "v16.0",
+  "nsfwLevel": 60,
+  "createdAt": "2025-12-18T08:44:16.977Z",
+  "updatedAt": "2026-04-23T07:09:38.724Z",
+  "status": "Published",
+  "publishedAt": "2025-12-18T09:16:12.062Z",
+  "trainedWords": [],
+  "trainingStatus": null,
+  "trainingDetails": null,
+  "baseModel": "Illustrious",
+  "baseModelType": "Standard",
+  "description": null,
+  "uploadType": "Created",
+  "usageControl": "Download",
+  "licensingFee": null,
+  "paidAccess": null,
+  "air": "urn:air:sdxl:checkpoint:civitai:827184@2514310",
+  "stats": {
+    "downloadCount": 239042,
+    "thumbsUpCount": 15107
+  },
+  "model": {
+    "name": "WAI-illustrious-SDXL",
+    "type": "Checkpoint",
+    "nsfw": true,
+    "poi": false
+  },
+  "files": [
+    {
+      "id": 2402203,
+      "sizeKB": 6775430.353515625,
+      "name": "waiIllustriousSDXL_v160.safetensors",
+      "type": "Model",
+      "pickleScanResult": "Success",
+      "pickleScanMessage": "No Pickle imports",
+      "virusScanResult": "Success",
+      "virusScanMessage": null,
+      "scannedAt": "2025-12-18T09:12:13.798",
+      "metadata": {
+        "format": "SafeTensor",
+        "size": "pruned",
+        "fp": "fp16"
+      },
+      "hashes": {
+        "AutoV1": "4748A7F6",
+        "AutoV2": "A5F58EB1C3",
+        "SHA256": "A5F58EB1C33616C4F06BCA55AF39876A7B817913CD829CAA8ACB111B770C85CC",
+        "CRC32": "DAEE95B7",
+        "BLAKE3": "1A411D9BF3E6C3BEEC249DCF442D0DEDE5E30B7BA30C15D0A5A9C256E6100CC8",
+        "AutoV3": "22D8CB95B807"
+      },
+      "primary": true,
+      "downloadUrl": "https://civitai.com/api/download/models/2514310"
+    }
+  ],
+  "images": [
+    {
+      "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/20ad2af3-9598-47ed-ad77-d09848a334f2/original=true/114266623.jpeg",
+      "nsfwLevel": 1,
+      "width": 1536,
+      "height": 2040,
+      "hash": "UNGm[Zx]59RPLgX8ohs.0znirWxa_MniRjM|",
+      "type": "image",
+      "metadata": {
+        "hash": "UNGm[Zx]59RPLgX8ohs.0znirWxa_MniRjM|",
+        "size": 3553735,
+        "width": 1536,
+        "height": 2040,
+        "nsfwLevelReason": "Knights Vote"
+      },
+      "minor": false,
+      "poi": false,
+      "meta": {
+        "Eta": "0.67",
+        "RNG": "NV",
+        "ENSD": "31337",
+        "Size": "1024x1360",
+        "seed": 2073075463,
+        "Model": "WAI-Nsfw-Illustrious-16",
+        "steps": 30,
+        "hashes": {
+          "model": "a5f58eb1c3"
+        },
+        "prompt": "1girl, hatsune miku, dress, long hair, jewelry, white dress, blue eyes, necklace, bubble, solo, underwater, hair between eyes, looking at viewer, bangs, blue hair, bow, reaching towards viewer, blue theme, air bubble, hair bow, collarbone, floating hair, frills, twintails, blurry foreground, frilled dress, off-shoulder dress, bare shoulders, blurry, very long hair\n,masterpiece,best quality,amazing quality,",
+        "Version": "v1.10.1-92-g6685e532d",
+        "sampler": "Euler a",
+        "cfgScale": 7,
+        "clipSkip": 2,
+        "resources": [
+          {
+            "hash": "a5f58eb1c3",
+            "name": "WAI-Nsfw-Illustrious-16",
+            "type": "model"
+          }
+        ],
+        "Model hash": "a5f58eb1c3",
+        "Hires steps": "20",
+        "Hires upscale": "1.5",
+        "Schedule type": "Automatic",
+        "Hires upscaler": "R-ESRGAN 4x+ Anime6B",
+        "negativePrompt": "bad quality,worst quality,worst detail,sketch,censor,",
+        "Denoising strength": "0.5",
+        "Discard penultimate sigma": "True"
+      },
+      "availability": "Public",
+      "hasMeta": true,
+      "hasPositivePrompt": true,
+      "onSite": false,
+      "remixOfId": null
+    },
+    {
+      "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ea1cdc83-91ca-4a1e-9d80-32bd27ece809/original=true/114266630.jpeg",
+      "nsfwLevel": 2,
+      "width": 1536,
+      "height": 2040,
+      "hash": "URN]R.?I_2Diqb+u-;rrH@IUt7Nb~VWCROnh",
+      "type": "image",
+      "metadata": {
+        "hash": "URN]R.?I_2Diqb+u-;rrH@IUt7Nb~VWCROnh",
+        "size": 3151289,
+        "width": 1536,
+        "height": 2040,
+        "nsfwLevelReason": "Knights Vote"
+      },
+      "minor": false,
+      "poi": false,
+      "meta": {
+        "Eta": "0.67",
+        "RNG": "NV",
+        "ENSD": "31337",
+        "Size": "1024x1360",
+        "seed": 561061719,
+        "Model": "WAI-Nsfw-Illustrious-16",
+        "steps": 30,
+        "hashes": {
+          "model": "a5f58eb1c3"
+        },
+        "prompt": "mature female, solo, breasts, red hair, long hair, red eyes, large breasts, sunglasses, looking over eyewear, hair over one eye, sweater, looking at viewer, sleeveless, watch, adjusting eyewear, kirijou mitsuru, white sweater, bare shoulders, turtleneck, wristwatch, bangs, smile, tinted eyewear ,abstract background, foreshortening, \n,masterpiece,best quality,amazing quality,",
+        "Version": "v1.10.1-92-g6685e532d",
+        "sampler": "Euler a",
+        "cfgScale": 7,
+        "clipSkip": 2,
+        "resources": [
+          {
+            "hash": "a5f58eb1c3",
+            "name": "WAI-Nsfw-Illustrious-16",
+            "type": "model"
+          }
+        ],
+        "Model hash": "a5f58eb1c3",
+        "Hires steps": "20",
+        "Hires upscale": "1.5",
+        "Schedule type": "Automatic",
+        "Hires upscaler": "R-ESRGAN 4x+ Anime6B",
+        "negativePrompt": "bad quality,worst quality,worst detail,sketch,censor,",
+        "Denoising strength": "0.5",
+        "Discard penultimate sigma": "True"
+      },
+      "availability": "Public",
+      "hasMeta": true,
+      "hasPositivePrompt": true,
+      "onSite": false,
+      "remixOfId": null
+    },
+    {
+      "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/bfca8349-8a21-453c-954c-7a5c577f7cab/original=true/114268528.jpeg",
+      "nsfwLevel": 1,
+      "width": 1536,
+      "height": 2040,
+      "hash": "UGJHzMRo00^+^#E1Nd?a4mRkt8?b~q-qIBtQ",
+      "type": "image",
+      "metadata": {
+        "hash": "UGJHzMRo00^+^#E1Nd?a4mRkt8?b~q-qIBtQ",
+        "size": 3368511,
+        "width": 1536,
+        "height": 2040,
+        "nsfwLevelReason": "Knights Vote"
+      },
+      "minor": false,
+      "poi": false,
+      "meta": {
+        "Eta": "0.67",
+        "RNG": "NV",
+        "ENSD": "31337",
+        "Size": "1024x1360",
+        "seed": 4254694678,
+        "Model": "WAI-Nsfw-Illustrious-16",
+        "steps": 30,
+        "hashes": {
+          "model": "a5f58eb1c3"
+        },
+        "prompt": "glitch, halo, solo, wings, angel, angel wings, looking at viewer, earrings, 1girl, feathered wings, jewelry, upper body, chromatic aberration, purple eyes, white wings, bangs, blonde hair, short hair, white hair, black background, jacket \n,masterpiece,best quality,amazing quality,",
+        "Version": "v1.10.1-92-g6685e532d",
+        "sampler": "Euler a",
+        "cfgScale": 7,
+        "clipSkip": 2,
+        "resources": [
+          {
+            "hash": "a5f58eb1c3",
+            "name": "WAI-Nsfw-Illustrious-16",
+            "type": "model"
+          }
+        ],
+        "Model hash": "a5f58eb1c3",
+        "Hires steps": "20",
+        "Hires upscale": "1.5",
+        "Schedule type": "Automatic",
+        "Hires upscaler": "R-ESRGAN 4x+ Anime6B",
+        "negativePrompt": "bad quality,worst quality,worst detail,sketch,censor,",
+        "Denoising strength": "0.5",
+        "Discard penultimate sigma": "True"
+      },
+      "availability": "Public",
+      "hasMeta": true,
+      "hasPositivePrompt": true,
+      "onSite": false,
+      "remixOfId": null
+    },
+    {
+      "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/99d32b9f-53cd-4b61-9e0c-bcf19b85a2db/original=true/114266652.jpeg",
+      "nsfwLevel": 1,
+      "width": 1536,
+      "height": 2040,
+      "hash": "U8L4W-?w00R80000%KM^_4E2yV~Us$_30N8_",
+      "type": "image",
+      "metadata": {
+        "hash": "U8L4W-?w00R80000%KM^_4E2yV~Us$_30N8_",
+        "size": 3388362,
+        "width": 1536,
+        "height": 2040,
+        "nsfwLevelReason": "Knights Vote"
+      },
+      "minor": false,
+      "poi": false,
+      "meta": {
+        "Eta": "0.67",
+        "RNG": "NV",
+        "ENSD": "31337",
+        "Size": "1024x1360",
+        "seed": 2781816361,
+        "Model": "WAI-Nsfw-Illustrious-16",
+        "steps": 30,
+        "hashes": {
+          "model": "a5f58eb1c3"
+        },
+        "prompt": "pastel colors,(abara heiki:1.1),(watanabe tomari:1.1), (watari \\(nijimukiokuiro\\):0.5), 1girl, monster girl,long hair,twin tails, pointed ears,horns,((alternate eye color, multicolored eyes,sparkles, glowing eyes, eyeshadows,short eyebrows,thick eyebrows,long eyelashes:1.2,big eyes,perfect eyes, detailed eyes,detailed pupils,detailed iris,detailed cornea,long anime eyelashes, bags under eyes, galaxy eyes)), school uniform, sailor collar, pink bow, long sleeves, choker, earrings, hand near face, pensive pose, calm expression, mysterious aura, ethereal, dreamy, enigmatic, cosmic theme, otherworldly, elegant,purple theme,black hair,gradient hair, pastel shading, neon highlights, soft lighting,dramatic lighting,dark background,aesthetic,stylized, mystical, fantasy, celestial,surreal, gothic elegance,looking sideways, dynamic pose, extreme perspective, rare angle, dynamic angle, leaning forward, hands up, pale skin, \n,masterpiece,best quality,amazing quality,",
+        "Version": "v1.10.1-92-g6685e532d",
+        "sampler": "Euler a",
+        "cfgScale": 7,
+        "clipSkip": 2,
+        "resources": [
+          {
+            "hash": "a5f58eb1c3",
+            "name": "WAI-Nsfw-Illustrious-16",
+            "type": "model"
+          }
+        ],
+        "Model hash": "a5f58eb1c3",
+        "Hires steps": "20",
+        "Hires upscale": "1.5",
+        "Schedule type": "Automatic",
+        "Hires upscaler": "R-ESRGAN 4x+ Anime6B",
+        "negativePrompt": "bad quality,worst quality,worst detail,sketch,censor,",
+        "Denoising strength": "0.5",
+        "Discard penultimate sigma": "True"
+      },
+      "availability": "Public",
+      "hasMeta": true,
+      "hasPositivePrompt": true,
+      "onSite": false,
+      "remixOfId": null
+    },
+    {
+      "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7c4ec901-43a5-4368-b036-b4b7898d4651/original=true/114266625.jpeg",
+      "nsfwLevel": 1,
+      "width": 1536,
+      "height": 2040,
+      "hash": "UQLzKroz%1?b~p%Mo}-:OstRx]xuS$RQVsM|",
+      "type": "image",
+      "metadata": {
+        "hash": "UQLzKroz%1?b~p%Mo}-:OstRx]xuS$RQVsM|",
+        "size": 3242765,
+        "width": 1536,
+        "height": 2040,
+        "nsfwLevelReason": "Knights Vote"
+      },
+      "minor": false,
+      "poi": false,
+      "meta": {
+        "Eta": "0.67",
+        "RNG": "NV",
+        "ENSD": "31337",
+        "Size": "1024x1360",
+        "seed": 2283467164,
+        "Model": "WAI-Nsfw-Illustrious-16",
+        "steps": 30,
+        "hashes": {
+          "model": "a5f58eb1c3"
+        },
+        "prompt": "1girl, mole, mole under eye, brown hair, breasts, flower, hair ornament, hair flower, solo, large breasts, japanese clothes, single braid, sitting, mimikaki, thighhighs, long hair, braid, ribbon-trimmed legwear, brown eyes, skirt, bracelet, wide sleeves, window, smile, hakama short skirt, hair over shoulder, indoors, bell, lily \\(flower\\), hakama, hakama skirt, white thighhighs, ribbon trim, bangs, hair between eyes, looking at viewer, jewelry, curtains, couch, jingle bell, closed mouth, long sleeves, bangle, blush, day, blue skirt, holding, ribbon-trimmed sleeves, kimono, white flower, light particles, neck bell, very long hair,\n,masterpiece,best quality,amazing quality,",
+        "Version": "v1.10.1-92-g6685e532d",
+        "sampler": "Euler a",
+        "cfgScale": 7,
+        "clipSkip": 2,
+        "resources": [
+          {
+            "hash": "a5f58eb1c3",
+            "name": "WAI-Nsfw-Illustrious-16",
+            "type": "model"
+          }
+        ],
+        "Model hash": "a5f58eb1c3",
+        "Hires steps": "20",
+        "Hires upscale": "1.5",
+        "Schedule type": "Automatic",
+        "Hires upscaler": "R-ESRGAN 4x+ Anime6B",
+        "negativePrompt": "bad quality,worst quality,worst detail,sketch,censor,",
+        "Denoising strength": "0.35",
+        "Discard penultimate sigma": "True"
+      },
+      "availability": "Public",
+      "hasMeta": true,
+      "hasPositivePrompt": true,
+      "onSite": false,
+      "remixOfId": null
+    },
+    {
+      "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/61b581f6-0aa0-4693-b641-d6cb8b8896d7/original=true/114266624.jpeg",
+      "nsfwLevel": 1,
+      "width": 1536,
+      "height": 2040,
+      "hash": "UPEM5zsk,-NK_4E2i^bb9aM{D*xuE2s*D*xa",
+      "type": "image",
+      "metadata": {
+        "hash": "UPEM5zsk,-NK_4E2i^bb9aM{D*xuE2s*D*xa",
+        "size": 3772740,
+        "width": 1536,
+        "height": 2040,
+        "nsfwLevelReason": "Knights Vote"
+      },
+      "minor": false,
+      "poi": false,
+      "meta": {
+        "Eta": "0.67",
+        "RNG": "NV",
+        "ENSD": "31337",
+        "Size": "1024x1360",
+        "seed": 3546849431,
+        "Model": "WAI-Nsfw-Illustrious-16",
+        "steps": 30,
+        "hashes": {
+          "model": "a5f58eb1c3"
+        },
+        "prompt": "1girl,solo,adult,knight,fantasy,\nlong hair,grey hair,blue eyes,gradient eyes,glowing eyes,\nlooking at viewer,sideways glance,standing,cowboy shot,hand on hilt,\narmor,full armor,plate armor,ornate armor,black gloves,blue cape,blue capelet,black fur trim,corsage,hair ornament,single pauldron,greatsword,planted sword,\nindoors,chiaroscuro,window,stained glass,dusk,\nmovie perspective,dutch angle,\nshadow,chromatic aberration,\n,masterpiece,best quality,amazing quality,",
+        "Version": "v1.10.1-92-g6685e532d",
+        "sampler": "Euler a",
+        "cfgScale": 7,
+        "clipSkip": 2,
+        "resources": [
+          {
+            "hash": "a5f58eb1c3",
+            "name": "WAI-Nsfw-Illustrious-16",
+            "type": "model"
+          }
+        ],
+        "Model hash": "a5f58eb1c3",
+        "Hires steps": "20",
+        "Hires upscale": "1.5",
+        "Schedule type": "Automatic",
+        "Hires upscaler": "R-ESRGAN 4x+ Anime6B",
+        "negativePrompt": "bad quality,worst quality,worst detail,sketch,censor,",
+        "Denoising strength": "0.5",
+        "Discard penultimate sigma": "True"
+      },
+      "availability": "Public",
+      "hasMeta": true,
+      "hasPositivePrompt": true,
+      "onSite": false,
+      "remixOfId": null
+    },
+    {
+      "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a22f332f-e4a6-42c4-b470-bfc8100027e1/original=true/114266628.jpeg",
+      "nsfwLevel": 1,
+      "width": 1536,
+      "height": 2040,
+      "hash": "U8E-p[RQ0NAVHu=_-.Ej0f0hxF}?0etk$jVt",
+      "type": "image",
+      "metadata": {
+        "hash": "U8E-p[RQ0NAVHu=_-.Ej0f0hxF}?0etk$jVt",
+        "size": 3689276,
+        "width": 1536,
+        "height": 2040,
+        "nsfwLevelReason": "Knights Vote"
+      },
+      "minor": false,
+      "poi": false,
+      "meta": {
+        "Eta": "0.67",
+        "RNG": "NV",
+        "ENSD": "31337",
+        "Size": "1024x1360",
+        "seed": 2162623861,
+        "Model": "WAI-Nsfw-Illustrious-16",
+        "steps": 30,
+        "hashes": {
+          "model": "a5f58eb1c3"
+        },
+        "prompt": "1girl,original,backlighting,black footwear,black hair,black jacket,black skirt,black socks,cloud,cloudy sky,dutch angle,from behind,from side,jacket,long hair,parted lips,power lines,profile,railroad tracks,shadow,skirt,sky,socks,solo,standing,train,train station,wide shot,sunset,building,shoes,blue eyes,scenery,hand in pocket,wind,miniskirt,evening,long sleeves,serafuku,railroad crossing,pleated skirt,utility pole,kneehighs,looking away,overhead line,loafer,black theme,red sky,outdoors,school uniform,A young girl standing on a train platform at sunset. she is wearing a blue dress and has long dark hair that is blowing in the wind. the sky is filled with orange and pink hues,indicating that it is either sunrise or sunset. the train tracks are visible in the foreground,and there are power lines running along them. on the right side of the image,there is a building with a clock tower in the background. the girl appears to be looking out towards the horizon. \n,masterpiece,best quality,amazing quality,",
+        "Version": "v1.10.1-92-g6685e532d",
+        "sampler": "Euler a",
+        "cfgScale": 7,
+        "clipSkip": 2,
+        "resources": [
+          {
+            "hash": "a5f58eb1c3",
+            "name": "WAI-Nsfw-Illustrious-16",
+            "type": "model"
+          }
+        ],
+        "Model hash": "a5f58eb1c3",
+        "Hires steps": "20",
+        "Hires upscale": "1.5",
+        "Schedule type": "Automatic",
+        "Hires upscaler": "R-ESRGAN 4x+ Anime6B",
+        "negativePrompt": "bad quality,worst quality,worst detail,sketch,censor,",
+        "Denoising strength": "0.5",
+        "Discard penultimate sigma": "True"
+      },
+      "availability": "Public",
+      "hasMeta": true,
+      "hasPositivePrompt": true,
+      "onSite": false,
+      "remixOfId": null
+    },
+    {
+      "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/73ce3157-8791-4306-b7ce-e6a0facd746a/original=true/114266629.jpeg",
+      "nsfwLevel": 1,
+      "width": 1536,
+      "height": 2040,
+      "hash": "UXQ9DqNG%{jEXlogxvoe*0s:xbtQ%ht8WYR.",
+      "type": "image",
+      "metadata": {
+        "hash": "UXQ9DqNG%{jEXlogxvoe*0s:xbtQ%ht8WYR.",
+        "size": 3861619,
+        "width": 1536,
+        "height": 2040,
+        "nsfwLevelReason": "Knights Vote"
+      },
+      "minor": false,
+      "poi": false,
+      "meta": {
+        "Eta": "0.67",
+        "RNG": "NV",
+        "ENSD": "31337",
+        "Size": "1024x1360",
+        "seed": 2366430661,
+        "Model": "WAI-Nsfw-Illustrious-16",
+        "steps": 30,
+        "hashes": {
+          "model": "a5f58eb1c3"
+        },
+        "prompt": "final fantasy, final fantasy vii, aerith gainsborough, 1girl, brown hair, closed mouth, collarbone, cropped jacket, dress, drill hair, drill sidelocks, flower, forehead, green eyes, hair ribbon, holding, holding flower, jacket, long hair, parted bangs, pink dress, pink ribbon, reaching, reaching towards viewer, red jacket, ribbon, short sleeves, sidelocks, smile, solo, yellow flower,\n amano yoshitaka, abstract, watercolor \\(medium\\)\n,masterpiece,best quality,amazing quality,",
+        "Version": "v1.10.1-92-g6685e532d",
+        "sampler": "Euler a",
+        "cfgScale": 7,
+        "clipSkip": 2,
+        "resources": [
+          {
+            "hash": "a5f58eb1c3",
+            "name": "WAI-Nsfw-Illustrious-16",
+            "type": "model"
+          }
+        ],
+        "Model hash": "a5f58eb1c3",
+        "Hires steps": "20",
+        "Hires upscale": "1.5",
+        "Schedule type": "Automatic",
+        "Hires upscaler": "R-ESRGAN 4x+ Anime6B",
+        "negativePrompt": "bad quality,worst quality,worst detail,sketch,censor,",
+        "Denoising strength": "0.5",
+        "Discard penultimate sigma": "True"
+      },
+      "availability": "Public",
+      "hasMeta": true,
+      "hasPositivePrompt": true,
+      "onSite": false,
+      "remixOfId": null
+    },
+    {
+      "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a87246a7-6fa4-4bba-a1c0-46d25377e991/original=true/114266627.jpeg",
+      "nsfwLevel": 1,
+      "width": 1536,
+      "height": 2040,
+      "hash": "UhG+guR*Inay~qofNGRjR*oLWBRjNHWARPt7",
+      "type": "image",
+      "metadata": {
+        "hash": "UhG+guR*Inay~qofNGRjR*oLWBRjNHWARPt7",
+        "size": 3388502,
+        "width": 1536,
+        "height": 2040,
+        "nsfwLevelReason": "Knights Vote"
+      },
+      "minor": false,
+      "poi": false,
+      "meta": {
+        "Eta": "0.67",
+        "RNG": "NV",
+        "ENSD": "31337",
+        "Size": "1024x1360",
+        "seed": 3007952143,
+        "Model": "WAI-Nsfw-Illustrious-16",
+        "steps": 30,
+        "hashes": {
+          "model": "a5f58eb1c3"
+        },
+        "prompt": "bamboo, \n1boy, \nmale focus,solo, weapon, sword, jewelry, black hair, ahoge, necklace, looking at viewer, sheath, closed mouth, ponytail, long hair, bare shoulders, blue eyes, sheathed, bangs, sitting, katana, ring, shirt, holding, white shirt, holding weapon, holding sword \n,masterpiece,best quality,amazing quality,",
+        "Version": "v1.10.1-92-g6685e532d",
+        "sampler": "Euler a",
+        "cfgScale": 7,
+        "clipSkip": 2,
+        "resources": [
+          {
+            "hash": "a5f58eb1c3",
+            "name": "WAI-Nsfw-Illustrious-16",
+            "type": "model"
+          }
+        ],
+        "Model hash": "a5f58eb1c3",
+        "Hires steps": "20",
+        "Hires upscale": "1.5",
+        "Schedule type": "Automatic",
+        "Hires upscaler": "R-ESRGAN 4x+ Anime6B",
+        "negativePrompt": "bad quality,worst quality,worst detail,sketch,censor,",
+        "Denoising strength": "0.5",
+        "Discard penultimate sigma": "True"
+      },
+      "availability": "Public",
+      "hasMeta": true,
+      "hasPositivePrompt": true,
+      "onSite": false,
+      "remixOfId": null
+    },
+    {
+      "url": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/75fe4880-96af-4cf3-9066-ed89a9182e4d/original=true/114266626.jpeg",
+      "nsfwLevel": 1,
+      "width": 1536,
+      "height": 2040,
+      "hash": "U49G:a~WK500R*X80Kad=x~V00S4E10K-oD%",
+      "type": "image",
+      "metadata": {
+        "hash": "U49G:a~WK500R*X80Kad=x~V00S4E10K-oD%",
+        "size": 2643858,
+        "width": 1536,
+        "height": 2040,
+        "nsfwLevelReason": "Knights Vote"
+      },
+      "minor": false,
+      "poi": false,
+      "meta": {
+        "Eta": "0.67",
+        "RNG": "NV",
+        "ENSD": "31337",
+        "Size": "1024x1360",
+        "seed": 2764313216,
+        "Model": "WAI-Nsfw-Illustrious-16",
+        "steps": 30,
+        "hashes": {
+          "model": "a5f58eb1c3"
+        },
+        "prompt": "solo, black hair, looking at viewer, 1boy, male focus, black eyes, jewelry, earrings, smile, short hair, jacket, turtleneck, pants, black pants, black jacket, blue nails, long sleeves, shirt, sitting \n,masterpiece,best quality,amazing quality,",
+        "Version": "v1.10.1-92-g6685e532d",
+        "sampler": "Euler a",
+        "cfgScale": 7,
+        "clipSkip": 2,
+        "resources": [
+          {
+            "hash": "a5f58eb1c3",
+            "name": "WAI-Nsfw-Illustrious-16",
+            "type": "model"
+          }
+        ],
+        "Model hash": "a5f58eb1c3",
+        "Hires steps": "20",
+        "Hires upscale": "1.5",
+        "Schedule type": "Automatic",
+        "Hires upscaler": "R-ESRGAN 4x+ Anime6B",
+        "negativePrompt": "bad quality,worst quality,worst detail,sketch,censor,",
+        "Denoising strength": "0.5",
+        "Discard penultimate sigma": "True"
+      },
+      "availability": "Public",
+      "hasMeta": true,
+      "hasPositivePrompt": true,
+      "onSite": false,
+      "remixOfId": null
+    }
+  ],
+  "downloadUrl": "https://civitai.com/api/download/models/2514310"
+}

@@ -1,0 +1,83 @@
+{
+  "items": [
+    {
+      "id": 17568628,
+      "name": "Anime",
+      "description": "Awesome Anime Images",
+      "type": "Image",
+      "nsfwLevel": 29,
+      "read": "Public",
+      "isPublic": true,
+      "itemCount": 13,
+      "coverImageUrl": null,
+      "user": {
+        "id": 12535642,
+        "username": "RDigitalArtist"
+      }
+    },
+    {
+      "id": 17540791,
+      "name": "High Quality Anime Models",
+      "description": "",
+      "type": "Model",
+      "nsfwLevel": 29,
+      "read": "Public",
+      "isPublic": true,
+      "itemCount": 3,
+      "coverImageUrl": null,
+      "user": {
+        "id": 11254971,
+        "username": "SakuraLake"
+      }
+    },
+    {
+      "id": 17528460,
+      "name": "Series: Misc. Anime",
+      "description": "Characters from various anime and related media, not collected elsewhere.",
+      "type": "Post",
+      "nsfwLevel": 29,
+      "read": "Public",
+      "isPublic": true,
+      "itemCount": 22,
+      "coverImageUrl": null,
+      "user": {
+        "id": 4701424,
+        "username": "ExcludingZebra34"
+      }
+    },
+    {
+      "id": 17486653,
+      "name": "AR7FX Anime Collection",
+      "description": "",
+      "type": "Image",
+      "nsfwLevel": 29,
+      "read": "Public",
+      "isPublic": true,
+      "itemCount": 19,
+      "coverImageUrl": null,
+      "user": {
+        "id": 12329785,
+        "username": "AR7FX"
+      }
+    },
+    {
+      "id": 17486534,
+      "name": "Anime - In Love w/ Villainess",
+      "description": "I'm in Love with the Villainess",
+      "type": "Model",
+      "nsfwLevel": 29,
+      "read": "Public",
+      "isPublic": true,
+      "itemCount": 5,
+      "coverImageUrl": null,
+      "user": {
+        "id": 5266688,
+        "username": "Morpholi"
+      }
+    }
+  ],
+  "metadata": {
+    "nextCursor": 17451319,
+    "nextPage": "https://civitai.com/api/v1/collections?limit=5&query=anime&sort=Newest&cursor=17451319"
+  }
+}

@@ -29,8 +29,7 @@ impl Method for ListCreators<'_> {
 
 #[cfg(test)]
 mod tests {
-	use crate::CivitAI;
-	use std::error::Error;
+	use crate::tests::*;
 
 	#[tokio::test]
 	#[cfg(feature = "network-tests")]
@@ -41,5 +40,15 @@ mod tests {
 			.send().await?;
 
 		Ok(())
+	}
+
+	#[tokio::test]
+	async fn mock_list_creators() -> Result<(), Box<dyn Error>> {
+		mock_client!("GET", "/api/v1/creators?limit=10&query=test", list_creators, {
+			CivitAI::new_auth(TOKEN)?.list_creators()
+				.limit(10)
+				.query("test")
+				.send().await?;
+		})
 	}
 }

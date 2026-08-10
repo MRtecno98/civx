@@ -1,0 +1,33 @@
+{
+  "air": "urn:air:sdxl:checkpoint:civitai:827184@2514310",
+  "versionName": "v16.0",
+  "modelName": "WAI-illustrious-SDXL",
+  "userId": 31176,
+  "baseModel": "Illustrious",
+  "availability": "Public",
+  "publishedAt": "2025-12-18T09:16:12.062Z",
+  "size": 6775430.353515625,
+  "fileType": "Model",
+  "fileName": "WAI-Nsfw-Illustrious-16.safetensors",
+  "hashes": {
+    "AutoV1": "4748A7F6",
+    "AutoV2": "A5F58EB1C3",
+    "SHA256": "A5F58EB1C33616C4F06BCA55AF39876A7B817913CD829CAA8ACB111B770C85CC",
+    "CRC32": "DAEE95B7",
+    "BLAKE3": "1A411D9BF3E6C3BEEC249DCF442D0DEDE5E30B7BA30C15D0A5A9C256E6100CC8",
+    "AutoV3": "22D8CB95B807"
+  },
+  "downloadUrls": [
+    "https://civitai.com/api/download/models/2514310"
+  ],
+  "format": "SafeTensor",
+  "canGenerate": true,
+  "isFeatured": true,
+  "requireAuth": false,
+  "checkPermission": false,
+  "additionalResourceCharge": false,
+  "minor": false,
+  "sfwOnly": false,
+  "fees": [],
+  "payoutEnabled": true
+}

@@ -14,8 +14,7 @@ impl Method for GetEnums {
 
 #[cfg(test)]
 mod tests {
-	use crate::CivitAI;
-	use std::error::Error;
+	use crate::tests::*;
 
 	#[tokio::test]
 	#[cfg(feature = "network-tests")]
@@ -23,5 +22,12 @@ mod tests {
 		CivitAI::new()?.get_enums().await?;
 
 		Ok(())
+	}
+
+	#[tokio::test]
+	async fn mock_get_enums() -> Result<(), Box<dyn Error>> {
+		mock_client!("GET", "/api/v1/enums", get_enums, {
+			CivitAI::new_auth(TOKEN)?.get_enums().await?;
+		})
 	}
 }

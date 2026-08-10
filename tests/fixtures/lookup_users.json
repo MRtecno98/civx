@@ -1,0 +1,14 @@
+{
+	"items": [
+		{
+			"id": 12345,
+			"username": "you",
+			"avatarNsfw": "None"
+		},
+		{
+			"id": 67890,
+			"username": "yousef",
+			"avatarNsfw": "None"
+		}
+	]
+}

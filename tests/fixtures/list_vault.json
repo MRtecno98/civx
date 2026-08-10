@@ -1,0 +1,34 @@
+{
+  "items": [
+    {
+      "id": 9876,
+      "vaultId": 12345,
+      "status": "Stored",
+      "modelVersionId": 2514310,
+      "modelId": 827184,
+      "modelName": "WAI-illustrious-SDXL",
+      "versionName": "v16.0",
+      "creatorId": 67890,
+      "creatorName": "WAI",
+      "type": "Checkpoint",
+      "baseModel": "Illustrious",
+      "category": "character",
+      "modelSizeKb": 6775430,
+      "detailsSizeKb": 12,
+      "imagesSizeKb": 4096,
+      "createdAt": "2025-04-01T08:30:00.000Z",
+      "addedAt": "2025-04-01T08:30:00.000Z",
+      "refreshedAt": null,
+      "notes": null,
+      "meta": { "failures": 0 },
+      "coverImageUrl": "https://image.civitai.com/.../cover.jpeg",
+      "files": [
+        { "id": 2402203, "sizeKB": 6775430, "url": "https://...", "displayName": "waiIllustriousSDXL_v160.safetensors" }
+      ]
+    }
+  ],
+  "totalItems": 42,
+  "currentPage": 1,
+  "pageSize": 60,
+  "totalPages": 1
+}

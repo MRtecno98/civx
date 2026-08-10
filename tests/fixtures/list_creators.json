@@ -1,0 +1,107 @@
+{
+  "items": [
+    {
+      "username": "JustMaier",
+      "modelCount": 3,
+      "link": "https://civitai.com/api/v1/models?username=JustMaier"
+    },
+    {
+      "username": "Maxfield",
+      "modelCount": 5,
+      "link": "https://civitai.com/api/v1/models?username=Maxfield"
+    },
+    {
+      "username": "bkdiehl482",
+      "link": "https://civitai.com/api/v1/models?username=bkdiehl482"
+    },
+    {
+      "username": "koenb",
+      "link": "https://civitai.com/api/v1/models?username=koenb"
+    },
+    {
+      "username": "ish00tcake1styt",
+      "modelCount": 1,
+      "link": "https://civitai.com/api/v1/models?username=ish00tcake1styt"
+    },
+    {
+      "username": "PublicPrompts",
+      "modelCount": 13,
+      "link": "https://civitai.com/api/v1/models?username=PublicPrompts"
+    },
+    {
+      "username": "drone2222",
+      "modelCount": 2,
+      "link": "https://civitai.com/api/v1/models?username=drone2222"
+    },
+    {
+      "username": "jinxit4",
+      "modelCount": 1,
+      "link": "https://civitai.com/api/v1/models?username=jinxit4"
+    },
+    {
+      "username": "gbtm",
+      "modelCount": 1,
+      "link": "https://civitai.com/api/v1/models?username=gbtm"
+    },
+    {
+      "username": "CrasH",
+      "modelCount": 43,
+      "link": "https://civitai.com/api/v1/models?username=CrasH"
+    },
+    {
+      "username": "cootie",
+      "modelCount": 2,
+      "link": "https://civitai.com/api/v1/models?username=cootie"
+    },
+    {
+      "username": "bionagato",
+      "modelCount": 98,
+      "link": "https://civitai.com/api/v1/models?username=bionagato"
+    },
+    {
+      "username": "somebody",
+      "modelCount": 1,
+      "link": "https://civitai.com/api/v1/models?username=somebody"
+    },
+    {
+      "username": "gortath",
+      "modelCount": 8,
+      "link": "https://civitai.com/api/v1/models?username=gortath"
+    },
+    {
+      "username": "Nix0npolska",
+      "modelCount": 2,
+      "link": "https://civitai.com/api/v1/models?username=Nix0npolska"
+    },
+    {
+      "username": "DSlater",
+      "modelCount": 34,
+      "link": "https://civitai.com/api/v1/models?username=DSlater"
+    },
+    {
+      "username": "harmonicdiffusion",
+      "modelCount": 18,
+      "link": "https://civitai.com/api/v1/models?username=harmonicdiffusion"
+    },
+    {
+      "username": "Noppa",
+      "link": "https://civitai.com/api/v1/models?username=Noppa"
+    },
+    {
+      "username": "rainerweston679",
+      "link": "https://civitai.com/api/v1/models?username=rainerweston679"
+    },
+    {
+      "username": "aineomnios",
+      "modelCount": 8,
+      "link": "https://civitai.com/api/v1/models?username=aineomnios"
+    }
+  ],
+  "metadata": {
+    "totalItems": 87613,
+    "currentPage": 1,
+    "pageSize": 20,
+    "totalPages": 4381,
+    "nextPage": "https://civitai.com/api/v1/creators?limit=20&browsingLevel=1&page=2"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": 878463,
+  "username": "Example",
+  "status": "active",
+  "isMember": false,
+  "subscriptions": [],
+  "email": "somebody@example.com",
+  "emailVerified": false,
+  "tokenScope": 33554431,
+  "buzzLimit": null,
+  "subject": {
+    "type": "apiKey",
+    "id": 97832647
+  }
+}

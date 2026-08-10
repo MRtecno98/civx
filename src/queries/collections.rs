@@ -48,9 +48,7 @@ impl Method for GetCollection {
 #[cfg(test)]
 mod tests {
 	use super::*;
-
-	use crate::CivitAI;
-	use std::error::Error;
+	use crate::tests::*;
 
 	#[tokio::test]
 	#[cfg(feature = "network-tests")]
@@ -69,5 +67,22 @@ mod tests {
 		CivitAI::new()?.get_collection(10505430).await?;
 
 		Ok(())
+	}
+
+	#[tokio::test]
+	async fn mock_list_collections() -> Result<(), Box<dyn Error>> {
+		mock_client!("GET", "/api/v1/collections", list_collections, {
+			CivitAI::new_auth(TOKEN)?.list_collections()
+				.sort(CollectionSortKind::MostFollowers)
+				.pagination(Some(10), None, None)
+				.send().await?;
+		})
+	}
+
+	#[tokio::test]
+	async fn mock_get_collection() -> Result<(), Box<dyn Error>> {
+		mock_client!("GET", "/api/v1/collections/10505430", get_collection, {
+			CivitAI::new_auth(TOKEN)?.get_collection(10505430).await?;
+		})
 	}
 }
