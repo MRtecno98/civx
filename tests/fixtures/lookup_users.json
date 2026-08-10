@@ -1,14 +1,25 @@
 {
 	"items": [
 		{
-			"id": 12345,
-			"username": "you",
-			"avatarNsfw": "None"
+			"id": 123,
+			"username": "fifthdream",
+			"avatarUrl": null,
+			"avatarNsfw": 1,
+			"meta": null
 		},
 		{
-			"id": 67890,
-			"username": "yousef",
-			"avatarNsfw": "None"
+			"id": 456,
+			"username": "vinw_",
+			"avatarUrl": "8a960898-805e-4ac3-af98-c5ae58ec48f2",
+			"avatarNsfw": 1,
+			"meta": null
+		},
+		{
+			"id": 789,
+			"username": "whatever",
+			"avatarUrl": null,
+			"avatarNsfw": 1,
+			"meta": null
 		}
 	]
 }
