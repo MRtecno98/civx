@@ -22,6 +22,5 @@ pub struct UserLookup {
 	pub id: i64,
 	pub username: String,
 
-	#[serde(deserialize_with = "crate::enums::nsfw_from_str")]
 	pub avatar_nsfw: NsfwLevel,
 }

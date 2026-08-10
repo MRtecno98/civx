@@ -271,7 +271,7 @@ impl From<Format> for String {
 #[cfg(test)]
 mod tests {
 	use super::*;
-    use serde_test::{assert_tokens, Token};
+    use serde_test::{assert_tokens, assert_de_tokens, Token};
 
 	#[test]
 	pub fn air_serde_full() {
@@ -284,6 +284,71 @@ mod tests {
 			file_id: Some("2402203".to_string()),
 			format: Some(Format::Pth),
 		}, &[Token::String("urn:air:sdxl:checkpoint:civitai:827184@2514310+2402203.pth")]);
+	}
+
+	#[test]
+	pub fn air_serde_min() {
+		assert_tokens(&AIR {
+			ecosystem: Ecosystem::SDXL,
+			resource_type: ResourceType::Checkpoint,
+			source: Source::CivitAI,
+			id: "43235".to_string(),
+			version: None,
+			file_id: None,
+			format: None,
+		}, &[Token::String("urn:air:sdxl:checkpoint:civitai:43235")]);
+	}
+
+	#[test]
+	pub fn air_serde_min_noprefix() {
+		assert_de_tokens(&AIR {
+			ecosystem: Ecosystem::SDXL,
+			resource_type: ResourceType::Checkpoint,
+			source: Source::CivitAI,
+			id: "43235".to_string(),
+			version: None,
+			file_id: None,
+			format: None,
+		}, &[Token::String("sdxl:checkpoint:civitai:43235")]);
+	}
+	
+	#[test]
+	pub fn air_serde_min_version() {
+		assert_tokens(&AIR {
+			ecosystem: Ecosystem::SDXL,
+			resource_type: ResourceType::Checkpoint,
+			source: Source::CivitAI,
+			id: "43235".to_string(),
+			version: Some("123456".to_string()),
+			file_id: None,
+			format: None,
+		}, &[Token::String("urn:air:sdxl:checkpoint:civitai:43235@123456")]);
+	}
+
+	#[test]
+	pub fn air_serde_min_file_id() {
+		assert_tokens(&AIR {
+			ecosystem: Ecosystem::SDXL,
+			resource_type: ResourceType::Checkpoint,
+			source: Source::CivitAI,
+			id: "43235".to_string(),
+			version: None,
+			file_id: Some("123456".to_string()),
+			format: None,
+		}, &[Token::String("urn:air:sdxl:checkpoint:civitai:43235+123456")]);
+	}
+
+	#[test]
+	pub fn air_serde_min_format() {
+		assert_tokens(&AIR {
+			ecosystem: Ecosystem::SDXL,
+			resource_type: ResourceType::Checkpoint,
+			source: Source::CivitAI,
+			id: "43235".to_string(),
+			version: None,
+			file_id: None,
+			format: Some(Format::Pth),
+		}, &[Token::String("urn:air:sdxl:checkpoint:civitai:43235.pth")]);
 	}
 
 	#[test]
