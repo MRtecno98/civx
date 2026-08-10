@@ -1,6 +1,6 @@
 use url::Url;
 
-use crate::{error::Error, Method, MethodType, Result, queries::*};
+use crate::{AIR, Method, MethodType, Result, error::Error, models::Model, queries::*};
 
 #[derive(Debug)]
 pub struct CivitAI {
@@ -94,6 +94,14 @@ impl CivitAI {
 
 		Ok(M::Type::apply(&input, self.make_request(M::METHOD, url.as_ref())?)
 			.send().await?.error_for_status()?.json().await?)
+	}
+
+	pub async fn get_air(&self, model: &Model) -> Result<AIR> {
+		if let Some(version) = model.model_versions.first() {
+			Ok(self.get_model_version(version.id).await?.air)
+		} else {
+			Err(Error::NoVersionsPublished)
+		}
 	}
 
 	impl_method!(ListModels, ListModelsBuilder, list_models);

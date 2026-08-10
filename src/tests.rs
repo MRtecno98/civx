@@ -72,6 +72,8 @@ pub(crate) use mock_client;
 #[cfg(feature = "network-tests")]
 #[ignore = "requires a token file in the project root"]
 async fn it_works() -> Result<(), Box<dyn Error>> {
+	use crate::air::HasAir;
+
 	let civitai = CivitAI::new_auth(auth_token!())?;
 
 	let result = civitai.lookup_users()
@@ -84,7 +86,7 @@ async fn it_works() -> Result<(), Box<dyn Error>> {
 
 	let model = civitai.get_model(2731187).await?;
 
-	println!("Model: {}", model.name);
+	println!("Model: {} ({})", model.name, model.air());
 	for ver in model.model_versions {
 		println!("\tVersion: {}", ver.name);
 		for file in ver.files {

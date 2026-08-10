@@ -28,6 +28,7 @@ mod error {
 		MissingEnum(&'static str),
 		QueryFormat(serde_url_params::Error),
 		UrlParse(url::ParseError),
+		NoVersionsPublished,
 		InvalidEndpoint,
 		ClientNotSet,
 	}
@@ -39,6 +40,7 @@ mod error {
 				Error::MissingEnum(e) => write!(f, "Missing enum: {}", e),
 				Error::QueryFormat(e) => write!(f, "Query format error: {}", e),
 				Error::UrlParse(e) => write!(f, "URL parse error: {}", e),
+				Error::NoVersionsPublished => write!(f, "No versions published for this resource"),
 				Error::InvalidEndpoint => write!(f, "Invalid endpoint"),
 				Error::ClientNotSet => write!(f, "Client not set"),
 			}

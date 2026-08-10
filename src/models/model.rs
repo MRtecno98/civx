@@ -1,8 +1,10 @@
+use std::borrow::Cow;
+
 use chrono::{DateTime, Utc};
 use serde::Deserialize;
 use url::Url;
 
-use crate::{AIR, enums::{Availability, BaseModel, BaseModelType, ModelFileType, ModelType, ModerationStatus, NsfwLevel, PublishingStatus, ResourceType, UploadType, Usage}, models::{GenerationMetadata, files::{File, Hashes}}};
+use crate::{AIR, Ecosystem, HasAir, Source, enums::{Availability, BaseModel, BaseModelType, ModelFileType, ModelType, ModerationStatus, NsfwLevel, PublishingStatus, ResourceType, UploadType, Usage}, models::{GenerationMetadata, files::{File, Hashes}}};
 
 #[derive(Deserialize, Debug, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
@@ -34,6 +36,28 @@ pub struct Model {
 	pub tags: Vec<String>,
 
 	pub model_versions: Vec<ModelVersionEntry>,
+}
+
+impl HasAir for Model {
+	fn air(&self) -> Cow<'_, AIR> {
+		let ecosystem = if let Some(version_entry) = self.model_versions.first() {
+			version_entry.base_model.clone().into()
+		} else {
+			Ecosystem::Other
+		};
+
+		let resource_type = self.model_type.clone().into();
+
+		Cow::Owned(AIR {
+			ecosystem,
+			resource_type,
+			source: Source::CivitAI,
+			id: self.id.to_string(),
+			version: None,
+			file_id: None,
+			format: None,
+		})
+	}
 }
 
 #[derive(Deserialize, Default, Debug, Clone, PartialEq, Eq)]
@@ -124,6 +148,12 @@ pub struct ModelVersion {
 	pub images: Vec<ModelImageEntry>,
 
 	pub download_url: Url,
+}
+
+impl HasAir for ModelVersion {
+	fn air(&self) -> Cow<'_, AIR> {
+		Cow::Borrowed(&self.air)
+	}
 }
 
 #[derive(Deserialize, Debug, Clone, PartialEq, Eq)]

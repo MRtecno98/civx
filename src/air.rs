@@ -2,6 +2,12 @@ use std::{borrow::Cow, fmt::{self, Display}};
 
 use serde::{Deserialize, Serialize, de::{self, Visitor}};
 
+use crate::enums::{BaseModel, ModelType};
+
+pub trait HasAir {
+	fn air(&self) -> Cow<'_, AIR>;
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AIR {
 	pub ecosystem: Ecosystem,
@@ -131,9 +137,55 @@ pub enum Ecosystem {
 	SDXL,
 	SD3,
 	FLUX1,
+	FLUX2,
+	FLUX3,
 	Illustrious,
 	Other,
 	Unknown(String),
+}
+
+impl From<BaseModel> for Ecosystem {
+	fn from(base_model: BaseModel) -> Self {
+		match base_model {
+			BaseModel::SD15 
+			| BaseModel::SD15Hyper
+			| BaseModel::SD15LCM
+			 => Ecosystem::SD15,
+			
+			BaseModel::SDXL09
+			 | BaseModel::SDXL10
+			 | BaseModel::SDXLTurbo
+			 | BaseModel::SDXLLightning
+			 | BaseModel::SDXLHyper
+			 | BaseModel::SDXL10LCM
+			 | BaseModel::SDXLDistilled
+			 => Ecosystem::SDXL,
+
+			BaseModel::SD3
+			| BaseModel::SD35
+			| BaseModel::SD35Large
+			| BaseModel::SD35LargeTurbo
+			| BaseModel::SD35Medium
+			 => Ecosystem::SD3,
+			
+			BaseModel::Flux1S
+			| BaseModel::Flux1D
+			| BaseModel::Flux1Krea
+			| BaseModel::Flux1Kontext
+			 => Ecosystem::FLUX1,
+
+			BaseModel::Flux2D 
+			| BaseModel::Flux2Klein9B
+			| BaseModel::Flux2Klein9Bbase
+			| BaseModel::Flux2Klein4B
+			| BaseModel::Flux2Klein4Bbase
+			 => Ecosystem::FLUX2,
+
+			BaseModel::Flux3Video => Ecosystem::FLUX3,
+			BaseModel::Illustrious => Ecosystem::Illustrious,
+			_ => Ecosystem::Other,
+		}
+	}
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
@@ -146,6 +198,36 @@ pub enum ResourceType {
 	Upscaler,
 	Other,
 	Unknown(String),
+}
+
+impl From<ModelType> for ResourceType {
+	fn from(model_type: ModelType) -> Self {
+		match model_type {
+			ModelType::Checkpoint => ResourceType::Checkpoint,
+			ModelType::LORA => ResourceType::LORA,
+			ModelType::TextualInversion => ResourceType::Embedding,
+			ModelType::VAE => ResourceType::VAE,
+			ModelType::Controlnet => ResourceType::ControlNet,
+			ModelType::Upscaler => ResourceType::Upscaler,
+			ModelType::Unknown(typ) => ResourceType::Unknown(typ),
+			_ => ResourceType::Other,
+		}
+	}
+}
+
+impl From<ResourceType> for ModelType {
+	fn from(resource_type: ResourceType) -> Self {
+		match resource_type {
+			ResourceType::Checkpoint => ModelType::Checkpoint,
+			ResourceType::LORA => ModelType::LORA,
+			ResourceType::Embedding => ModelType::TextualInversion,
+			ResourceType::VAE => ModelType::VAE,
+			ResourceType::ControlNet => ModelType::Controlnet,
+			ResourceType::Upscaler => ModelType::Upscaler,
+			ResourceType::Unknown(typ) => ModelType::Unknown(typ),
+			ResourceType::Other => ModelType::Other,
+		}
+	}
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
@@ -174,6 +256,8 @@ impl From<&str> for Ecosystem {
 			"sdxl" => Ecosystem::SDXL,
 			"sd3" => Ecosystem::SD3,
 			"flux1" => Ecosystem::FLUX1,
+			"flux2" => Ecosystem::FLUX2,
+			"flux3" => Ecosystem::FLUX3,
 			"illustrious" => Ecosystem::Illustrious,
 			"other" => Ecosystem::Other,
 			_ => Ecosystem::Unknown(s.to_string()),
@@ -188,6 +272,8 @@ impl From<Ecosystem> for String {
 			Ecosystem::SDXL => "sdxl".into(),
 			Ecosystem::SD3 => "sd3".into(),
 			Ecosystem::FLUX1 => "flux1".into(),
+			Ecosystem::FLUX2 => "flux2".into(),
+			Ecosystem::FLUX3 => "flux3".into(),
 			Ecosystem::Illustrious => "illustrious".into(),
 			Ecosystem::Other => "other".into(),
 			Ecosystem::Unknown(s) => s,
