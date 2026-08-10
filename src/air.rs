@@ -1,4 +1,4 @@
-use std::fmt;
+use std::{borrow::Cow, fmt::{self, Display}};
 
 use serde::{Deserialize, Serialize, de::{self, Visitor}};
 
@@ -115,6 +115,13 @@ impl Serialize for AIR {
 		}
 
 		serializer.serialize_str(&s)
+	}
+}
+
+impl Display for AIR {
+	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+		write!(f, "{}", serde_plain::to_string(self)
+			.expect("error during AIR identifier formatting"))
 	}
 }
 

@@ -53,7 +53,7 @@ impl Method for ListModels<'_> {
 pub struct GetModel;
 
 impl Method for GetModel {
-	type Input = u32;
+	type Input = i64;
 	type Output = Model;
 
 	type Type = Path;
@@ -65,7 +65,7 @@ impl Method for GetModel {
 pub struct GetModelVersion;
 
 impl Method for GetModelVersion {
-	type Input = u32;
+	type Input = i64;
 	type Output = ModelVersion;
 
 	type Type = Path;
@@ -113,7 +113,7 @@ impl Method for GetIdsByHashBulk {
 pub struct GetModelVersionMinimal;
 
 impl Method for GetModelVersionMinimal {
-	type Input = u32;
+	type Input = i64;
 	type Output = ModelVersionMinimal;
 
 	type Type = Path;
