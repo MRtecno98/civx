@@ -1,16 +1,19 @@
 pub mod queries;
 pub mod models;
 pub mod enums;
+pub mod reader;
 
 mod method;
 mod client;
 mod air;
+mod files;
 
 pub use method::*;
 pub use air::*;
 
 pub use client::CivitAI;
 pub use error::Result;
+pub use files::hashes;
 
 pub const API_BASE: &str = "https://civitai.com/";
 
@@ -28,7 +31,10 @@ mod error {
 		MissingEnum(&'static str),
 		QueryFormat(serde_url_params::Error),
 		UrlParse(url::ParseError),
+		Io(std::io::Error),
 		NoVersionsPublished,
+		MissingHash,
+		HashMismatch { expected: String, actual: String },
 		InvalidEndpoint,
 		ClientNotSet,
 	}
@@ -40,7 +46,10 @@ mod error {
 				Error::MissingEnum(e) => write!(f, "Missing enum: {}", e),
 				Error::QueryFormat(e) => write!(f, "Query format error: {}", e),
 				Error::UrlParse(e) => write!(f, "URL parse error: {}", e),
+				Error::Io(e) => write!(f, "IO error: {}", e),
 				Error::NoVersionsPublished => write!(f, "No versions published for this resource"),
+				Error::MissingHash => write!(f, "Missing hash"),
+				Error::HashMismatch { expected, actual } => write!(f, "Hash mismatch: expected {}, got {}", expected, actual),
 				Error::InvalidEndpoint => write!(f, "Invalid endpoint"),
 				Error::ClientNotSet => write!(f, "Client not set"),
 			}
@@ -62,6 +71,12 @@ mod error {
 	impl From<url::ParseError> for Error {
 		fn from(err: url::ParseError) -> Self {
 			Error::UrlParse(err)
+		}
+	}
+
+	impl From<std::io::Error> for Error {
+		fn from(err: std::io::Error) -> Self {
+			Error::Io(err)
 		}
 	}
 

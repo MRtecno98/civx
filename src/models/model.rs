@@ -156,6 +156,12 @@ impl HasAir for ModelVersion {
 	}
 }
 
+impl ModelVersion {
+	pub fn primary_file(&self) -> Option<&File> {
+		self.files.iter().find(|f| f.primary)
+	}
+}
+
 #[derive(Deserialize, Debug, Clone, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct VersionModelInfo {
