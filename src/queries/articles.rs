@@ -1,7 +1,7 @@
 use bon::Builder;
 use serde::Serialize;
 
-use crate::{CivitAI, Method, Path, Query, enums::ArticleSortKind, models::{Article, Paginated}, queries::{Pagination, impl_builder_send, serialize_comma_separated}};
+use crate::{CivitAI, Method, Path, Query, enums::ArticleSortKind, models::{Article, ArticleInfo, Paginated}, queries::{Pagination, impl_builder_send, serialize_comma_separated}};
 
 /// An article is a long-form post published on Civitai — a guide, workflow write-up, 
 /// changelog, or announcement. These endpoints expose the same public article feed 
@@ -32,7 +32,7 @@ impl_builder_send!(list_articles_builder, ListArticlesBuilder, ListArticles<'a>)
 
 impl Method for ListArticles<'_> {
 	type Input = Self;
-	type Output = Paginated<Article>;
+	type Output = Paginated<ArticleInfo>;
 
 	type Type = Query;
 
@@ -48,8 +48,8 @@ impl Method for ListArticles<'_> {
 pub struct GetArticle;
 
 impl Method for GetArticle {
-	type Input = u32;
-	type Output = serde_json::Value; // TODO: Docs don't mention even half the fields
+	type Input = i64;
+	type Output = Article; // TODO: Docs don't mention even half the fields
 
 	type Type = Path;
 
