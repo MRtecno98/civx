@@ -72,7 +72,7 @@ impl Hashes {
 impl File {
 	pub async fn download(&self, client: &CivitAI) -> Result<VerifyingReader<impl AsyncRead + Unpin, Box<dyn HasherDyn + Unpin>>> {
 		let response = client.make_request(Method::GET, 
-			&self.download_url.to_string())?.send().await?;
+			self.download_url.as_ref())?.send().await?;
 			
 		let content_length = response.content_length();
 
