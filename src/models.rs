@@ -38,6 +38,33 @@ impl<T> Deref for Paginated<T> {
 	}
 }
 
+impl<T> IntoIterator for Paginated<T> {
+	type Item = T;
+	type IntoIter = std::vec::IntoIter<T>;
+
+	fn into_iter(self) -> Self::IntoIter {
+		self.items.into_iter()
+	}
+}
+
+impl<'a, T> IntoIterator for &'a Paginated<T> {
+	type Item = &'a T;
+	type IntoIter = std::slice::Iter<'a, T>;
+
+	fn into_iter(self) -> Self::IntoIter {
+		self.items.iter()
+	}
+}
+
+impl<'a, T> IntoIterator for &'a mut Paginated<T> {
+	type Item = &'a mut T;
+	type IntoIter = std::slice::IterMut<'a, T>;
+
+	fn into_iter(self) -> Self::IntoIter {
+		self.items.iter_mut()
+	}
+}
+
 #[derive(Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 pub struct Metadata {
 	pub next_cursor: Option<String>,
