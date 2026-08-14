@@ -1,10 +1,11 @@
 use std::io;
 
+use reqwest::Method;
 use tokio::{fs, io::AsyncRead};
 use futures_util::TryStreamExt;
 use tokio_util::io::StreamReader;
 
-use crate::{error::Error, Result, hashes::{Blake3, Crc32, Sha256}, models::{File, Hashes}, reader::{Hash, Hasher, HasherDyn, HasherExt, VerifyingReader}};
+use crate::{CivitAI, Result, error::Error, hashes::{Blake3, Crc32, Sha256}, models::{File, Hashes}, reader::{Hash, Hasher, HasherDyn, HasherExt, VerifyingReader}};
 
 pub mod hashes {
 	pub type Crc32 = crc32fast::Hasher;
@@ -69,8 +70,10 @@ impl Hashes {
 }
 
 impl File {
-	pub async fn download(&self) -> Result<VerifyingReader<impl AsyncRead + Unpin, Box<dyn HasherDyn + Unpin>>> {
-		let response = reqwest::get(self.download_url.clone()).await?;
+	pub async fn download(&self, client: &CivitAI) -> Result<VerifyingReader<impl AsyncRead + Unpin, Box<dyn HasherDyn + Unpin>>> {
+		let response = client.make_request(Method::GET, 
+			&self.download_url.to_string())?.send().await?;
+			
 		let content_length = response.content_length();
 
 		let reader = response.bytes_stream()
@@ -79,9 +82,9 @@ impl File {
 		self.hashes.check_reader(StreamReader::new(reader), content_length)
 	}
 
-	pub async fn download_to_file(&self, path: impl AsRef<std::path::Path>) -> Result<()> {
+	pub async fn download_to_file(&self, path: impl AsRef<std::path::Path>, client: &CivitAI) -> Result<()> {
 		let mut file = fs::File::create(path).await?;
-		let mut reader = self.download().await?;
+		let mut reader = self.download(client).await?;
 
 		tokio::io::copy(&mut reader, &mut file).await?;
 

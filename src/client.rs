@@ -72,9 +72,13 @@ impl CivitAI {
 		}
 	}
 
-	fn make_request(&self, method: reqwest::Method, url: &str) -> Result<reqwest::RequestBuilder> {
+	pub(crate) fn make_request(&self, method: reqwest::Method, url: &str) -> Result<reqwest::RequestBuilder> {
 		let base_url = Url::parse(self.base_url().as_ref())?;
-		let url = base_url.join(url)?;
+
+		let url = match Url::parse(url) {
+			Ok(url) => url,
+			Err(_) => base_url.join(url)?,
+		};
 
 		if url.domain() != base_url.domain() {
 			return Err(Error::InvalidEndpoint);
