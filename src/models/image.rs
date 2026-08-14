@@ -9,7 +9,10 @@ use crate::enums::{BaseModel, MediaType, ModelType, NsfwLevel};
 pub struct Image {
 	pub id: i64,
 	pub url: Url,
-	pub hash: String,
+
+	#[serde(deserialize_with = "zero_or_string")]
+	pub hash: Option<String>,
+
 	pub width: u32,
 	pub height: u32,
 
@@ -68,4 +71,24 @@ pub struct ImageStats {
 	pub dislike_count: u64,
 	pub heart_count: u64,
 	pub comment_count: u64,
+}
+
+fn zero_or_string<'de, D>(deserializer: D) -> Result<Option<String>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+{
+	use serde::de::Error;
+
+	#[derive(Deserialize)]
+	#[serde(untagged)]
+    enum StringOrZero {
+		String(String),
+		Zero(u8),
+	}
+
+	match StringOrZero::deserialize(deserializer)? {
+		StringOrZero::String(s) => Ok(Some(s)),
+		StringOrZero::Zero(0) => Ok(None),
+		_ => Err(Error::custom("expected a string or zero")),
+	}
 }
