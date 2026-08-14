@@ -4,7 +4,7 @@ use chrono::{DateTime, Utc};
 use serde::Deserialize;
 use url::Url;
 
-use crate::{AIR, Ecosystem, HasAir, Source, enums::{Availability, BaseModel, BaseModelType, ModelFileType, ModelType, ModerationStatus, NsfwLevel, PublishingStatus, ResourceType, UploadType, Usage}, models::{GenerationMetadata, files::{File, Hashes}}};
+use crate::{AIR, Ecosystem, AirIdent, Source, enums::{Availability, BaseModel, BaseModelType, ModelFileType, ModelType, ModerationStatus, NsfwLevel, PublishingStatus, ResourceType, UploadType, Usage}, models::{GenerationMetadata, files::{File, Hashes}}};
 
 #[derive(Deserialize, Debug, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
@@ -38,7 +38,7 @@ pub struct Model {
 	pub model_versions: Vec<ModelVersionEntry>,
 }
 
-impl HasAir for Model {
+impl AirIdent for Model {
 	fn air(&self) -> Cow<'_, AIR> {
 		let ecosystem = if let Some(version_entry) = self.model_versions.first() {
 			version_entry.base_model.clone().into()
@@ -150,7 +150,7 @@ pub struct ModelVersion {
 	pub download_url: Url,
 }
 
-impl HasAir for ModelVersion {
+impl AirIdent for ModelVersion {
 	fn air(&self) -> Cow<'_, AIR> {
 		Cow::Borrowed(&self.air)
 	}

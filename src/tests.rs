@@ -72,7 +72,7 @@ pub(crate) use mock_client;
 #[cfg(feature = "network-tests")]
 #[ignore = "requires a token file in the project root"]
 async fn it_works() -> Result<(), Box<dyn Error>> {
-	use crate::air::HasAir;
+	use crate::air::AirIdent;
 
 	let civitai = CivitAI::new_auth(auth_token!())?;
 

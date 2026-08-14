@@ -1,10 +1,10 @@
-use std::{borrow::Cow, fmt::{self, Display}};
+use std::{borrow::Cow, fmt::{self, Display}, str::FromStr};
 
 use serde::{Deserialize, Serialize, de::{self, Visitor}};
 
 use crate::enums::{BaseModel, ModelType};
 
-pub trait HasAir {
+pub trait AirIdent {
 	fn air(&self) -> Cow<'_, AIR>;
 }
 
@@ -17,6 +17,108 @@ pub struct AIR {
 	pub version: Option<String>,
 	pub file_id: Option<String>,
 	pub format: Option<Format>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum ParseError {
+	InvalidPrefix,
+	MissingRequiredParts,
+}
+
+impl Display for ParseError {
+	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+		match self {
+			ParseError::InvalidPrefix => write!(f, "invalid prefix"),
+			ParseError::MissingRequiredParts => write!(f, "missing required parts"),
+		}
+	}
+}
+
+impl std::error::Error for ParseError {}
+
+impl FromStr for AIR {
+	type Err = ParseError;
+	fn from_str(value: &str) -> Result<Self, Self::Err> {
+		let (rest, format) = 
+			if let Some((r, f)) = value.rsplit_once(".") {
+				(r, Some(Format::from(f)))
+			} else {
+				(value, None)
+			};
+		
+		let (rest, file_id) = 
+			if let Some((r, f)) = rest.rsplit_once("+") {
+				(r, Some(f.to_string()))
+			} else {
+				(rest, None)
+			};
+
+		let (rest, version) = 
+			if let Some((r, v)) = rest.rsplit_once("@") {
+				(r, Some(v.to_string()))
+			} else {
+				(rest, None)
+			};
+
+		let mut required_parts = rest.rsplitn(5, ":").collect::<Vec<_>>();
+		required_parts.reverse();
+
+		let required_parts = if required_parts.len() == 5 {
+			let (prefix, rest) = required_parts.split_first().unwrap();
+
+			if *prefix != "urn:air" {
+				return Err(ParseError::InvalidPrefix);
+			}
+
+			rest
+		} else {
+			&required_parts
+		};
+
+		if required_parts.len() != 4 {
+			return Err(ParseError::MissingRequiredParts);
+		}
+
+		let ecosystem = Ecosystem::from(required_parts[0]);
+		let resource_type = ResourceType::from(required_parts[1]);
+		let source = Source::from(required_parts[2]);
+
+		let id = required_parts[3].to_string();
+
+		Ok(AIR {
+			ecosystem,
+			resource_type,
+			source,
+			id,
+			version,
+			file_id,
+			format,
+		})
+	}
+}
+
+impl Display for AIR {
+	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+		write!(f, "urn:air:{}:{}:{}:{}", 
+			String::from(self.ecosystem.clone()), 
+			String::from(self.resource_type.clone()), 
+			String::from(self.source.clone()), 
+			self.id)?;
+
+		if let Some(version) = &self.version {
+			write!(f, "@{}", version)?;
+		}
+
+		if let Some(file_id) = &self.file_id {
+			write!(f, "+{}", file_id)?;
+		}
+
+		if let Some(format) = &self.format {
+			write!(f, ".{}", String::from(format.clone()))?;
+		}
+
+		Ok(())
+	}
 }
 
 impl<'de> Deserialize<'de> for AIR {
@@ -36,61 +138,8 @@ impl<'de> Deserialize<'de> for AIR {
             where
                 E: de::Error,
             {
-				let (rest, format) = 
-					if let Some((r, f)) = value.rsplit_once(".") {
-						(r, Some(Format::from(f)))
-					} else {
-						(value, None)
-					};
-				
-				let (rest, file_id) = 
-					if let Some((r, f)) = rest.rsplit_once("+") {
-						(r, Some(f.to_string()))
-					} else {
-						(rest, None)
-					};
-
-				let (rest, version) = 
-					if let Some((r, v)) = rest.rsplit_once("@") {
-						(r, Some(v.to_string()))
-					} else {
-						(rest, None)
-					};
-
-				let mut required_parts = rest.rsplitn(5, ":").collect::<Vec<_>>();
-				required_parts.reverse();
-
-				let required_parts = if required_parts.len() == 5 {
-					let (prefix, rest) = required_parts.split_first().unwrap();
-
-					if *prefix != "urn:air" {
-						return Err(de::Error::invalid_value(de::Unexpected::Str(value), &self));
-					}
-
-					rest
-				} else {
-					&required_parts
-				};
-
-				if required_parts.len() != 4 {
-					return Err(de::Error::invalid_value(de::Unexpected::Str(value), &self));
-				}
-
-				let ecosystem = Ecosystem::from(required_parts[0]);
-				let resource_type = ResourceType::from(required_parts[1]);
-				let source = Source::from(required_parts[2]);
-
-				let id = required_parts[3].to_string();
-
-                Ok(AIR {
-                    ecosystem,
-                    resource_type,
-                    source,
-                    id,
-                    version,
-                    file_id,
-                    format,
-                })
+				value.parse().map_err(
+					|e| E::custom(format!("failed to parse AIR identifier: {}", e)))
             }
         }
 
@@ -102,32 +151,7 @@ impl Serialize for AIR {
 	fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
 	where
 		S: serde::Serializer {
-		let mut s = format!("urn:air:{}:{}:{}:{}", 
-			String::from(self.ecosystem.clone()), 
-			String::from(self.resource_type.clone()), 
-			String::from(self.source.clone()), 
-			self.id);
-
-		if let Some(version) = &self.version {
-			s.push_str(&format!("@{}", version));
-		}
-
-		if let Some(file_id) = &self.file_id {
-			s.push_str(&format!("+{}", file_id));
-		}
-
-		if let Some(format) = &self.format {
-			s.push_str(&format!(".{}", String::from(format.clone())));
-		}
-
-		serializer.serialize_str(&s)
-	}
-}
-
-impl Display for AIR {
-	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-		write!(f, "{}", serde_plain::to_string(self)
-			.expect("error during AIR identifier formatting"))
+		serializer.serialize_str(&self.to_string())
 	}
 }
 
