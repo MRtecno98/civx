@@ -1,30 +1,42 @@
 use bon::Builder;
 use serde::Serialize;
 
-use crate::{CivitAI, Method, Query, models::{Creator, Paginated}, queries::impl_builder_send};
+use crate::{CivitAI, Method, Query, models::{Creator, Page}, queries::{Paginate, PaginationView, impl_builder_send, paginated_post_req}};
 
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
-pub struct ListCreators<'a> {
+pub struct ListCreators<'c> {
 	#[serde(skip)]
 	#[builder(field)]
-	_client: Option<&'a CivitAI>,
+	_client: Option<&'c CivitAI>,
 
 	pub limit: Option<u32>,
 	pub page: Option<u32>,
 	pub query: Option<String>,
 }
 
-impl_builder_send!(list_creators_builder, ListCreatorsBuilder, ListCreators<'a>);
+impl_builder_send!(list_creators_builder, ListCreatorsBuilder, ListCreators<'c>);
 
-impl Method for ListCreators<'_> {
+impl<'c> Method<'c> for ListCreators<'c> {
 	type Input = Self;
-	type Output = Paginated<Creator>;
+	type Output = Page<'c, Creator, Self>;
 
 	type Type = Query;
 
 	const METHOD: reqwest::Method = reqwest::Method::GET;
 	const ENDPOINT: &'static str = "/api/v1/creators";
+	
+	paginated_post_req!();
+}
+
+impl<'c> Paginate for ListCreators<'c> {
+	fn pagination(&mut self) -> Option<PaginationView<'_>> {
+		Some(PaginationView {
+			limit: Some(&mut self.limit),
+			page: Some(&mut self.page),
+			cursor: None,
+		})
+	}
 }
 
 #[cfg(test)]

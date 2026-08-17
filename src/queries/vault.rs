@@ -6,7 +6,7 @@ use crate::{CivitAI, Method, NoArgs, Query, enums::{BaseModel, ModelType, SortKi
 
 pub struct GetVault;
 
-impl Method for GetVault {
+impl<'c> Method<'c> for GetVault {
 	type Input = ();
 	type Output = serde_json::Value;
 
@@ -19,10 +19,10 @@ impl Method for GetVault {
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
 #[serde(rename_all = "camelCase")]
-pub struct ListVault<'a> {
+pub struct ListVault<'c> {
 	#[serde(skip)]
 	#[builder(field)]
-	_client: Option<&'a CivitAI>,
+	_client: Option<&'c CivitAI>,
 
 	pub limit: Option<u32>,
 	pub page: Option<u32>,
@@ -47,9 +47,9 @@ pub struct ListVault<'a> {
 	pub sort: Option<SortKind>,
 }
 
-impl_builder_send!(list_vault_builder, ListVaultBuilder, ListVault<'a>);
+impl_builder_send!(list_vault_builder, ListVaultBuilder, ListVault<'c>);
 
-impl Method for ListVault<'_> {
+impl<'c> Method<'c> for ListVault<'c> {
 	type Input = Self;
 	type Output = serde_json::Value;
 
@@ -62,19 +62,19 @@ impl Method for ListVault<'_> {
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
 #[serde(rename_all = "camelCase")]
-pub struct CheckInVault<'a> {
+pub struct CheckInVault<'c> {
 	#[serde(skip)]
 	#[builder(field)]
-	_client: Option<&'a CivitAI>,
+	_client: Option<&'c CivitAI>,
 
 	#[serde(serialize_with = "serialize_comma_separated", 
 			skip_serializing_if = "Option::is_none")]
 	pub model_version_ids: Option<Vec<u32>>,
 }
 
-impl_builder_send!(check_in_vault_builder, CheckInVaultBuilder, CheckInVault<'a>);
+impl_builder_send!(check_in_vault_builder, CheckInVaultBuilder, CheckInVault<'c>);
 
-impl Method for CheckInVault<'_> {
+impl<'c> Method<'c> for CheckInVault<'c> {
 	type Input = Self;
 	type Output = serde_json::Value;
 
@@ -87,17 +87,17 @@ impl Method for CheckInVault<'_> {
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
 #[serde(rename_all = "camelCase")]
-pub struct ToggleVaultVersion<'a> {
+pub struct ToggleVaultVersion<'c> {
 	#[serde(skip)]
 	#[builder(field)]
-	_client: Option<&'a CivitAI>,
+	_client: Option<&'c CivitAI>,
 
 	pub model_version_id: u32,
 }
 
-impl_builder_send!(toggle_vault_version_builder, ToggleVaultVersionBuilder, ToggleVaultVersion<'a>);
+impl_builder_send!(toggle_vault_version_builder, ToggleVaultVersionBuilder, ToggleVaultVersion<'c>);
 
-impl Method for ToggleVaultVersion<'_> {
+impl<'c> Method<'c> for ToggleVaultVersion<'c> {
 	type Input = Self;
 	type Output = serde_json::Value;
 

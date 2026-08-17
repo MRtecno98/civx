@@ -11,14 +11,14 @@ pub struct CivitAI {
 macro_rules! impl_method {
 	($method:ty, $name:ident, noargs) => {
 		#[inline]
-		pub async fn $name(&self) -> $crate::Result<<$method as Method>::Output> {
+		pub async fn $name(&self) -> $crate::Result<<$method as Method<'_>>::Output> {
 			self.request::<$method>(()).await
 		}
 	};
 
 	($method:ty, $name:ident, args($input:ident)) => {
 		#[inline]
-		pub async fn $name(&self, $input: <$method as Method>::Input) -> $crate::Result<<$method as Method>::Output> {
+		pub async fn $name(&self, $input: <$method as Method<'_>>::Input) -> $crate::Result<<$method as Method<'_>>::Output> {
 			self.request::<$method>($input).await
 		}
 	};
@@ -93,11 +93,21 @@ impl CivitAI {
 		Ok(request)
 	}
 
-	pub async fn request<M: Method>(&self, input: M::Input) -> Result<M::Output> {
-		let url = M::Type::url(&input)?;
+	pub async fn request<'c, M: Method<'c>>(&'c self, input: M::Input) -> Result<M::Output> {
+		let url = M::Type::url(&input)?.as_ref().to_owned();
 
-		Ok(M::Type::apply(&input, self.make_request(M::METHOD, url.as_ref())?)
-			.send().await?.error_for_status()?.json().await?)
+		self.request_url::<M>(url, Some(input)).await
+	}
+
+	pub(crate) async fn request_url<'c, M: Method<'c>>(&'c self, url: impl AsRef<str>, input: Option<M::Input>) -> Result<M::Output> {
+		let request = self.make_request(M::METHOD, url.as_ref())?;
+
+		let mut result = 
+			request.send().await?.error_for_status()?.json().await?;
+
+		<M as Method>::post_request(input, &mut result, self);
+
+		Ok(result)
 	}
 
 	pub async fn get_air(&self, model: &Model) -> Result<AIR> {

@@ -1,14 +1,14 @@
 use bon::Builder;
 use serde::Serialize;
 
-use crate::{CivitAI, Method, Query, enums::{ImageSortKind, MediaType, NsfwLevel, Period}, models::{Image, Paginated}, queries::{Pagination, impl_builder_send, serialize_comma_separated}};
+use crate::{CivitAI, Method, Query, enums::{ImageSortKind, MediaType, NsfwLevel, Period}, models::{Image, Page}, queries::{Pagination, impl_builder_send, impl_pagination, paginated_post_req, serialize_comma_separated}};
 
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
-pub struct ListImages<'a> {
+pub struct ListImages<'c> {
 	#[serde(skip)]
 	#[builder(field)]
-	_client: Option<&'a CivitAI>,
+	_client: Option<&'c CivitAI>,
 
 	#[serde(flatten)]
 	#[builder(with = 
@@ -42,16 +42,19 @@ pub struct ListImages<'a> {
 	pub with_meta: Option<bool>,
 }
 
-impl_builder_send!(list_images_builder, ListImagesBuilder, ListImages<'a>);
+impl_builder_send!(list_images_builder, ListImagesBuilder, ListImages<'c>);
+impl_pagination!(ListImages<'_>);
 
-impl Method for ListImages<'_> {
+impl<'c> Method<'c> for ListImages<'c> {
 	type Input = Self;
-	type Output = Paginated<Image>;
+	type Output = Page<'c, Image, Self>;
 
 	type Type = Query;
 
 	const METHOD: reqwest::Method = reqwest::Method::GET;
 	const ENDPOINT: &'static str = "/api/v1/images";
+	
+	paginated_post_req!();
 }
 
 #[cfg(test)]

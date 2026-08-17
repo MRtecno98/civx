@@ -8,10 +8,10 @@ use crate::{CivitAI, Method, Query, queries::{impl_builder_send, serialize_comma
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
 #[serde(rename_all = "camelCase")]
-pub struct CheckPermissions<'a> {
+pub struct CheckPermissions<'c> {
 	#[serde(skip)]
 	#[builder(field)]
-	_client: Option<&'a CivitAI>,
+	_client: Option<&'c CivitAI>,
 
 	#[serde(serialize_with = "serialize_comma_separated", 
 			skip_serializing_if = "Option::is_none")]
@@ -28,9 +28,9 @@ pub struct CheckPermissions<'a> {
 	pub user_id: Option<u32>,
 }
 
-impl_builder_send!(check_permissions_builder, CheckPermissionsBuilder, CheckPermissions<'a>);
+impl_builder_send!(check_permissions_builder, CheckPermissionsBuilder, CheckPermissions<'c>);
 
-impl Method for CheckPermissions<'_> {
+impl<'c> Method<'c> for CheckPermissions<'c> {
 	type Input = Self;
 	type Output = HashMap<String, bool>;
 

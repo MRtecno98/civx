@@ -1,11 +1,11 @@
 use bon::Builder;
 use serde::Serialize;
 
-use crate::{CivitAI, Method, NoArgs, Query, models::{CurrentUser, Paginated, UserLookup}, queries::{impl_builder_send, serialize_comma_separated}};
+use crate::{CivitAI, Method, NoArgs, Query, models::{CurrentUser, Page, UserLookup}, queries::{Paginate, PaginationView, impl_builder_send, paginated_post_req, serialize_comma_separated}};
 
 pub struct GetMe;
 
-impl Method for GetMe {
+impl<'c> Method<'c> for GetMe {
 	type Input = ();
 	type Output = CurrentUser;
 
@@ -17,10 +17,10 @@ impl Method for GetMe {
 
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
-pub struct LookupUsers<'a> {
+pub struct LookupUsers<'c> {
 	#[serde(skip)]
 	#[builder(field)]
-	_client: Option<&'a CivitAI>,
+	_client: Option<&'c CivitAI>,
 
 	#[serde(serialize_with = "serialize_comma_separated", 
 			skip_serializing_if = "Option::is_none")]
@@ -29,16 +29,24 @@ pub struct LookupUsers<'a> {
 	pub query: Option<String>,
 }
 
-impl_builder_send!(lookup_users_builder, LookupUsersBuilder, LookupUsers<'a>);
+impl_builder_send!(lookup_users_builder, LookupUsersBuilder, LookupUsers<'c>);
 
-impl Method for LookupUsers<'_> {
+impl Paginate for LookupUsers<'_> {
+    fn pagination(&mut self) -> Option<PaginationView<'_>> {
+		None
+	}
+}
+
+impl<'c> Method<'c> for LookupUsers<'c> {
 	type Input = Self;
-	type Output = Paginated<UserLookup>;
+	type Output = Page<'c, UserLookup, Self>;
 
 	type Type = Query;
-
+	
 	const METHOD: reqwest::Method = reqwest::Method::GET;
 	const ENDPOINT: &'static str = "/api/v1/users";
+	
+	paginated_post_req!();
 }
 
 #[cfg(test)]

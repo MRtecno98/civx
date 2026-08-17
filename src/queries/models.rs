@@ -1,13 +1,13 @@
 use bon::Builder;
 use serde::Serialize;
-use crate::{Body, CivitAI, Method, Path, Query, enums::{CheckpointType, ModelType, Period, SortKind}, models::{Model, ModelVersion, ModelVersionHashLookup, ModelVersionMinimal, Paginated}, queries::{Pagination, impl_builder_send}};
+use crate::{Body, CivitAI, Method, Path, Query, enums::{CheckpointType, ModelType, Period, SortKind}, models::{Model, ModelVersion, ModelVersionHashLookup, ModelVersionMinimal, Page}, queries::{Pagination, impl_builder_send, impl_pagination, paginated_post_req}};
 
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
-pub struct ListModels<'a> {
+pub struct ListModels<'c> {
 	#[serde(skip)]
 	#[builder(field)]
-	_client: Option<&'a CivitAI>,
+	_client: Option<&'c CivitAI>,
 
 	#[serde(flatten)]
 	#[builder(with = 
@@ -38,21 +38,24 @@ pub struct ListModels<'a> {
 	pub hidden: Option<bool>,
 }
 
-impl_builder_send!(list_models_builder, ListModelsBuilder, ListModels<'a>);
+impl_builder_send!(list_models_builder, ListModelsBuilder, ListModels<'c>);
+impl_pagination!(ListModels<'_>);
 
-impl Method for ListModels<'_> {
+impl<'c> Method<'c> for ListModels<'c> {
 	type Input = Self;
-	type Output = Paginated<Model>;
+	type Output = Page<'c, Model, Self>;
 
 	type Type = Query;
 
 	const METHOD: reqwest::Method = reqwest::Method::GET;
 	const ENDPOINT: &'static str = "/api/v1/models";
+	
+	paginated_post_req!();
 }
 
 pub struct GetModel;
 
-impl Method for GetModel {
+impl<'c> Method<'c> for GetModel {
 	type Input = i64;
 	type Output = Model;
 
@@ -64,7 +67,7 @@ impl Method for GetModel {
 
 pub struct GetModelVersion;
 
-impl Method for GetModelVersion {
+impl<'c> Method<'c> for GetModelVersion {
 	type Input = i64;
 	type Output = ModelVersion;
 
@@ -76,7 +79,7 @@ impl Method for GetModelVersion {
 
 pub struct GetByHash;
 
-impl Method for GetByHash {
+impl<'c> Method<'c> for GetByHash {
 	type Input = String;
 	type Output = ModelVersion;
 
@@ -88,7 +91,7 @@ impl Method for GetByHash {
 
 pub struct GetByHashBulk;
 
-impl Method for GetByHashBulk {
+impl<'c> Method<'c> for GetByHashBulk {
 	type Input = Vec<String>;
 	type Output = Vec<ModelVersion>;
 
@@ -100,7 +103,7 @@ impl Method for GetByHashBulk {
 
 pub struct GetIdsByHashBulk;
 
-impl Method for GetIdsByHashBulk {
+impl<'c> Method<'c> for GetIdsByHashBulk {
 	type Input = Vec<String>;
 	type Output = Vec<ModelVersionHashLookup>;
 
@@ -112,7 +115,7 @@ impl Method for GetIdsByHashBulk {
 
 pub struct GetModelVersionMinimal;
 
-impl Method for GetModelVersionMinimal {
+impl<'c> Method<'c> for GetModelVersionMinimal {
 	type Input = i64;
 	type Output = ModelVersionMinimal;
 

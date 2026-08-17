@@ -37,10 +37,11 @@ mod error {
 		HashMismatch { expected: String, actual: String },
 		InvalidEndpoint,
 		ClientNotSet,
+		RequestNotSet,
 	}
 
 	impl Display for Error {
-		fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {			
 			match self {
 				Error::Request(e) => write!(f, "Request error: {}", e),
 				Error::MissingEnum(e) => write!(f, "Missing enum: {}", e),
@@ -52,6 +53,7 @@ mod error {
 				Error::HashMismatch { expected, actual } => write!(f, "Hash mismatch: expected {}, got {}", expected, actual),
 				Error::InvalidEndpoint => write!(f, "Invalid endpoint"),
 				Error::ClientNotSet => write!(f, "Client not set"),
+				Error::RequestNotSet => write!(f, "Request not set"),
 			}
 		}
 	}

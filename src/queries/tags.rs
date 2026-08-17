@@ -1,21 +1,21 @@
 use bon::Builder;
 use serde::Serialize;
 
-use crate::{CivitAI, Method, Query, models::{Paginated, Tag}, queries::impl_builder_send};
+use crate::{CivitAI, Method, Query, models::{Page, Tag}, queries::{Paginate, PaginationView, impl_builder_send, paginated_post_req}};
 
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
-pub struct ListTags<'a> {
+pub struct ListTags<'c> {
 	#[serde(skip)]
 	#[builder(field)]
-	_client: Option<&'a CivitAI>,
+	_client: Option<&'c CivitAI>,
 	
 	pub limit: Option<u32>,
 	pub page: Option<u32>,
 	pub query: Option<String>,
 }
 
-impl_builder_send!(list_tags_builder, ListTagsBuilder, ListTags<'a>);
+impl_builder_send!(list_tags_builder, ListTagsBuilder, ListTags<'c>);
 
 impl Default for ListTags<'_> {
 	fn default() -> Self {
@@ -27,13 +27,27 @@ impl Default for ListTags<'_> {
 		}
 	}
 }
+
+impl<'c> Paginate for ListTags<'c> {
+	fn pagination(&mut self) -> Option<PaginationView<'_>> {
+		Some(PaginationView {
+			limit: Some(&mut self.limit),
+			page: Some(&mut self.page),
+			cursor: None,
+		})
+	}
+}
+
+impl<'c> Method<'c> for ListTags<'c> {
 	type Input = Self;
-	type Output = Paginated<Tag>;
+	type Output = Page<'c, Tag, Self>;
 
 	type Type = Query;
 
 	const METHOD: reqwest::Method = reqwest::Method::GET;
 	const ENDPOINT: &'static str = "/api/v1/tags";
+	
+	paginated_post_req!();
 }
 
 #[cfg(test)]

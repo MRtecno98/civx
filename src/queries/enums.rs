@@ -2,7 +2,7 @@ use crate::{Method, NoArgs, models::Enums};
 
 pub struct GetEnums;
 
-impl Method for GetEnums {
+impl<'c> Method<'c> for GetEnums {
 	type Input = ();
 	type Output = Enums;
 

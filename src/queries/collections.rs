@@ -1,14 +1,14 @@
 use bon::Builder;
 use serde::Serialize;
 
-use crate::{CivitAI, Method, Path, Query, enums::CollectionSortKind, models::{Collection, Paginated}, queries::{Pagination, impl_builder_send}};
+use crate::{CivitAI, Method, Path, Query, enums::CollectionSortKind, models::{Collection, Page}, queries::{Pagination, impl_builder_send, impl_pagination, paginated_post_req}};
 
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
-pub struct ListCollections<'a> {
+pub struct ListCollections<'c> {
 	#[serde(skip)]
 	#[builder(field)]
-	_client: Option<&'a CivitAI>,
+	_client: Option<&'c CivitAI>,
 
 	#[serde(flatten)]
 	#[builder(with = 
@@ -21,21 +21,24 @@ pub struct ListCollections<'a> {
 	pub nsfw: Option<bool>,
 }
 
-impl_builder_send!(list_collections_builder, ListCollectionsBuilder, ListCollections<'a>);
+impl_builder_send!(list_collections_builder, ListCollectionsBuilder, ListCollections<'c>);
+impl_pagination!(ListCollections<'_>);
 
-impl Method for ListCollections<'_> {
+impl<'c> Method<'c> for ListCollections<'c> {
 	type Input = Self;
-	type Output = Paginated<Collection>;
+	type Output = Page<'c, Collection, Self>;
 
 	type Type = Query;
 
 	const METHOD: reqwest::Method = reqwest::Method::GET;
 	const ENDPOINT: &'static str = "/api/v1/collections";
+
+	paginated_post_req!();
 }
 
 pub struct GetCollection;
 
-impl Method for GetCollection {
+impl<'c> Method<'c> for GetCollection {
 	type Input = u32;
 	type Output = Collection;
 
