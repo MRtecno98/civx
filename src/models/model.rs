@@ -87,7 +87,7 @@ pub struct ModelVersionEntry {
 	pub name: String,
 	pub base_model: BaseModel,
 	pub base_model_type: BaseModelType,
-	pub published_at: DateTime<Utc>,
+	pub published_at: Option<DateTime<Utc>>,
 	pub stats: ModelStats,
 
 	pub download_url: Url,
