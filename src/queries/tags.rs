@@ -17,7 +17,16 @@ pub struct ListTags<'a> {
 
 impl_builder_send!(list_tags_builder, ListTagsBuilder, ListTags<'a>);
 
-impl Method for ListTags<'_> {
+impl Default for ListTags<'_> {
+	fn default() -> Self {
+		Self {
+			_client: None,
+			limit: Some(200),
+			page: None,
+			query: None,
+		}
+	}
+}
 	type Input = Self;
 	type Output = Paginated<Tag>;
 
