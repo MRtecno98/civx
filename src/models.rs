@@ -66,11 +66,31 @@ impl<'a, T> IntoIterator for &'a mut Paginated<T> {
 }
 
 #[derive(Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
+#[serde(rename_all = "camelCase")]
 pub struct Metadata {
+	#[serde(default, deserialize_with = "opt_str_or_num_to_str")]
 	pub next_cursor: Option<String>,
 	pub next_page: Option<Url>,
 	pub current_page: Option<u32>,
 	pub page_size: Option<u32>,
 	pub total_items: Option<u64>,
 	pub total_pages: Option<u32>,
+}
+fn opt_str_or_num_to_str<'de, D>(deserializer: D) -> std::result::Result<Option<String>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    #[derive(Deserialize)]
+    #[serde(untagged)]
+    enum StringOrNum {
+        Str(String),
+        Num(i64),
+    }
+
+    let opt = Option::<StringOrNum>::deserialize(deserializer)?;
+    
+    Ok(opt.map(|val| match val {
+        StringOrNum::Str(s) => s,
+        StringOrNum::Num(n) => n.to_string(),
+    }))
 }
