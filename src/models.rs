@@ -165,7 +165,7 @@ impl Metadata {
 	pub fn next(&self) -> Option<NextPage<'_>> {
 		let next_cursor = self.next_cursor.as_ref().map(|page| NextPage::Cursor(page));
 		let next_page_url = self.next_page.as_ref().map(NextPage::Url);
-		let next_page = self.current_page.clone().map(|p| p + 1).map(NextPage::Page);
+		let next_page = self.current_page.map(|p| p + 1).map(NextPage::Page);
 
 		next_cursor.or(next_page_url).or(next_page)
 	}
