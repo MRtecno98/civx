@@ -32,7 +32,7 @@ pub struct Model {
 	pub mode: ModerationStatus,
 
 	pub stats: ModelStats,
-	pub creator: ModelCreator,
+	pub creator: Option<ModelCreator>,
 	pub tags: Vec<String>,
 
 	pub model_versions: Vec<ModelVersionEntry>,
