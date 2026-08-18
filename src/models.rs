@@ -1,4 +1,4 @@
-use std::ops::Deref;
+use std::{hint::unreachable_unchecked, ops::Deref};
 
 use async_stream::try_stream;
 use futures::TryStream;
@@ -73,7 +73,7 @@ impl<'c, T, M: Method<'c, Output = Self>> Page<'c, T, M> where M::Input: Paginat
 					NextPage::Page(page) => 
 						pagination.replace_page(Some(page)),
 
-					NextPage::Url(_) => unreachable!() 
+					NextPage::Url(_) => unsafe { unreachable_unchecked() }
 				};
 				
 				client.request::<'c, M>(request).await?
