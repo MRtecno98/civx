@@ -1,0 +1,9 @@
+{
+	"items": ["test-data"],
+	"metadata": {
+		"totalItems": 6666,
+		"currentPage": 1,
+		"pageSize": 37,
+		"totalPages": 93
+	}
+}

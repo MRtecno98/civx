@@ -1,0 +1,6 @@
+{
+	"items" : ["test-data"],
+	"metadata" : {
+		"nextCursor" : 123456
+	}
+}

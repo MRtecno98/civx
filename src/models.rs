@@ -25,7 +25,7 @@ pub use tags::*;
 pub use user::*;
 pub use enums::*;
 
-use crate::{Method, Result, error::Error, queries::{Paginate, PaginationView}};
+use crate::{Method, Result, error::Error, queries::Paginate};
 
 #[derive(Deserialize, Debug, Clone)]
 pub struct Page<'c, T, M: Method<'c, Output = Self>> where M::Input: Paginate {
@@ -133,12 +133,6 @@ impl<'a, 'c, T, M: Method<'c, Output = Page<'c, T, M>>> IntoIterator for &'a mut
 	}
 }
 
-impl Paginate for () {
-	fn pagination(&mut self) -> Option<PaginationView<'_>> {
-		None
-	}
-}
-
 #[derive(Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 #[serde(rename_all = "camelCase")]
 pub struct Metadata {
@@ -151,6 +145,7 @@ pub struct Metadata {
 	pub total_pages: Option<u32>,
 }
 
+#[derive(Debug, PartialEq, Eq)]
 pub enum NextPage<'a> {
 	Cursor(&'a str),
 	Url(&'a Url),
@@ -188,4 +183,133 @@ where
         StringOrNum::Str(s) => s,
         StringOrNum::Num(n) => n.to_string(),
     }))
+}
+
+#[cfg(test)]
+#[allow(unused)]
+mod tests {
+	use bon::Builder;
+	use serde::Serialize;
+
+	use super::*;
+	use crate::{NoArgs, Query, queries::{Pagination, impl_pagination, paginated_post_req}, tests::*};
+
+	#[derive(Serialize, Debug, Default)]
+	pub struct DummyMethod {
+		#[serde(flatten)]
+		pagination: Option<Pagination>,
+	}
+
+	impl<'c> Method<'c> for DummyMethod {
+		type Input = Self;
+		type Output = Page<'c, String, Self>;
+
+		type Type = Query;
+
+		const ENDPOINT: &'static str = "/test-path";
+		const METHOD: reqwest::Method = reqwest::Method::GET;
+
+		paginated_post_req!(_, output, _, {
+			assert_eq!(output.items, vec!["test-data"]);
+		});
+	}
+
+	impl_pagination!(DummyMethod);
+
+	macro_rules! with_dummy_mock {
+		() => {{
+			Mock::given(method("GET"))
+				.and(path(DummyMethod::ENDPOINT))
+		}};
+	}
+
+	macro_rules! initiate_request {
+		(@$fixture:ident, $client:ident, $server:ident) => {
+			initiate_request!(fixture_response!($fixture), $client, $server)
+		};
+
+		($response:expr, $client:ident, $server:ident) => {{
+			let _guard = with_dummy_mock!()
+				.and(query_param_is_missing("cursor"))
+				.and(query_param_is_missing("page"))
+				.respond_with($response)
+				.mount_as_scoped(&$server).await;
+
+			$client.request::<DummyMethod>(DummyMethod::default()).await?
+		}};
+	}
+
+	#[tokio::test]
+	async fn pagination_cursor() -> Result<()> {
+		let server = mock_client!();
+		let client = CivitAI::new()?;
+
+		let page = initiate_request!(@pagination_cursor, client, server);
+
+		{
+			let _guard = with_dummy_mock!()
+				.and(query_param("cursor", "123|456|789"))
+				.respond_with(fixture_response!(pagination_cursor))
+				.mount_as_scoped(&server).await;
+
+			page.next().await?.unwrap();
+		}
+		
+		Ok(())
+	}
+
+	#[tokio::test]
+	async fn pagination_cursor_num() -> Result<()> {
+		let server = mock_client!();
+		let client = CivitAI::new()?;
+
+		let page = initiate_request!(@pagination_cursor_num, client, server);
+
+		{
+			let _guard = with_dummy_mock!()
+				.and(query_param("cursor", "123456"))
+				.respond_with(fixture_response!(pagination_cursor_num))
+				.mount_as_scoped(&server).await;
+
+			page.next().await?.unwrap();
+		}
+		
+		Ok(())
+	}
+
+	#[tokio::test]
+	async fn pagination_url() -> Result<()> {
+		let server = mock_client!();
+		let client = CivitAI::new()?;
+
+		let response = ResponseTemplate::new(200)
+			.set_body_raw(
+				fixture!(pagination_url).replace("%BASE%", &format!("{}{}", &server.uri(), DummyMethod::ENDPOINT)), 
+				"application/json");
+
+		let page = initiate_request!(response.clone(), client, server);
+
+		{
+			let _guard = with_dummy_mock!()
+				.and(query_param("page", "2"))
+				.respond_with(response)
+				.mount_as_scoped(&server).await;
+
+			page.next().await?.unwrap();
+		}
+
+		Ok(())
+	}
+
+	#[tokio::test]
+	async fn pagination_multiple() -> Result<()> {
+		let server = mock_client!();
+		let client = CivitAI::new()?;
+
+		let page = initiate_request!(@pagination_multiple, client, server);
+
+		assert_eq!(page.metadata.unwrap().next().unwrap(), NextPage::Cursor("123|456|789"));
+		
+		Ok(())
+	}
 }

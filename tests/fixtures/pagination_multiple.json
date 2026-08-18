@@ -1,0 +1,11 @@
+{
+	"items": ["test-data"],
+	"metadata": {
+		"nextCursor" : "123|456|789",
+		"nextPage" : "https://dummy.url/test-path?page=2",
+		"totalItems": 6666,
+		"currentPage": 1,
+		"pageSize": 37,
+		"totalPages": 93
+	}
+}

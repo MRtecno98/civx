@@ -1,0 +1,6 @@
+{
+	"items" : ["test-data"],
+	"metadata" : {
+		"nextPage" : "%BASE%?page=2"
+	}
+}
