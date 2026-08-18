@@ -99,14 +99,10 @@ macro_rules! mock_client {
 			}
 		}
 
-		mock.respond_with(
-			ResponseTemplate::new(200)
-				.set_body_raw(fixture!($fixture), "application/json"))
+		mock.respond_with(fixture_response!($fixture))
 			.mount(&server).await;
 
 		$block
-
-		crate::tests::reset_api_base();
 
 		Ok(())
 	}};
@@ -115,6 +111,7 @@ macro_rules! mock_client {
 #[cfg(feature = "network-tests")]
 pub(crate) use auth_token;
 pub(crate) use fixture;
+pub(crate) use fixture_response;
 pub(crate) use mock_client;
 
 #[tokio::test]
