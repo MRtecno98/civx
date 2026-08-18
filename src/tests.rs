@@ -1,4 +1,4 @@
-use std::cell::RefCell;
+use std::{cell::RefCell, ops::{Deref, DerefMut}};
 
 pub use std::error::Error;
 pub use crate::CivitAI;
@@ -8,12 +8,42 @@ thread_local! {
 	pub(crate) static TEST_API_BASE: RefCell<String> = RefCell::new(crate::API_BASE.to_string());
 }
 
-pub(crate) fn set_api_base(base: impl AsRef<str>) {
-	TEST_API_BASE.replace(base.as_ref().to_string());
+pub(crate) fn set_api_base(base: impl AsRef<str>)  -> String {
+	TEST_API_BASE.replace(base.as_ref().to_string())
 }
 
-pub(crate) fn reset_api_base() {
-	TEST_API_BASE.replace(crate::API_BASE.to_string());
+pub(crate) fn reset_api_base() -> String {
+	TEST_API_BASE.replace(crate::API_BASE.to_string())
+}
+
+pub(crate) struct ApiBaseGuard<T> {
+	inner: T,
+}
+
+impl<T> ApiBaseGuard<T> {
+	pub(crate) fn new(inner: T) -> Self {
+		Self { inner }
+	}
+}
+
+impl<T> Drop for ApiBaseGuard<T> {
+	fn drop(&mut self) {
+		crate::tests::reset_api_base();
+	}
+}
+
+impl<T> Deref for ApiBaseGuard<T> {
+	type Target = T;
+
+	fn deref(&self) -> &Self::Target {
+		&self.inner
+	}
+}
+
+impl<T> DerefMut for ApiBaseGuard<T> {
+	fn deref_mut(&mut self) -> &mut Self::Target {
+		&mut self.inner
+	}
 }
 
 #[cfg(feature = "network-tests")]
@@ -30,10 +60,29 @@ macro_rules! fixture {
 	};
 }
 
+macro_rules! fixture_response {
+	($name:ident, $code:expr) => {
+		ResponseTemplate::new($code)
+			.set_body_raw(fixture!($name), "application/json")
+	};
+
+	($name:ident) => {
+		fixture_response!($name, 200)
+	};
+}
+
 macro_rules! mock_client {
+	() => {{
+		let server = wiremock::MockServer::start().await;
+		$crate::tests::set_api_base(&server.uri());
+
+		$crate::tests::ApiBaseGuard::new(server)
+	}};
+
 	($http:expr, $path:expr, $fixture:ident, $block:block) => {{
-		let server = MockServer::start().await;
-		crate::tests::set_api_base(server.uri());
+		use $crate::tests::*;
+
+		let server = mock_client!();
 
 		const TOKEN: &str = "test-token";
 
