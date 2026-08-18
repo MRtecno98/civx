@@ -28,7 +28,7 @@ mod error {
 	#[derive(Debug)]
 	pub enum Error {
 		Request(reqwest::Error),
-		MissingEnum(&'static str),
+		MissingEnum(&'static str, String),
 		QueryFormat(serde_url_params::Error),
 		UrlParse(url::ParseError),
 		Io(std::io::Error),
@@ -40,11 +40,17 @@ mod error {
 		RequestNotSet,
 	}
 
+	impl Error {
+		pub fn missing_enum<T: 'static>(value: impl AsRef<str>) -> Self {
+			Self::MissingEnum(std::any::type_name::<T>(), value.as_ref().to_string())
+		}
+	}
+
 	impl Display for Error {
 		fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {			
 			match self {
 				Error::Request(e) => write!(f, "Request error: {}", e),
-				Error::MissingEnum(e) => write!(f, "Missing enum: {}", e),
+				Error::MissingEnum(name, value) => write!(f, "Missing enum {}: '{}'", name, value),
 				Error::QueryFormat(e) => write!(f, "Query format error: {}", e),
 				Error::UrlParse(e) => write!(f, "URL parse error: {}", e),
 				Error::Io(e) => write!(f, "IO error: {}", e),

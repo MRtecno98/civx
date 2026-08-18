@@ -161,7 +161,7 @@ impl TryFrom<&str> for SortKind {
 			"Highest Rated" => Ok(SortKind::HighestRated),
 			"Most Downloaded" => Ok(SortKind::MostDownloaded),
 			"Newest" => Ok(SortKind::Newest),
-			_ => Err(Error::MissingEnum("Invalid sort kind")),
+			_ => Err(Error::missing_enum::<SortKind>(value)),
 		}
 	}
 
@@ -192,7 +192,7 @@ impl TryFrom<&str> for ArticleSortKind {
 			"Most Collected" => Ok(ArticleSortKind::MostCollected),
 			"Newest" => Ok(ArticleSortKind::Newest),
 			"Recently Updated" => Ok(ArticleSortKind::RecentlyUpdated),
-			_ => Err(Error::MissingEnum("Invalid article sort kind")),
+			_ => Err(Error::missing_enum::<ArticleSortKind>(value)),
 		}
 	}
 }
@@ -213,7 +213,7 @@ impl TryFrom<&str> for CollectionSortKind {
 		match value {
 			"Newest" => Ok(CollectionSortKind::Newest),
 			"Most Followers" => Ok(CollectionSortKind::MostFollowers),
-			_ => Err(Error::MissingEnum("Invalid collection sort kind")),
+			_ => Err(Error::missing_enum::<CollectionSortKind>(value)),
 		}
 	}
 }
@@ -242,7 +242,7 @@ impl TryFrom<&str> for ImageSortKind {
 			"Newest" => Ok(ImageSortKind::Newest),
 			"Oldest" => Ok(ImageSortKind::Oldest),
 			"Random" => Ok(ImageSortKind::Random),
-			_ => Err(Error::MissingEnum("Invalid image sort kind")),
+			_ => Err(Error::missing_enum::<ImageSortKind>(value)),
 		}
 	}
 }
@@ -267,7 +267,7 @@ impl TryFrom<&str> for ResourceType {
 			"image" => Ok(ResourceType::Image),
 			"article" => Ok(ResourceType::Article),
 			"post" => Ok(ResourceType::Post),
-			_ => Err(Error::MissingEnum("Invalid resource type")),
+			_ => Err(Error::missing_enum::<ResourceType>(value)),
 		}
 	}
 }
