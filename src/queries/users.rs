@@ -65,7 +65,7 @@ mod tests {
 
 	#[tokio::test]
 	#[cfg(feature = "network-tests")]
-	#[ignore = "requires a token file in the project root"]
+	#[ignore = "requires a token file"]
 	async fn online_get_me() -> Result<(), Box<dyn Error>> {
 		CivitAI::new_auth(auth_token!())?.get_me().await?;
 

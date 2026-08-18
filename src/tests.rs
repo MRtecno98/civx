@@ -113,39 +113,3 @@ pub(crate) use auth_token;
 pub(crate) use fixture;
 pub(crate) use fixture_response;
 pub(crate) use mock_client;
-
-#[tokio::test]
-#[cfg(feature = "network-tests")]
-#[ignore = "requires a token file in the project root"]
-async fn it_works() -> Result<(), Box<dyn Error>> {
-	use crate::air::AirIdent;
-
-	let civitai = CivitAI::new_auth(auth_token!())?;
-
-	let result = civitai.lookup_users()
-		.ids(vec![123,456,789])
-		.send().await?;
-
-	for user in result.iter() {
-		println!("User: {} ({})", user.username, user.id);
-	}
-
-	let model = civitai.get_model(2731187).await?;
-
-	println!("Model: {} ({})", model.name, model.air());
-	for ver in model.model_versions {
-		println!("\tVersion: {}", ver.name);
-		for file in ver.files {
-			print!("\t\tFile: {} ({})", file.name, file.file_type);
-			if file.primary {
-				print!(" [PRIMARY]");
-			}
-			println!()
-		}
-	}
-
-	let me = civitai.get_me().await?;
-	println!("Me: {} ({})", me.username, me.id);
-
-	Ok(())
-}
