@@ -39,7 +39,7 @@ macro_rules! impl_builder_send {
 	};
 }
 
-macro_rules !impl_pagination {
+macro_rules! impl_pagination {
 	(field) => {
 		#[serde(flatten)]
 		#[builder(with = |limit: Option<u32>, page: Option<u32>, cursor: Option<String>| 
@@ -57,12 +57,24 @@ macro_rules !impl_pagination {
 }
 
 macro_rules! paginated_post_req {
-	() => {
+	($request:pat, $output:pat, $client:pat, $after:block) => {
 		fn post_request(request: Option<Self::Input>, output: &mut Self::Output, client: &'c crate::CivitAI) {
 			output.request = request;
 			output.client = Some(client);
+
+			{
+				let $client = client;
+				let $request = request;
+				let $output = output;
+
+				$after;
+			}
 		}
 	};
+
+	() => {
+		paginated_post_req!(_, _, _, {});
+	}
 }
 
 pub(crate) use impl_builder_send;
@@ -77,7 +89,7 @@ fn serialize_comma_separated<S: Serializer, I: ToString>(vec: &Option<Vec<I>>, s
 	}
 }
 
-#[derive(Serialize, Builder, Default)]
+#[derive(Serialize, Debug, Builder, Default)]
 pub struct Pagination {
 	pub limit: Option<u32>,
 	pub page: Option<u32>,
