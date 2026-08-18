@@ -293,6 +293,15 @@ impl Default for NsfwLevel {
 	}
 }
 
+impl BaseModel {
+	pub fn is_active(&self) -> bool {
+		match ActiveBaseModel::from(self.to_string()) {
+			ActiveBaseModel::Unknown(_) => false,
+			_ => true,
+		}
+	}
+}
+
 pub fn nsfw_from_str<'de, D>(deserializer: D) -> std::result::Result<NsfwLevel, D::Error>
 where D: Deserializer<'de>, {
 	let s = String::deserialize(deserializer)?;
