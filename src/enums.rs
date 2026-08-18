@@ -122,6 +122,7 @@ pub enum UploadType {
 pub enum ResourceType {
 	Model,
 	Image,
+	Video,
 	Article,
 	Post,
 }
@@ -254,6 +255,7 @@ impl From<ResourceType> for &str {
 			ResourceType::Image => "image",
 			ResourceType::Article => "article",
 			ResourceType::Post => "post",
+			ResourceType::Video => "video",
 		}
 	}
 }
@@ -267,6 +269,7 @@ impl TryFrom<&str> for ResourceType {
 			"image" => Ok(ResourceType::Image),
 			"article" => Ok(ResourceType::Article),
 			"post" => Ok(ResourceType::Post),
+			"video" => Ok(ResourceType::Video),
 			_ => Err(Error::missing_enum::<ResourceType>(value)),
 		}
 	}
