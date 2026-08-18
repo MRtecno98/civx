@@ -40,14 +40,8 @@ pub struct Page<'c, T, M: Method<'c, Output = Self>> where M::Input: Paginate {
 }
 
 impl<'c, T, M: Method<'c, Output = Self>> Page<'c, T, M> where M::Input: Paginate {
-	pub async fn next(self) -> Result<Option<Self>> {
-		let Some(metadata) = self.metadata else {
-			return Ok(None);
-		};
-
-		let Some(next) = metadata.next() else {
-			return Ok(None);
-		};
+	pub async fn seek_page(self, page: impl Into<NextPage<'_>>) -> Result<Option<Self>> {
+		let next = page.into();
 
 		let Some(client) = self.client else {
 			return Err(Error::ClientNotSet);
@@ -83,6 +77,18 @@ impl<'c, T, M: Method<'c, Output = Self>> Page<'c, T, M> where M::Input: Paginat
 		Ok(Some(result))
 	}
 
+	pub async fn next(self) -> Result<Option<Self>> {
+		let Some(metadata) = self.metadata.clone() else {
+			return Ok(None);
+		};
+
+		let Some(next) = metadata.next() else {
+			return Ok(None);
+		};
+
+		self.seek_page(next).await
+	}
+
 	pub fn stream(self) -> impl TryStream<Ok = T, Error = Error, Item = Result<T>> {
 		try_stream! {
 			let mut current_page = Some(self);
@@ -94,6 +100,27 @@ impl<'c, T, M: Method<'c, Output = Self>> Page<'c, T, M> where M::Input: Paginat
 
 				current_page = page.next().await?;
 			}
+		}
+	}
+
+	pub fn page_count(&self) -> Option<u32> {
+		self.metadata.as_ref().and_then(|m| m.total_pages)
+			.filter(|n| !((*n == 0) ^ self.items.is_empty()))
+	}
+
+	pub fn total_items(&self) -> Option<u64> {
+		self.metadata.as_ref().and_then(|m| m.total_items)
+			.filter(|n| !((*n == 0) ^ self.items.is_empty()))
+	}
+
+	pub fn current_page(&self) -> Option<u32> {
+		self.metadata.as_ref().and_then(|m| m.current_page)
+	}
+
+	pub fn index(&self) -> Option<(u32, u32)> {
+		match (self.current_page(), self.page_count()) {
+			(Some(current), Some(total)) => Some((current, total)),
+			_ => None,
 		}
 	}
 }
@@ -150,6 +177,12 @@ pub enum NextPage<'a> {
 	Cursor(&'a str),
 	Url(&'a Url),
 	Page(u32)
+}
+
+impl<'a> From<u32> for NextPage<'a> {
+	fn from(page: u32) -> Self {
+		Self::Page(page)
+	}
 }
 
 impl Metadata {
