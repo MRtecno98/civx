@@ -1,6 +1,6 @@
 use url::Url;
 
-use crate::{AIR, Method, MethodType, Result, error::Error, models::Model, queries::*};
+use crate::{AIR, Method, MethodType, Result, error::{ApiError, Error}, models::Model, queries::*};
 
 #[derive(Debug)]
 pub struct CivitAI {
@@ -102,7 +102,7 @@ impl CivitAI {
 		};
 
 		let mut result = 
-			request.send().await?.error_for_status()?.json().await?;
+			ApiError::check(request.send().await?).await?.json().await?;
 
 		<M as Method>::post_request(input, &mut result, self);
 

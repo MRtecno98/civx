@@ -21,17 +21,21 @@ pub const API_BASE: &str = "https://civitai.com/";
 mod tests;
 
 mod error {
-    use std::fmt::Display;
+    use std::{fmt::Display, io};
+
+	use reqwest::Response;
+	use serde::Deserialize;
 
 	pub type Result<T> = std::result::Result<T, Error>;
 
 	#[derive(Debug)]
 	pub enum Error {
+		Api(ApiError),
 		Request(reqwest::Error),
 		MissingEnum(&'static str, String),
 		QueryFormat(serde_url_params::Error),
 		UrlParse(url::ParseError),
-		Io(std::io::Error),
+		Io(io::Error),
 		NoVersionsPublished,
 		MissingHash,
 		HashMismatch { expected: String, actual: String },
@@ -47,8 +51,9 @@ mod error {
 	}
 
 	impl Display for Error {
-		fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {			
+		fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 			match self {
+				Error::Api(err) => write!(f, "{}", err),
 				Error::Request(e) => write!(f, "Request error: {}", e),
 				Error::MissingEnum(name, value) => write!(f, "Missing enum {}: '{}'", name, value),
 				Error::QueryFormat(e) => write!(f, "Query format error: {}", e),
@@ -64,6 +69,49 @@ mod error {
 		}
 	}
 
+	#[derive(Deserialize, Debug)]
+	pub struct ApiError {
+		#[serde(alias = "error")]
+		pub message: String,
+
+		pub code: Option<String>,
+		pub issues: Option<Vec<String>>,
+	}
+
+	impl ApiError {
+		pub async fn check(response: Response) -> Result<Response> {
+			if response.status().is_success() {
+				Ok(response)
+			} else {
+				Err(response.json::<ApiError>().await?.into())
+			}
+		}
+	}
+
+	impl Display for ApiError {
+		fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+			if let Some(code) = &self.code {
+				write!(f, "api error ({}): {}", code.to_uppercase(), self.message.to_lowercase())?;
+			} else {
+				write!(f, "api error: {}", self.message.to_lowercase())?;
+			}
+
+			if let Some(issues) = &self.issues {
+				for issue in issues {
+					write!(f, "\n\t- {}", issue)?;
+				}
+			}
+
+			Ok(())
+		}
+	}
+
+	impl From<ApiError> for Error {
+		fn from(err: ApiError) -> Self {
+			Error::Api(err)
+		}
+	}
+	
 	impl From<reqwest::Error> for Error {
 		fn from(err: reqwest::Error) -> Self {
 			Error::Request(err)
