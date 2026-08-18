@@ -141,7 +141,10 @@ fn generate_enum(name: &str, variants: &[&str]) -> TokenStream {
 			fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 				match self {
 					#(#name_ident::#variants_ident_deduped => write!(f, #variants),)*
-					#name_ident::Unknown(s) => write!(f, "{}", s)
+					#name_ident::Unknown(s) => { 
+						std::hint::cold_path();
+						write!(f, "{}", s) 
+					}
 				}
 			}
 		}
