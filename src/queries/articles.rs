@@ -86,18 +86,22 @@ mod tests {
 
 	#[tokio::test]
 	async fn mock_list_articles() -> Result<(), Box<dyn Error>> {
-		mock_client!("GET", "/api/v1/articles", list_articles, {
-			CivitAI::new_auth(TOKEN)?.list_articles()
-				.nsfw(true)
-				.sort(ArticleSortKind::MostBookmarks)
-				.send().await?;
-		})
+		mock_client!("GET", "/api/v1/articles", list_articles);
+
+		CivitAI::new_auth(TOKEN)?.list_articles()
+			.nsfw(true)
+			.sort(ArticleSortKind::MostBookmarks)
+			.send().await?;
+
+		Ok(())
 	}
 
 	#[tokio::test]
 	async fn mock_get_article() -> Result<(), Box<dyn Error>> {
-		mock_client!("GET", "/api/v1/articles/12345", get_article, {
-			CivitAI::new_auth(TOKEN)?.get_article(12345).await?;
-		})
+		mock_client!("GET", "/api/v1/articles/12345", get_article);
+
+		CivitAI::new_auth(TOKEN)?.get_article(12345).await?;
+
+		Ok(())
 	}
 }

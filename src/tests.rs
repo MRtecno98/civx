@@ -79,33 +79,35 @@ macro_rules! mock_client {
 		$crate::tests::ApiBaseGuard::new(server)
 	}};
 
-	($http:expr, $path:expr, $fixture:ident, $block:block) => {{
+	($http:expr, $path:expr, $fixture:ident) => {
 		use $crate::tests::*;
-
 		const TOKEN: &str = "test-token";
 
 		let server = mock_client!();
 
-		let path_str = $path;
-		let (path_str, query) = path_str.split_once('?').unwrap_or((path_str, ""));
+		{
+			let path_str = $path;
+			let (path_str, query) = path_str.split_once('?').unwrap_or((path_str, ""));
 
-		let mut mock = Mock::given(method($http))
-			.and(path(path_str))
-			.and(header("Authorization", format!("Bearer {}", TOKEN)));
+			let mut mock = Mock::given(method($http))
+				.and(path(path_str))
+				.and(header("Authorization", format!("Bearer {}", TOKEN)));
 
-		if !query.is_empty() {
-			for (key, value) in query.split('&').filter_map(|kv| kv.split_once('=')) {
-				mock = mock.and(query_param(key, value));
+			if !query.is_empty() {
+				for (key, value) in query.split('&').filter_map(|kv| kv.split_once('=')) {
+					mock = mock.and(query_param(key, value));
+				}
 			}
+
+			mock.respond_with(fixture_response!($fixture))
+				.mount(&server).await;
 		}
+	};
 
-		mock.respond_with(fixture_response!($fixture))
-			.mount(&server).await;
-
-		$block
-
-		Ok(())
-	}};
+	($http:expr, $path:expr, $fixture:ident, $client:ident) => {
+		mock_client!($http, $path, $fixture);
+		let $client = CivitAI::new_auth(TOKEN)?;
+	};
 }
 
 #[cfg(feature = "network-tests")]

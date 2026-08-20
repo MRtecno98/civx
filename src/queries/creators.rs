@@ -56,11 +56,13 @@ mod tests {
 
 	#[tokio::test]
 	async fn mock_list_creators() -> Result<(), Box<dyn Error>> {
-		mock_client!("GET", "/api/v1/creators?limit=10&query=test", list_creators, {
-			CivitAI::new_auth(TOKEN)?.list_creators()
-				.limit(10)
-				.query("test")
-				.send().await?;
-		})
+		mock_client!("GET", "/api/v1/creators?limit=10&query=test", list_creators);
+
+		CivitAI::new_auth(TOKEN)?.list_creators()
+			.limit(10)
+			.query("test")
+			.send().await?;
+
+		Ok(())
 	}
 }

@@ -26,8 +26,10 @@ mod tests {
 
 	#[tokio::test]
 	async fn mock_get_enums() -> Result<(), Box<dyn Error>> {
-		mock_client!("GET", "/api/v1/enums", get_enums, {
-			CivitAI::new_auth(TOKEN)?.get_enums().await?;
-		})
+		mock_client!("GET", "/api/v1/enums", get_enums);
+
+		CivitAI::new_auth(TOKEN)?.get_enums().await?;
+
+		Ok(())
 	}
 }

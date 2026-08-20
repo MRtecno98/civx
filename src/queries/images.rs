@@ -75,11 +75,13 @@ mod tests {
 
 	#[tokio::test]
 	async fn mock_list_images() -> Result<(), Box<dyn Error>> {
-		mock_client!("GET", "/api/v1/images?limit=10&sort=Most Reactions", list_images, {
-			CivitAI::new_auth(TOKEN)?.list_images()
-				.pagination(Some(10), None, None)
-				.sort(ImageSortKind::MostReactions)
-				.send().await?;
-		})
+		mock_client!("GET", "/api/v1/images?limit=10&sort=Most Reactions", list_images);
+
+		CivitAI::new_auth(TOKEN)?.list_images()
+			.pagination(Some(10), None, None)
+			.sort(ImageSortKind::MostReactions)
+			.send().await?;
+
+		Ok(())
 	}
 }

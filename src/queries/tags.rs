@@ -66,10 +66,12 @@ mod tests {
 
 	#[tokio::test]
 	async fn mock_list_tags() -> Result<(), Box<dyn Error>> {
-		mock_client!("GET", "/api/v1/tags?limit=10", list_tags, {
-			CivitAI::new_auth(TOKEN)?.list_tags()
-				.limit(10)
-				.send().await?;
-		})
+		mock_client!("GET", "/api/v1/tags?limit=10", list_tags);
+
+		CivitAI::new_auth(TOKEN)?.list_tags()
+			.limit(10)
+			.send().await?;
+
+		Ok(())
 	}
 }

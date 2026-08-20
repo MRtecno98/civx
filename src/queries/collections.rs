@@ -74,18 +74,22 @@ mod tests {
 
 	#[tokio::test]
 	async fn mock_list_collections() -> Result<(), Box<dyn Error>> {
-		mock_client!("GET", "/api/v1/collections", list_collections, {
-			CivitAI::new_auth(TOKEN)?.list_collections()
-				.sort(CollectionSortKind::MostFollowers)
-				.pagination(Some(10), None, None)
-				.send().await?;
-		})
+		mock_client!("GET", "/api/v1/collections", list_collections);
+
+		CivitAI::new_auth(TOKEN)?.list_collections()
+			.sort(CollectionSortKind::MostFollowers)
+			.pagination(Some(10), None, None)
+			.send().await?;
+
+		Ok(())
 	}
 
 	#[tokio::test]
 	async fn mock_get_collection() -> Result<(), Box<dyn Error>> {
-		mock_client!("GET", "/api/v1/collections/10505430", get_collection, {
-			CivitAI::new_auth(TOKEN)?.get_collection(10505430).await?;
-		})
+		mock_client!("GET", "/api/v1/collections/10505430", get_collection);
+
+		CivitAI::new_auth(TOKEN)?.get_collection(10505430).await?;
+
+		Ok(())
 	}
 }

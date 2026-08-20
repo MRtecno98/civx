@@ -113,33 +113,39 @@ mod tests {
 
 	#[tokio::test]
 	async fn mock_get_vault() -> Result<(), Box<dyn Error>> {
-		mock_client!("GET", "/api/v1/vault/get", get_vault, {
-			CivitAI::new_auth(TOKEN)?.get_vault().await?;
-		})
+		mock_client!("GET", "/api/v1/vault/get", get_vault);
+
+		CivitAI::new_auth(TOKEN)?.get_vault().await?;
+		
+		Ok(())
 	}
 
 	#[tokio::test]
 	async fn mock_list_vault() -> Result<(), Box<dyn Error>> {
-		mock_client!("GET", "/api/v1/vault/all", list_vault, {
-			CivitAI::new_auth(TOKEN)?.list_vault()
-				.send().await?;
-		})
+		mock_client!("GET", "/api/v1/vault/all", list_vault);
+		
+		CivitAI::new_auth(TOKEN)?.list_vault().send().await?;
+
+		Ok(())
 	}
 
 	#[tokio::test]
 	async fn mock_check_in_vault() -> Result<(), Box<dyn Error>> {
-		mock_client!("GET", "/api/v1/vault/check-vault", check_in_vault, {
-			CivitAI::new_auth(TOKEN)?.check_in_vault()
-				.send().await?;
-		})
+		mock_client!("GET", "/api/v1/vault/check-vault", check_in_vault);
+
+		CivitAI::new_auth(TOKEN)?.check_in_vault().send().await?;
+
+		Ok(())
 	}
 
 	#[tokio::test]
 	async fn mock_toggle_vault_version() -> Result<(), Box<dyn Error>> {
-		mock_client!("POST", "/api/v1/vault/toggle-version?modelVersionId=123", toggle_vault_version, {
-			CivitAI::new_auth(TOKEN)?.toggle_vault_version()
-				.model_version_id(123)
-				.send().await?;
-		})
+		mock_client!("POST", "/api/v1/vault/toggle-version?modelVersionId=123", toggle_vault_version);
+
+		CivitAI::new_auth(TOKEN)?.toggle_vault_version()
+			.model_version_id(123)
+			.send().await?;
+
+		Ok(())
 	}
 }

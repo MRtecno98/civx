@@ -199,61 +199,74 @@ mod tests {
 	#[tokio::test]
 	async fn mock_list_models() -> Result<(), Box<dyn Error>> {
 		use crate::enums::SortKind;
-		mock_client!("GET", "/api/v1/models?limit=10&sort=Highest Rated", list_models, {
-			CivitAI::new_auth(TOKEN)?.list_models()
-				.pagination(Some(10), None, None)
-				.sort(SortKind::HighestRated)
-				.send().await?;
-		})
+		mock_client!("GET", "/api/v1/models?limit=10&sort=Highest Rated", list_models);
+
+		CivitAI::new_auth(TOKEN)?.list_models()
+			.pagination(Some(10), None, None)
+			.sort(SortKind::HighestRated)
+			.send().await?;
+
+		Ok(())
 	}
 
 	#[tokio::test]
 	async fn mock_get_model() -> Result<(), Box<dyn Error>> {
-		mock_client!("GET", "/api/v1/models/2731187", get_model, {
-			CivitAI::new_auth(TOKEN)?.get_model(2731187).await?;
-		})
+		mock_client!("GET", "/api/v1/models/2731187", get_model);
+
+		CivitAI::new_auth(TOKEN)?.get_model(2731187).await?;
+
+		Ok(())
 	}
 
 	#[tokio::test]
 	async fn mock_get_model_version() -> Result<(), Box<dyn Error>> {
-		mock_client!("GET", "/api/v1/model-versions/135867", get_model_version, {
-			CivitAI::new_auth(TOKEN)?.get_model_version(135867).await?;
-		})
+		mock_client!("GET", "/api/v1/model-versions/135867", get_model_version);
+
+		CivitAI::new_auth(TOKEN)?.get_model_version(135867).await?;
+
+		Ok(())
 	}
 
 	#[tokio::test]
 	async fn mock_get_model_version_by_hash() -> Result<(), Box<dyn Error>> {
-		mock_client!("GET", 
-			"/api/v1/model-versions/by-hash/0D9BD1B873A7863E128B4672E3E245838858F71469A3CEC58123C16C06F83BD7", get_by_hash, {
-			CivitAI::new_auth(TOKEN)?.get_by_hash("0D9BD1B873A7863E128B4672E3E245838858F71469A3CEC58123C16C06F83BD7".into()).await?;
-		})
+		mock_client!("GET", "/api/v1/model-versions/by-hash/0D9BD1B873A7863E128B4672E3E245838858F71469A3CEC58123C16C06F83BD7", get_by_hash);
+
+		CivitAI::new_auth(TOKEN)?.get_by_hash("0D9BD1B873A7863E128B4672E3E245838858F71469A3CEC58123C16C06F83BD7".into()).await?;
+
+		Ok(())
 	}
 
 	#[tokio::test]
 	async fn mock_get_model_version_by_hash_bulk() -> Result<(), Box<dyn Error>> {
-		mock_client!("POST", "/api/v1/model-versions/by-hash", get_by_hash_bulk, {
-			CivitAI::new_auth(TOKEN)?.get_by_hash_bulk(vec![
-				"A5E5A941A3217247DBCECEEE5B67F8D6B1EF2514260E08A5757436BEC7035F93".into(),
-				"B8821A5D58746D1A6306ECC99EDA3B0268FF3DA84C40D18CE68698E3BD402635".into(),
-			]).await?;
-		})
+		mock_client!("POST", "/api/v1/model-versions/by-hash", get_by_hash_bulk);
+
+		CivitAI::new_auth(TOKEN)?.get_by_hash_bulk(vec![
+			"A5E5A941A3217247DBCECEEE5B67F8D6B1EF2514260E08A5757436BEC7035F93".into(),
+			"B8821A5D58746D1A6306ECC99EDA3B0268FF3DA84C40D18CE68698E3BD402635".into(),
+		]).await?;
+
+		Ok(())
 	}
 
 	#[tokio::test]
 	async fn mock_get_ids_by_hash() -> Result<(), Box<dyn Error>> {
-		mock_client!("POST", "/api/v1/model-versions/by-hash/ids", get_ids_by_hash, {
-			CivitAI::new_auth(TOKEN)?.get_ids_by_hash(vec![
-				"A5E5A941A3217247DBCECEEE5B67F8D6B1EF2514260E08A5757436BEC7035F93".into(),
-				"B8821A5D58746D1A6306ECC99EDA3B0268FF3DA84C40D18CE68698E3BD402635".into(),
-			]).await?;
-		})
+		mock_client!("POST", "/api/v1/model-versions/by-hash/ids", get_ids_by_hash);
+
+		CivitAI::new_auth(TOKEN)?.get_ids_by_hash(vec![
+			"A5E5A941A3217247DBCECEEE5B67F8D6B1EF2514260E08A5757436BEC7035F93".into(),
+			"B8821A5D58746D1A6306ECC99EDA3B0268FF3DA84C40D18CE68698E3BD402635".into(),
+		]).await?;
+
+		Ok(())
 	}
 
 	#[tokio::test]
 	async fn mock_get_model_version_minimal() -> Result<(), Box<dyn Error>> {
-		mock_client!("GET", "/api/v1/model-versions/mini/135867", get_model_version_minimal, {
-			CivitAI::new_auth(TOKEN)?.get_model_version_minimal(135867).await?;
-		})
+		mock_client!("GET", "/api/v1/model-versions/mini/135867", get_model_version_minimal);
+
+		CivitAI::new_auth(TOKEN)?.get_model_version_minimal(135867).await?;
+
+		Ok(())
 	}
 
 }

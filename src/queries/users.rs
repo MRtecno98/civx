@@ -74,17 +74,21 @@ mod tests {
 
 	#[tokio::test]
 	async fn mock_lookup_users() -> Result<(), Box<dyn Error>> {
-		mock_client!("GET", "/api/v1/users?ids=123,456,789", lookup_users, {
-			CivitAI::new_auth(TOKEN)?.lookup_users()
-				.ids(vec![123, 456, 789])
-				.send().await?;
-		})
+		mock_client!("GET", "/api/v1/users?ids=123,456,789", lookup_users);
+
+		CivitAI::new_auth(TOKEN)?.lookup_users()
+			.ids(vec![123, 456, 789])
+			.send().await?;
+
+		Ok(())
 	}
 
 	#[tokio::test]
 	async fn mock_get_me() -> Result<(), Box<dyn Error>> {
-		mock_client!("GET", "/api/v1/me", get_me, {
-			CivitAI::new_auth(TOKEN)?.get_me().await?;
-		})
+		mock_client!("GET", "/api/v1/me", get_me);
+
+		CivitAI::new_auth(TOKEN)?.get_me().await?;
+
+		Ok(())
 	}
 }
