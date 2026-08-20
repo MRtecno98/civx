@@ -1,5 +1,51 @@
+//! This module contains most enums seen in the CivitAI API, such as base models, model types, file types, etc.
+//! 
+//! Most of these are generated from the API itself (through the [`GetEnums`](crate::queries::GetEnums) endpoint), 
+//! and are kept mostly up-to-date with the API in successive library releases. 
+//! 
+//! If you need to ensure that you have the latest enums available you can enable the `enums` feature flag, 
+//! which will download the latest enums at compile time and generate Rust code for them. Note that this will perform
+//! a network request on each compilation. Alternatively, each generated enum has a `Unknown(String)` variant that can be 
+//! used to represent any unknown value, which is useful for forward compatibility with the API.
+//! 
+//! Some of the enums are missing from the API endpoint and as such are hardcoded into the library though usually
+//! these are not expected to change much.
+//! 
+//! All enums implement `From<&str>` and `TryFrom<&str>` and are de/serializable with serde.
+//! 
+//! # Examples
+//! ```rust
+//! # use civx::enums::BaseModel;
+//! let base_model: BaseModel = "SDXL 1.0".parse().unwrap();
+//! assert_eq!(base_model, BaseModel::SDXL10);
+//! ```
+//! <br/>
+//! 
+//! ```rust
+//! # use civx::enums::ActiveBaseModel;
+//! let active_base_model: ActiveBaseModel = "SD 1.5".parse().unwrap();
+//! assert_eq!(active_base_model, ActiveBaseModel::SD15);
+//! ```
+//! <br/>
+//! 
+//! ```rust
+//! # use civx::enums::BaseModel;
+//! let some_cool_base_model: BaseModel = "SomeCoolBaseModel".parse().unwrap();
+//! assert_eq!(some_cool_base_model, BaseModel::Unknown("SomeCoolBaseModel".to_string()));
+//! ```
+//! <br/>
+//! 
+//! ```rust, should_panic
+//! # use civx::enums::ResourceType;
+//! // This will panic because "SomeCoolResourceType" is not a known resource type 
+//! // and hardcoded enums don't have an Unknown variant.
+//! let resource_type: ResourceType = "SomeCoolResourceType".parse().unwrap();
+//! ```
+
+use std::str::FromStr;
+
 use bitmask_enum::bitmask;
-use serde::{Deserialize, Deserializer, Serialize};
+use serde::{Deserialize, Serialize};
 
 use crate::error::Error;
 
@@ -156,8 +202,10 @@ impl From<SortKind> for &str {
 	}
 }
 
-impl TryFrom<&str> for SortKind {
-	fn try_from(value: &str) -> Result<Self, Self::Error> {
+impl FromStr for SortKind {
+	type Err = Error;
+
+	fn from_str(value: &str) -> Result<Self, Self::Err> {
 		match value {
 			"Highest Rated" => Ok(SortKind::HighestRated),
 			"Most Downloaded" => Ok(SortKind::MostDownloaded),
@@ -165,8 +213,14 @@ impl TryFrom<&str> for SortKind {
 			_ => Err(Error::missing_enum::<SortKind>(value)),
 		}
 	}
+}
 
+impl TryFrom<&str> for SortKind {
 	type Error = Error;
+
+	fn try_from(value: &str) -> Result<Self, Self::Error> {
+		value.parse()
+	}
 }
 
 impl From<ArticleSortKind> for &str {
@@ -182,10 +236,10 @@ impl From<ArticleSortKind> for &str {
 	}
 }
 
-impl TryFrom<&str> for ArticleSortKind {
-	type Error = Error;
+impl FromStr for ArticleSortKind {
+	type Err = Error;
 
-	fn try_from(value: &str) -> Result<Self, Self::Error> {
+	fn from_str(value: &str) -> Result<Self, Self::Err> {
 		match value {
 			"Most Bookmarks" => Ok(ArticleSortKind::MostBookmarks),
 			"Most Reactions" => Ok(ArticleSortKind::MostReactions),
@@ -198,6 +252,14 @@ impl TryFrom<&str> for ArticleSortKind {
 	}
 }
 
+impl TryFrom<&str> for ArticleSortKind {
+	type Error = Error;
+
+	fn try_from(value: &str) -> Result<Self, Self::Error> {
+		value.parse()
+	}
+}
+
 impl From<CollectionSortKind> for &str {
 	fn from(value: CollectionSortKind) -> Self {
 		match value {
@@ -207,15 +269,23 @@ impl From<CollectionSortKind> for &str {
 	}
 }
 
-impl TryFrom<&str> for CollectionSortKind {
-	type Error = Error;
+impl FromStr for CollectionSortKind {
+	type Err = Error;
 
-	fn try_from(value: &str) -> Result<Self, Self::Error> {
+	fn from_str(value: &str) -> Result<Self, Self::Err> {
 		match value {
 			"Newest" => Ok(CollectionSortKind::Newest),
 			"Most Followers" => Ok(CollectionSortKind::MostFollowers),
 			_ => Err(Error::missing_enum::<CollectionSortKind>(value)),
 		}
+	}
+}
+
+impl TryFrom<&str> for CollectionSortKind {
+	type Error = Error;
+
+	fn try_from(value: &str) -> Result<Self, Self::Error> {
+		value.parse()
 	}
 }
 
@@ -232,10 +302,10 @@ impl From<ImageSortKind> for &str {
 	}
 }
 
-impl TryFrom<&str> for ImageSortKind {
-	type Error = Error;
+impl FromStr for ImageSortKind {
+	type Err = Error;
 
-	fn try_from(value: &str) -> Result<Self, Self::Error> {
+	fn from_str(value: &str) -> Result<Self, Self::Err> {
 		match value {
 			"Most Reactions" => Ok(ImageSortKind::MostReactions),
 			"Most Comments" => Ok(ImageSortKind::MostComments),
@@ -245,6 +315,14 @@ impl TryFrom<&str> for ImageSortKind {
 			"Random" => Ok(ImageSortKind::Random),
 			_ => Err(Error::missing_enum::<ImageSortKind>(value)),
 		}
+	}
+}
+
+impl TryFrom<&str> for ImageSortKind {
+	type Error = Error;
+
+	fn try_from(value: &str) -> Result<Self, Self::Error> {
+		value.parse()
 	}
 }
 
@@ -260,10 +338,10 @@ impl From<ResourceType> for &str {
 	}
 }
 
-impl TryFrom<&str> for ResourceType {
-	type Error = Error;
+impl FromStr for ResourceType {
+	type Err = Error;
 
-	fn try_from(value: &str) -> Result<Self, Self::Error> {
+	fn from_str(value: &str) -> Result<Self, Self::Err> {
 		match &value.to_lowercase()[..] {
 			"model" => Ok(ResourceType::Model),
 			"image" => Ok(ResourceType::Image),
@@ -272,6 +350,14 @@ impl TryFrom<&str> for ResourceType {
 			"video" => Ok(ResourceType::Video),
 			_ => Err(Error::missing_enum::<ResourceType>(value)),
 		}
+	}
+}
+
+impl TryFrom<&str> for ResourceType {
+	type Error = Error;
+
+	fn try_from(value: &str) -> Result<Self, Self::Error> {
+		value.parse()
 	}
 }
 
@@ -287,6 +373,14 @@ impl From<&str> for NsfwLevel {
 	}
 }
 
+impl FromStr for NsfwLevel {
+	type Err = Error;
+
+	fn from_str(value: &str) -> Result<Self, Self::Err> {
+		Ok(value.into())
+	}
+}
+
 impl Default for NsfwLevel {
 	fn default() -> Self {
 		NsfwLevel::None
@@ -294,14 +388,19 @@ impl Default for NsfwLevel {
 }
 
 impl BaseModel {
+	/// Returns true if the base model is an active base model (i.e. not unknown).
+	/// 
+	/// Note that if the enum list is outdated, this will return false for any new 
+	/// active base models that are not yet in the enum list.
+	/// 
+	/// # Examples
+	/// ```rust
+	/// # use civx::enums::{BaseModel, ActiveBaseModel};
+	/// let base_model: BaseModel = "SDXL".parse().unwrap();
+	/// assert!(base_model.is_active());
+	/// ```
 	#[must_use]
 	pub fn is_active(&self) -> bool {
 		matches!(ActiveBaseModel::from(self.to_string()), ActiveBaseModel::Unknown(_))
 	}
-}
-
-pub fn nsfw_from_str<'de, D>(deserializer: D) -> std::result::Result<NsfwLevel, D::Error>
-where D: Deserializer<'de>, {
-	let s = String::deserialize(deserializer)?;
-	Ok(NsfwLevel::from(s.as_str()))
 }

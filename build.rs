@@ -162,6 +162,14 @@ fn generate_enum(name: &str, variants: &[&str]) -> TokenStream {
 			}
 		}
 
+		impl FromStr for #name_ident {
+			type Err = Error;
+
+			fn from_str(s: &str) -> Result<Self, Self::Err> {
+				Ok(s.into())
+			}
+		}
+
 		impl<'de> serde::Deserialize<'de> for #name_ident {
 			fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
 			where

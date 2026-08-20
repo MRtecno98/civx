@@ -1,3 +1,43 @@
+//! # CivX
+//! 
+//! An asynchronous Rust client for the new 
+//! [CivitAI site api](https://developer.civitai.com/site/).
+//!
+//! CivX provides Rust structs for most API calls and responses, with support 
+//! for pagination, authentication, and file download and verification.
+//! 
+//! Available methods can be found in the [`queries`] module, 
+//! while the returned data structures are in the [`models`] module.
+//! For more information about available methods and authentication check out the 
+//! [official documentation](https://developer.civitai.com/site/reference/).
+//! 
+//! ### Authentication
+//! Authentication is required for some endpoints, and can be performed by providing a
+//! bearer token to the [`CivitAI`] client. You can obtain a token from your
+//! user page on CivitAI.
+//! 
+//! ### Pagination
+//! This crate supports both cursor and page-based pagination. Either may be more 
+//! suited to a particular use case, you can check out both the 
+//! [reference](https://developer.civitai.com/site/reference/#pagination) and the 
+//! [`models`] documentation for more information.
+//! 
+//! ### File download and verification
+//! Downloading is performed through the [`File`](crate::models::File) struct, 
+//! which calculates the hash in-flight while streaming the download to the destination,
+//! and verifies it against the expected hash.
+//! 
+//! ---
+//! 
+//! ## Feature flags
+//! - `enums`: Downloads and generates code for all available enums (such as base 
+//!   models, model types, file types, etc.) from the API itself at compile time and 
+//!   generates Rust wrappers to use them in requests. For library consumers this
+//!   guarantees having an up-to-date enum list at the cost of a network call for each 
+//!   compilation. *Requires a network connection at compile time.*
+//! 
+//! Other feature flags are used for development and not a concern for library consumers.
+
 pub mod queries;
 pub mod models;
 pub mod enums;
@@ -28,19 +68,53 @@ mod error {
 
 	pub type Result<T> = std::result::Result<T, Error>;
 
+	/// Error types returned by CivX.
 	#[derive(Debug)]
 	pub enum Error {
+		/// An error returned by the CivitAI API.
+		/// see [ApiError](crate::error::ApiError) for more details.
 		Api(ApiError),
+
+		/// An error raised by the underlying HTTP client.
 		Request(reqwest::Error),
+
+		/// A value treated as a particular enum was not found in the enum list.
+		/// 
+		/// ### Fields
+		/// - `&'static str`: The name of the enum type.
+		/// - `String`: The missing value.
 		MissingEnum(&'static str, String),
+
+		/// An error occurred while serializing a request 
+		/// into an URL query string.
 		QueryFormat(serde_url_params::Error),
+
+		/// An error occurred while parsing a URL.
 		UrlParse(url::ParseError),
+
+		/// An error occurred while performing an IO operation.
 		Io(io::Error),
+
+		/// No versions were published for a resource 
+		/// that was expected to have at least one.
 		NoVersionsPublished,
+
+		/// The hash of a file was missing and verification was required.
 		MissingHash,
+
+		/// The hash verification of a file failed.
 		HashMismatch { expected: String, actual: String },
+
+		/// A request with a base url different from 
+		/// [API_BASE](crate::API_BASE) was attempted by the client.
 		InvalidEndpoint,
+
+		/// A client reference is missing from a request or paginated response,
+		/// this mostly happens if the type was constructed manually instead of through the client.
 		ClientNotSet,
+
+		/// A reference to a request is missing from a paginated response, 
+		/// this mostly happens if the type was constructed manually instead of through the client.
 		RequestNotSet,
 	}
 

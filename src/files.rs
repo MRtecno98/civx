@@ -7,6 +7,13 @@ use tokio_util::io::StreamReader;
 
 use crate::{CivitAI, Result, error::Error, hashes::{Blake3, Crc32, Sha256}, models::{File, Hashes}, reader::{Hash, Hasher, HasherDyn, HasherExt, VerifyingReader}};
 
+/// Contains all hash algorithms supported by both CivitAI and this library. 
+/// These are used to verify the integrity of files downloaded from CivitAI.
+/// 
+/// Note that CivitAI also supports AutoV1,AutoV2, and AutoV3 hashes, which are
+/// derived by the implementation of the AUTOMATIC1111 stable diffusion webui
+/// implementation, and should not be used outside of it (or in general since they are not standard). 
+/// This library knowingly does not support them, and will ignore them when verifying files.
 pub mod hashes {
 	pub type Crc32 = crc32fast::Hasher;
 	pub type Sha256 = sha2::Sha256;

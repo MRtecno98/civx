@@ -8,20 +8,54 @@ pub trait AirIdent {
 	fn air(&self) -> Cow<'_, AIR>;
 }
 
+/// Represents an AI Resource Identifier (AIR) as defined by the CivitAI platform.
+/// This is a URN-style identifier (under the `urn:air` namespace) that uniquely 
+/// identifies an AI resourcers across the CivitAI ecosystem and more.
+/// 
+/// To parse and serialize an identifier on its own you can use the [`FromStr`] 
+/// and [`Display`] traits, or you can use the [`Serialize`] and [`Deserialize`] 
+/// traits from `serde` to use it as part of a larger data structure.
+/// 
+/// Check out the [specification](https://developer.civitai.com/site/guide/air) for more details.
+/// 
+/// As a sidenote `urn:air` identifiers are not registered with IANA, and are not 
+/// a formal URN namespace. They are used informally by CivitAI and other services
+/// who wish to integrate with it.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AIR {
+	/// Model family bucket: SD15, SDXL, SD3, FLUX1, etc.
 	pub ecosystem: Ecosystem,
+
+	/// Resource type: Checkpoint, LORA, Embedding, VAE, ControlNet, Upscaler, etc.
 	pub resource_type: ResourceType,
+
+	/// Hosting system: CivitAI, CivitAIR2, HuggingFace, Orchestrator, etc.
 	pub source: Source,
+
+	/// Unique identifier for the resource within the source system.
+	/// For CivitAI, this is the model ID.
 	pub id: String,
+
+	/// Specific version (for CivitAI this is the model version ID). 
+	/// If omitted, the resource's default/latest version is implied.
 	pub version: Option<String>,
+
+	/// Specific [`File`](crate::models::File) id, disambiguates between multiple files attached to 
+	/// the same version (e.g. a pruned vs. full-weight checkpoint, or a base model 
+	/// shipped alongside its text-encoder file). Omit to let the resolver pick the primary file.
 	pub file_id: Option<String>,
+
+	/// Model file format, e.g. SafeTensors, Diffusers, PyTorch, etc.
 	pub format: Option<Format>,
 }
 
+/// Errors returned during AIR parsing.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ParseError {
+	/// The AIR identifier contains a prefix and it is not `urn:air`.
 	InvalidPrefix,
+	
+	/// The AIR identifier is missing required parts (ecosystem, resource type, source, id).
 	MissingRequiredParts,
 }
 

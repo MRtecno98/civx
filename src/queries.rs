@@ -1,3 +1,35 @@
+//! This module contains all the requests that can be made to the Site API.
+//! Each request has a corresponding input and output struct, and for complex inputs 
+//! a builder is provided to make it easier to construct the request.
+//! 
+//! # Examples
+//! 
+//! All queries can be called through dedicated methods on the `CivitAI` client, 
+//! but it's also possible to choose a request type programmatically.
+//! 
+//! ```rust, no_run
+//! # tokio_test::block_on(async {
+//! # use civx::models::CurrentUser;
+//! # let client = civx::CivitAI::new()?;
+//! let me: CurrentUser = client.get_me().await?;
+//! # Ok::<(), Box<dyn std::error::Error>>(())
+//! # });
+//! ```
+//! 
+//! ```rust, no_run
+//! # tokio_test::block_on(async {
+//! # use civx::{queries::GetMe, models::CurrentUser};
+//! # let client = civx::CivitAI::new()?;
+//! 
+//! // Can be used with any generic T: Method
+//! // One disadvantage is that no-argument methods still require an
+//! // empty unit type as a placeholder
+//! let me: CurrentUser = client.request::<GetMe>(()).await?;
+//! # Ok::<(), Box<dyn std::error::Error>>(())
+//! # });
+//! ```
+//! 
+
 use bon::Builder;
 use serde::{Serialize, Serializer};
 
