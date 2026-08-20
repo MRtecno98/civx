@@ -91,6 +91,18 @@ impl<'c, T, M: Method<'c, Output = Self>> Page<'c, T, M> where M::Input: Paginat
 		self.seek_page(next).await
 	}
 
+	pub async fn next_page(self) -> Result<Option<Self>> {
+		let Some(metadata) = self.metadata.clone() else {
+			return Ok(None);
+		};
+
+		let Some(next) = metadata.next_page() else {
+			return Ok(None);
+		};
+
+		self.seek_page(next).await
+	}
+
 	pub fn stream(self) -> impl TryStream<Ok = T, Error = Error, Item = Result<T>> {
 		try_stream! {
 			let mut current_page = Some(self);
