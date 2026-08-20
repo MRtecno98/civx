@@ -62,10 +62,12 @@ impl<'c, T, M: Method<'c, Output = Self>> Page<'c, T, M> where M::Input: Paginat
 
 				match next {
 					NextPage::Cursor(cursor) => 
-						pagination.replace_cursor(Some(cursor.to_owned())),
+						pagination.replace_cursor(Some(cursor.to_owned()))
+							.replace_page(None),
 
 					NextPage::Page(page) => 
-						pagination.replace_page(Some(page)),
+						pagination.replace_page(Some(page))
+							.replace_cursor(None),
 
 					NextPage::Url(_) => unsafe { unreachable_unchecked() }
 				};
@@ -89,18 +91,34 @@ impl<'c, T, M: Method<'c, Output = Self>> Page<'c, T, M> where M::Input: Paginat
 		self.seek_page(next).await
 	}
 
+	pub async fn next_page(self) -> Result<Option<Self>> {
+		let Some(metadata) = self.metadata.clone() else {
+			return Ok(None);
+		};
+
+		let Some(next) = metadata.next_page() else {
+			return Ok(None);
+		};
+
+		self.seek_page(next).await
+	}
+
 	pub fn stream(self) -> impl TryStream<Ok = T, Error = Error, Item = Result<T>> {
 		try_stream! {
 			let mut current_page = Some(self);
 
 			while let Some(mut page) = current_page.take() {
-				for item in page.items.drain(..) {
+				for item in page.items() {
 					yield item;
 				}
 
 				current_page = page.next().await?;
 			}
 		}
+	}
+
+	pub fn items(&mut self) -> std::vec::Drain<'_, T> {
+		self.items.drain(..)
 	}
 
 	pub fn page_count(&self) -> Option<u32> {
@@ -152,11 +170,11 @@ impl<'a, 'c, T, M: Method<'c, Output = Page<'c, T, M>>> IntoIterator for &'a Pag
 }
 
 impl<'a, 'c, T, M: Method<'c, Output = Page<'c, T, M>>> IntoIterator for &'a mut Page<'c, T, M> where M::Input: Paginate {
-	type Item = &'a mut T;
-	type IntoIter = std::slice::IterMut<'a, T>;
+	type Item = T;
+	type IntoIter = std::vec::Drain<'a, T>;
 
 	fn into_iter(self) -> Self::IntoIter {
-		self.items.iter_mut()
+		self.items()
 	}
 }
 
@@ -179,7 +197,7 @@ pub enum NextPage<'a> {
 	Page(u32)
 }
 
-impl<'a> From<u32> for NextPage<'a> {
+impl From<u32> for NextPage<'_> {
 	fn from(page: u32) -> Self {
 		Self::Page(page)
 	}
@@ -192,10 +210,15 @@ impl Metadata {
 
 	pub fn next(&self) -> Option<NextPage<'_>> {
 		let next_cursor = self.next_cursor.as_ref().map(|page| NextPage::Cursor(page));
+
+		next_cursor.or(self.next_page())
+	}
+
+	pub fn next_page(&self) -> Option<NextPage<'_>> {
 		let next_page_url = self.next_page.as_ref().map(NextPage::Url);
 		let next_page = self.current_page.map(|p| p + 1).map(NextPage::Page);
 
-		next_cursor.or(next_page_url).or(next_page)
+		next_page_url.or(next_page)
 	}
 }
 
