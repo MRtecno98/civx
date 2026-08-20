@@ -103,6 +103,10 @@ impl<'c, T, M: Method<'c, Output = Self>> Page<'c, T, M> where M::Input: Paginat
 		}
 	}
 
+	pub fn items(&mut self) -> std::vec::Drain<'_, T> {
+		self.items.drain(..)
+	}
+
 	pub fn page_count(&self) -> Option<u32> {
 		self.metadata.as_ref().and_then(|m| m.total_pages)
 			.filter(|n| !((*n == 0) ^ self.items.is_empty()))
