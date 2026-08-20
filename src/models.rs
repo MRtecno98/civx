@@ -62,10 +62,12 @@ impl<'c, T, M: Method<'c, Output = Self>> Page<'c, T, M> where M::Input: Paginat
 
 				match next {
 					NextPage::Cursor(cursor) => 
-						pagination.replace_cursor(Some(cursor.to_owned())),
+						pagination.replace_cursor(Some(cursor.to_owned()))
+							.replace_page(None),
 
 					NextPage::Page(page) => 
-						pagination.replace_page(Some(page)),
+						pagination.replace_page(Some(page))
+							.replace_cursor(None),
 
 					NextPage::Url(_) => unsafe { unreachable_unchecked() }
 				};
@@ -156,11 +158,11 @@ impl<'a, 'c, T, M: Method<'c, Output = Page<'c, T, M>>> IntoIterator for &'a Pag
 }
 
 impl<'a, 'c, T, M: Method<'c, Output = Page<'c, T, M>>> IntoIterator for &'a mut Page<'c, T, M> where M::Input: Paginate {
-	type Item = &'a mut T;
-	type IntoIter = std::slice::IterMut<'a, T>;
+	type Item = T;
+	type IntoIter = std::vec::Drain<'a, T>;
 
 	fn into_iter(self) -> Self::IntoIter {
-		self.items.iter_mut()
+		self.items()
 	}
 }
 
@@ -183,7 +185,7 @@ pub enum NextPage<'a> {
 	Page(u32)
 }
 
-impl<'a> From<u32> for NextPage<'a> {
+impl From<u32> for NextPage<'_> {
 	fn from(page: u32) -> Self {
 		Self::Page(page)
 	}
