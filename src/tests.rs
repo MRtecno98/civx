@@ -82,9 +82,9 @@ macro_rules! mock_client {
 	($http:expr, $path:expr, $fixture:ident, $block:block) => {{
 		use $crate::tests::*;
 
-		let server = mock_client!();
-
 		const TOKEN: &str = "test-token";
+
+		let server = mock_client!();
 
 		let path_str = $path;
 		let (path_str, query) = path_str.split_once('?').unwrap_or((path_str, ""));

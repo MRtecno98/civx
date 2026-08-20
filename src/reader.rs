@@ -26,7 +26,7 @@ pub trait HasherExt<const N: usize>: Hasher<Output = [u8; N]> + Sized {
 
 impl<H: Hasher> HasherDyn for H {
 	fn update(&mut self, bytes: &[u8]) {
-		<H as Hasher>::update(self, bytes)
+		<H as Hasher>::update(self, bytes);
 	}
 
 	fn finalize(self: Box<Self>) -> DynHash {
@@ -36,7 +36,7 @@ impl<H: Hasher> HasherDyn for H {
 
 impl HasherDyn for Box<dyn HasherDyn + Unpin + '_> {
 	fn update(&mut self, bytes: &[u8]) {
-		(**self).update(bytes)
+		(**self).update(bytes);
 	}
 
 	fn finalize(self: Box<Self>) -> DynHash {
@@ -66,7 +66,7 @@ impl Hasher for crc32fast::Hasher {
 	type Output = [u8; 4];
 	
 	fn update(&mut self, bytes: &[u8]) {
-		crc32fast::Hasher::update(self, bytes)
+		crc32fast::Hasher::update(self, bytes);
 	}
 
 	fn finalize(self) -> Hash<Self> {
@@ -78,7 +78,7 @@ impl Hasher for Sha256 {
 	type Output = [u8; 32];
 
 	fn update(&mut self, bytes: &[u8]) {
-		<Self as Digest>::update(self, bytes)
+		<Self as Digest>::update(self, bytes);
 	}
 
 	fn finalize(self) -> Hash<Self> {
@@ -112,6 +112,7 @@ impl<H: Hasher + ?Sized> Hash<H> {
 }
 
 impl DynHash {
+	#[must_use]
 	pub fn to_hex(&self) -> String {
 		hex::encode_upper(&self.0)
 	}
@@ -196,7 +197,7 @@ impl<R: AsyncRead + Unpin, H: HasherDyn + Unpin> AsyncRead for VerifyingReader<R
 }
 
 impl<R: AsyncRead + Unpin, H: HasherDyn + Unpin> VerifyingReader<R, H> {
-	pub fn new<const N: usize>(reader: R, expected: Hash<H>, content_length: Option<u64>) -> Self
+	pub fn new<const N: usize>(reader: R, expected: &Hash<H>, content_length: Option<u64>) -> Self
 	where H: HasherExt<N> {
 		Self {
 			reader: HashReader::<R, H>::new::<N>(reader),
@@ -246,7 +247,7 @@ mod tests {
 
 	#[tokio::test]
 	async fn hash_reader_verify_sha256() -> Result<(), Box<dyn std::error::Error>> {
-		const MESSAGE: &'static [u8] = b"Hello, world!";
+		const MESSAGE: &[u8] = b"Hello, world!";
 		const EXPECTED_HASH: &str = "315F5BDB76D078C43B8AC0064E4A0164612B1FCE77C869345BFC94C75894EDD3";
 
 		hash_reader_verify::<Sha256, _>(MESSAGE, EXPECTED_HASH).await
@@ -254,7 +255,7 @@ mod tests {
 
 	#[tokio::test]
 	async fn hash_reader_verify_blake3() -> Result<(), Box<dyn std::error::Error>> {
-		const MESSAGE: &'static [u8] = b"Hello, world!";
+		const MESSAGE: &[u8] = b"Hello, world!";
 		const EXPECTED_HASH: &str = "EDE5C0B10F2EC4979C69B52F61E42FF5B413519CE09BE0F14D098DCFE5F6F98D";
 
 		hash_reader_verify::<Blake3, _>(MESSAGE, EXPECTED_HASH).await
@@ -262,7 +263,7 @@ mod tests {
 
 	#[tokio::test]
 	async fn hash_reader_verify_crc32() -> Result<(), Box<dyn std::error::Error>> {
-		const MESSAGE: &'static [u8] = b"Hello, world!";
+		const MESSAGE: &[u8] = b"Hello, world!";
 		const EXPECTED_HASH: &str = "E6C6E6EB";
 
 		hash_reader_verify::<Crc32, _>(MESSAGE, EXPECTED_HASH).await

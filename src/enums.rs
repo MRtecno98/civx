@@ -294,6 +294,7 @@ impl Default for NsfwLevel {
 }
 
 impl BaseModel {
+	#[must_use]
 	pub fn is_active(&self) -> bool {
 		matches!(ActiveBaseModel::from(self.to_string()), ActiveBaseModel::Unknown(_))
 	}

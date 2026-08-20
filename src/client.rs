@@ -32,6 +32,7 @@ macro_rules! impl_method {
 }
 
 impl CivitAI {
+	#[must_use]
 	pub const fn new_client_auth(token: String, client: reqwest::Client) -> Self {
 		Self {
 			client,
@@ -46,6 +47,7 @@ impl CivitAI {
 		})
 	}
 
+	#[must_use]
 	pub const fn new_client(client: reqwest::Client) -> Self {
 		Self {
 			client,
@@ -59,8 +61,8 @@ impl CivitAI {
 					.cookie_store(true).build()?))
 	}
 
-	#[inline(always)]
-	fn base_url(&self) -> impl AsRef<str> {
+	#[inline]
+	fn base_url() -> impl AsRef<str> {
 		#[cfg(not(test))]
 		{
 			crate::API_BASE
@@ -68,12 +70,12 @@ impl CivitAI {
 
 		#[cfg(test)]
 		{
-			crate::tests::TEST_API_BASE.with_borrow(|c| c.clone())
+			crate::tests::TEST_API_BASE.with_borrow(String::clone)
 		}
 	}
 
 	pub(crate) fn make_request(&self, method: reqwest::Method, url: &str) -> Result<reqwest::RequestBuilder> {
-		let base_url = Url::parse(self.base_url().as_ref())?;
+		let base_url = Url::parse(Self::base_url().as_ref())?;
 
 		let url = match Url::parse(url) {
 			Ok(url) => url,

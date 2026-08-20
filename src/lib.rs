@@ -53,15 +53,15 @@ mod error {
 	impl Display for Error {
 		fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 			match self {
-				Error::Api(err) => write!(f, "{}", err),
-				Error::Request(e) => write!(f, "Request error: {}", e),
-				Error::MissingEnum(name, value) => write!(f, "Missing enum {}: '{}'", name, value),
-				Error::QueryFormat(e) => write!(f, "Query format error: {}", e),
-				Error::UrlParse(e) => write!(f, "URL parse error: {}", e),
-				Error::Io(e) => write!(f, "IO error: {}", e),
+				Error::Api(err) => write!(f, "{err}"),
+				Error::Request(e) => write!(f, "Request error: {e}"),
+				Error::MissingEnum(name, value) => write!(f, "Missing enum {name}: '{value}'"),
+				Error::QueryFormat(e) => write!(f, "Query format error: {e}"),
+				Error::UrlParse(e) => write!(f, "URL parse error: {e}"),
+				Error::Io(e) => write!(f, "IO error: {e}"),
 				Error::NoVersionsPublished => write!(f, "No versions published for this resource"),
 				Error::MissingHash => write!(f, "Missing hash"),
-				Error::HashMismatch { expected, actual } => write!(f, "Hash mismatch: expected {}, got {}", expected, actual),
+				Error::HashMismatch { expected, actual } => write!(f, "Hash mismatch: expected {expected}, got {actual}"),
 				Error::InvalidEndpoint => write!(f, "Invalid endpoint"),
 				Error::ClientNotSet => write!(f, "Client not set"),
 				Error::RequestNotSet => write!(f, "Request not set"),
@@ -98,7 +98,7 @@ mod error {
 
 			if let Some(issues) = &self.issues {
 				for issue in issues {
-					write!(f, "\n\t- {}", issue)?;
+					write!(f, "\n\t- {issue}")?;
 				}
 			}
 

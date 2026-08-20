@@ -40,27 +40,27 @@ impl FromStr for AIR {
 	type Err = ParseError;
 	fn from_str(value: &str) -> Result<Self, Self::Err> {
 		let (rest, format) = 
-			if let Some((r, f)) = value.rsplit_once(".") {
+			if let Some((r, f)) = value.rsplit_once('.') {
 				(r, Some(Format::from(f)))
 			} else {
 				(value, None)
 			};
 		
 		let (rest, file_id) = 
-			if let Some((r, f)) = rest.rsplit_once("+") {
+			if let Some((r, f)) = rest.rsplit_once('+') {
 				(r, Some(f.to_string()))
 			} else {
 				(rest, None)
 			};
 
 		let (rest, version) = 
-			if let Some((r, v)) = rest.rsplit_once("@") {
+			if let Some((r, v)) = rest.rsplit_once('@') {
 				(r, Some(v.to_string()))
 			} else {
 				(rest, None)
 			};
 
-		let mut required_parts = rest.rsplitn(5, ":").collect::<Vec<_>>();
+		let mut required_parts = rest.rsplitn(5, ':').collect::<Vec<_>>();
 		required_parts.reverse();
 
 		let required_parts = if required_parts.len() == 5 {
@@ -106,11 +106,11 @@ impl Display for AIR {
 			self.id)?;
 
 		if let Some(version) = &self.version {
-			write!(f, "@{}", version)?;
+			write!(f, "@{version}")?;
 		}
 
 		if let Some(file_id) = &self.file_id {
-			write!(f, "+{}", file_id)?;
+			write!(f, "+{file_id}")?;
 		}
 
 		if let Some(format) = &self.format {
@@ -127,7 +127,7 @@ impl<'de> Deserialize<'de> for AIR {
 		D: serde::Deserializer<'de> {
 		struct AirVisitor;
 
-        impl<'de> Visitor<'de> for AirVisitor {
+        impl Visitor<'_> for AirVisitor {
             type Value = AIR;
 
             fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
@@ -139,7 +139,7 @@ impl<'de> Deserialize<'de> for AIR {
                 E: de::Error,
             {
 				value.parse().map_err(
-					|e| E::custom(format!("failed to parse AIR identifier: {}", e)))
+					|e| E::custom(format!("failed to parse AIR identifier: {e}")))
             }
         }
 

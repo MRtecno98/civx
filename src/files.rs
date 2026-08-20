@@ -36,6 +36,7 @@ impl HashGetter<Blake3> for Hashes {
 }
 
 impl Hashes {
+	#[must_use]
 	#[allow(private_bounds)]
 	pub fn get<H, const N: usize>(&self) -> Option<Hash<H>>
 	where Self: HashGetter<H>, H: HasherExt<N> {
@@ -65,7 +66,7 @@ impl Hashes {
 	where Self: HashGetter<H>, H: HasherExt<N> + Unpin {
 		let hash = self.get::<H, N>().ok_or(Error::MissingHash)?;
 
-		Ok(VerifyingReader::new(reader, hash, content_length))
+		Ok(VerifyingReader::new(reader, &hash, content_length))
 	}
 }
 

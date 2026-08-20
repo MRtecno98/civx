@@ -317,7 +317,7 @@ mod tests {
 
 		let response = ResponseTemplate::new(200)
 			.set_body_raw(
-				fixture!(pagination_url).replace("%BASE%", &format!("{}{}", &server.uri(), DummyMethod::ENDPOINT)), 
+				fixture!(pagination_url).replace("%BASE%", &format!("{}{}", server.uri(), DummyMethod::ENDPOINT)), 
 				"application/json");
 
 		let page = initiate_request!(response.clone(), client, server);

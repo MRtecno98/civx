@@ -95,16 +95,16 @@ async fn generate_enums() -> Result<TokenStream, Box<dyn std::error::Error>> {
 		.ok_or("Expected JSON object")?;
 
 	let mut result = TokenStream::new();
-	for (name, variants) in dict.iter() {
+	for (name, variants) in dict {
 		result.extend(generate_enum(name, variants.as_array()
-			.ok_or(format!("Expected array for enum '{}'", name))?
+			.ok_or(format!("Expected array for enum '{name}'"))?
 			.iter()
 			.map(|v| v.as_str()
-				.ok_or(format!("Expected string in array for enum '{}'", name))
-				.map(|s| s.to_string()))
+				.ok_or(format!("Expected string in array for enum '{name}'"))
+				.map(&str::to_string))
 			.collect::<Result<Vec<String>, String>>()?
 			.iter()
-			.map(|s| s.as_str())
+			.map(&String::as_str)
 			.collect::<Vec<&str>>()
 			.as_slice()));
 	}
@@ -138,18 +138,22 @@ fn generate_enum(name: &str, variants: &[&str]) -> TokenStream {
 		}
 
 		impl std::fmt::Display for #name_ident {
+			#[allow(unknown_lints)]
+			#[allow(clippy)]
 			fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 				match self {
 					#(#name_ident::#variants_ident_deduped => write!(f, #variants),)*
 					#name_ident::Unknown(s) => { 
 						std::hint::cold_path();
-						write!(f, "{}", s) 
+						write!(f, "{s}") 
 					}
 				}
 			}
 		}
 
 		impl<T> From<T> for #name_ident where T: AsRef<str> {
+			#[allow(unknown_lints)]
+			#[allow(clippy)]
 			fn from(s: T) -> Self {
 				match s.as_ref() {
 					#(#variants => #name_ident::#variants_ident,)*

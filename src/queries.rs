@@ -49,7 +49,7 @@ macro_rules! impl_pagination {
 
 	($($name:tt)*) => {
 		impl $crate::queries::Paginate for $($name)* {
-			fn pagination<'a>(&'a mut self) -> Option<$crate::queries::PaginationView<'a>> {
+			fn pagination(&mut self) -> Option<$crate::queries::PaginationView<'_>> {
 				Some(self.pagination.get_or_insert_default().into())
 			}
 		}
