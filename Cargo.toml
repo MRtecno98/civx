@@ -20,6 +20,13 @@ exclude = [
 enums = []
 network-tests = []
 
+[workspace]
+resolver = "3"
+members = [".", "cli"]
+
+[workspace.dependencies]
+civx = { path = "." }
+
 [dependencies]
 bitmask-enum = "2.2.5"
 blake3 = "1.8.6"

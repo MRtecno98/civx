@@ -1,6 +1,12 @@
-name: CI
+name: CLI
 
-on: ["push", "pull_request"]
+on: 
+  push:
+    paths:
+      - 'cli/**'
+  pull_request:
+    paths:
+      - 'cli/**'
 
 jobs:
   lint:
@@ -15,10 +21,10 @@ jobs:
           components: clippy
 
       - name: Lint with default features
-        run: cargo clippy -- -D warnings
+        run: cargo clippy -p civx-cli -- -D warnings
 
       - name: Lint with all features
-        run: cargo clippy --all-features -- -D warnings
+        run: cargo clippy -p civx-cli --all-features --all-targets -- -D warnings
 
   test:
     name: Run Tests
@@ -30,10 +36,10 @@ jobs:
       - uses: actions-rust-lang/setup-rust-toolchain@v1
 
       - name: Run tests with default features
-        run: cargo test --verbose -- --show-output
+        run: cargo test -p civx-cli --verbose -- --show-output
 
-      - name: Run tests with all features (no online)
-        run: cargo test --features enums --verbose -- --show-output
+      - name: Run tests with all features
+        run: cargo test -p civx-cli --all-features --verbose -- --show-output
 
   build:
     name: Build for all platforms
@@ -48,7 +54,7 @@ jobs:
       - uses: actions-rust-lang/setup-rust-toolchain@v1
 
       - name: Build with default features
-        run: cargo build --verbose
+        run: cargo build -p civx-cli --verbose
 
       - name: Build with all features
-        run: cargo build --all-features --verbose
+        run: cargo build -p civx-cli --all-features --verbose

@@ -1,0 +1,9 @@
+[package]
+name = "civx-cli"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+civx = { workspace = true }
+clap = { version = "4.6.6", features = ["derive"] }
+tokio = { version = "1.53.1", features = ["full"] }
