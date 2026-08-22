@@ -51,6 +51,7 @@ use crate::error::Error;
 
 include!(concat!(env!("OUT_DIR"), "/enums.rs"));
 
+#[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub enum CheckpointType {
 	Standard,
@@ -58,6 +59,7 @@ pub enum CheckpointType {
 	Merge
 }
 
+#[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub enum Period {
 	AllTime,
@@ -66,6 +68,7 @@ pub enum Period {
 	Day,
 }
 
+#[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 #[serde(into = "&str", try_from = "&str")]
 pub enum SortKind {
@@ -74,6 +77,7 @@ pub enum SortKind {
 	Newest,
 }
 
+#[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 #[serde(into = "&str", try_from = "&str")]
 pub enum ArticleSortKind {
@@ -85,6 +89,7 @@ pub enum ArticleSortKind {
 	RecentlyUpdated,
 }
 
+#[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 #[serde(into = "&str", try_from = "&str")]
 pub enum CollectionSortKind {
@@ -92,6 +97,7 @@ pub enum CollectionSortKind {
 	MostFollowers,
 }
 
+#[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 #[serde(into = "&str", try_from = "&str")]
 pub enum ImageSortKind {
@@ -113,6 +119,7 @@ pub enum NsfwLevel {
 	X,
 }
 
+#[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub enum Usage {
 	Image,
@@ -122,6 +129,7 @@ pub enum Usage {
 	Download,
 }
 
+#[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum MediaType {
@@ -130,6 +138,7 @@ pub enum MediaType {
 	Audio,
 }
 
+#[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
 #[derive(Serialize, Deserialize, Default, Debug, Clone, PartialEq, Eq)]
 pub enum Availability {
 	#[default]
@@ -137,6 +146,7 @@ pub enum Availability {
 	// TODO: Doc doesn't say others
 }
 
+#[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
 #[derive(Serialize, Deserialize, Default, Debug, Clone, PartialEq, Eq)]
 pub enum ModerationStatus {
 	#[default]
@@ -145,24 +155,28 @@ pub enum ModerationStatus {
 	TakenDown,
 }
 
+#[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub enum ScanResult {
 	Success,
 	// TODO: Doc doesn't say others
 }
 
+#[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub enum PublishingStatus {
 	Published,
 	// TODO: Doc doesn't say others
 }
 
+#[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub enum UploadType {
 	Created,
 	// TODO: Doc doesn't say others
 }
 
+#[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 #[serde(into = "&str", try_from = "&str")]
 pub enum ResourceType {
@@ -173,6 +187,7 @@ pub enum ResourceType {
 	Post,
 }
 
+#[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
 #[derive(Serialize, Deserialize, Default, Debug, Clone, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum MembershipTier {
@@ -184,6 +199,7 @@ pub enum MembershipTier {
 	Gold,
 }
 
+#[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum UserStatus {
@@ -378,6 +394,32 @@ impl FromStr for NsfwLevel {
 
 	fn from_str(value: &str) -> Result<Self, Self::Err> {
 		Ok(value.into())
+	}
+}
+
+#[cfg(feature = "clap")]
+impl clap::ValueEnum for NsfwLevel {
+	fn value_variants<'a>() -> &'a [Self] {
+		&[
+			NsfwLevel::None,
+			NsfwLevel::Soft,
+			NsfwLevel::Mature,
+			NsfwLevel::X,
+		]
+	}
+
+	fn to_possible_value(&self) -> Option<clap::builder::PossibleValue> {
+		if self.contains(NsfwLevel::None) {
+			Some(clap::builder::PossibleValue::new("none"))
+		} else if self.contains(NsfwLevel::Soft) {
+			Some(clap::builder::PossibleValue::new("soft"))
+		} else if self.contains(NsfwLevel::Mature) {
+			Some(clap::builder::PossibleValue::new("mature"))
+		} else if self.contains(NsfwLevel::X) {
+			Some(clap::builder::PossibleValue::new("x"))
+		} else {
+			None
+		}
 	}
 }
 

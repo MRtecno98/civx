@@ -1,10 +1,12 @@
 use std::collections::HashMap;
 
 use bon::Builder;
+use civx_derive::civx;
 use serde::Serialize;
 
 use crate::{CivitAI, Method, Query, queries::{impl_builder_send, serialize_comma_separated}};
 
+#[civx(clap)]
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
 #[serde(rename_all = "camelCase")]

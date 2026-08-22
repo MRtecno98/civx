@@ -1,8 +1,10 @@
 use bon::Builder;
+use civx_derive::civx;
 use serde::Serialize;
 
 use crate::{CivitAI, Method, Query, enums::{ImageSortKind, MediaType, NsfwLevel, Period}, models::{Image, Page}, queries::{Pagination, impl_builder_send, impl_pagination, paginated_post_req, serialize_comma_separated}};
 
+#[civx(clap)]
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
 pub struct ListImages<'c> {

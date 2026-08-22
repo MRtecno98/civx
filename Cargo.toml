@@ -18,14 +18,16 @@ exclude = [
 
 [features]
 enums = []
+clap = ["dep:clap", "civx-derive/clap"]
 network-tests = []
 
 [workspace]
 resolver = "3"
-members = [".", "cli"]
+members = [".", "cli", "derive"]
 
 [workspace.dependencies]
 civx = { path = "." }
+civx-derive = { path = "derive" }
 
 [dependencies]
 bitmask-enum = "2.2.5"
@@ -46,6 +48,8 @@ tokio-util = "0.7.19"
 futures = "0.3.34"
 futures-util = "0.3.34"
 async-stream = "0.3.6"
+civx-derive = { path = "derive" }
+clap = { version = "4.6.6", optional = true, features = ["derive"] }
 
 [dev-dependencies]
 futures = "0.3.34"

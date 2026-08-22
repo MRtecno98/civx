@@ -1,5 +1,6 @@
 use bon::Builder;
 use chrono::{DateTime, Utc};
+use civx_derive::civx;
 use serde::Serialize;
 
 use crate::{CivitAI, Method, NoArgs, Query, enums::{BaseModel, ModelType, SortKind}, queries::{impl_builder_send, serialize_comma_separated}};
@@ -16,6 +17,7 @@ impl<'c> Method<'c> for GetVault {
 	const ENDPOINT: &'static str = "/api/v1/vault/get";
 }
 
+#[civx(clap)]
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
 #[serde(rename_all = "camelCase")]
@@ -59,6 +61,7 @@ impl<'c> Method<'c> for ListVault<'c> {
 	const ENDPOINT: &'static str = "/api/v1/vault/all";
 }
 
+#[civx(clap)]
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
 #[serde(rename_all = "camelCase")]
@@ -84,6 +87,7 @@ impl<'c> Method<'c> for CheckInVault<'c> {
 	const ENDPOINT: &'static str = "/api/v1/vault/check-vault";
 }
 
+#[civx(clap)]
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
 #[serde(rename_all = "camelCase")]

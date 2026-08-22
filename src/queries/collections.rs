@@ -1,8 +1,10 @@
 use bon::Builder;
+use civx_derive::civx;
 use serde::Serialize;
 
 use crate::{CivitAI, Method, Path, Query, enums::CollectionSortKind, models::{Collection, Page}, queries::{Pagination, impl_builder_send, impl_pagination, paginated_post_req}};
 
+#[civx(clap)]
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
 pub struct ListCollections<'c> {

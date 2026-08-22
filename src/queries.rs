@@ -31,6 +31,7 @@
 //! 
 
 use bon::Builder;
+use civx_derive::civx;
 use serde::{Serialize, Serializer};
 
 mod articles;
@@ -121,7 +122,8 @@ fn serialize_comma_separated<S: Serializer, I: ToString>(vec: &Option<Vec<I>>, s
 	}
 }
 
-#[derive(Serialize, Debug, Builder, Default)]
+#[civx(clap)]
+#[derive(Serialize, Debug, Builder, Clone, Default)]
 pub struct Pagination {
 	pub limit: Option<u32>,
 	pub page: Option<u32>,

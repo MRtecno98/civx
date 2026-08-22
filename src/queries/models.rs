@@ -1,7 +1,9 @@
 use bon::Builder;
+use civx_derive::civx;
 use serde::Serialize;
 use crate::{Body, CivitAI, Method, Path, Query, enums::{CheckpointType, ModelType, Period, SortKind}, models::{Model, ModelVersion, ModelVersionHashLookup, ModelVersionMinimal, Page}, queries::{Pagination, impl_builder_send, impl_pagination, paginated_post_req}};
 
+#[civx(clap)]
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
 pub struct ListModels<'c> {

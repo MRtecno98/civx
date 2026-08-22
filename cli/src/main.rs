@@ -1,12 +1,16 @@
-use clap::Parser;
+use clap::{Parser, builder::{Styles, styling::{AnsiColor, Effects}}};
 
-#[derive(Parser, Debug)]
-struct Args {
-    
+mod args;
+
+pub(crate) fn clap_styles() -> Styles {
+    Styles::styled()
+        .header(AnsiColor::Green.on_default().effects(Effects::BOLD))
+        .usage(AnsiColor::Green.on_default().effects(Effects::BOLD))
+        .literal(AnsiColor::Cyan.on_default().effects(Effects::BOLD))
 }
 
 #[tokio::main]
 async fn main() {
-	let _cli = Args::parse();
+	let _cli = args::Args::parse();
 
 }

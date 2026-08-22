@@ -1,4 +1,5 @@
 use bon::Builder;
+use civx_derive::civx;
 use serde::Serialize;
 
 use crate::{CivitAI, Method, Path, Query, enums::ArticleSortKind, models::{Article, ArticleInfo, Page}, queries::{Pagination, impl_builder_send, impl_pagination, paginated_post_req, serialize_comma_separated}};
@@ -6,6 +7,7 @@ use crate::{CivitAI, Method, Path, Query, enums::ArticleSortKind, models::{Artic
 /// An article is a long-form post published on Civitai — a guide, workflow write-up, 
 /// changelog, or announcement. These endpoints expose the same public article feed 
 /// that powers the website.
+#[civx(clap)]
 #[derive(Serialize, Builder)]
 #[builder(on(String, into))]
 pub struct ListArticles<'c> {
