@@ -27,7 +27,7 @@ pub enum Command {
 	#[group(required = true, multiple = false)]
 	Download {
 		air: Option<AIR>,
-		
+
 		#[clap(long)]
 		hash: Option<String>,
 
@@ -51,7 +51,8 @@ pub enum Command {
 
 	Whoami,
 }
- 
+
+#[allow(clippy::large_enum_variant)]
 #[derive(Subcommand)]
 pub enum ModelAction {
 	Search {
