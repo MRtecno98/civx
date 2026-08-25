@@ -64,11 +64,11 @@ impl AirIdent for Model {
 #[serde(rename_all = "camelCase")]
 #[serde(default)]
 pub struct ModelStats {
-	pub download_count: u64,
-	pub thumbs_up_count: u64,
-	pub thumbs_down_count: u64,
-	pub comment_count: u64,
-	pub tipped_amount_count: u64,
+	pub download_count: Option<u64>,
+	pub thumbs_up_count: Option<u64>,
+	pub thumbs_down_count: Option<u64>,
+	pub comment_count: Option<u64>,
+	pub tipped_amount_count: Option<u64>,
 }
 
 #[derive(Deserialize, Debug, Clone, PartialEq, Eq)]
@@ -109,7 +109,7 @@ pub enum PaidAccessInfo {
 	#[serde(rename_all = "camelCase")]
 	Detailed {
 		permanent: bool,
-		ends_at: DateTime<Utc>
+		ends_at: Option<DateTime<Utc>>
 	}
 }
 
