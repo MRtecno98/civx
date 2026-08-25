@@ -25,10 +25,6 @@ network-tests = []
 resolver = "3"
 members = [".", "cli", "derive"]
 
-[workspace.dependencies]
-civx = { path = "." }
-civx-derive = { path = "derive" }
-
 [dependencies]
 bitmask-enum = "2.2.5"
 blake3 = "1.8.6"
