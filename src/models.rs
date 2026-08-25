@@ -237,6 +237,39 @@ impl<'c, T, M: Method<'c, Output = Self>> Page<'c, T, M> where M::Input: Paginat
 		self.seek_page(next).await
 	}
 
+	/// Similar to [`Page::stream`], but limits the number of items returned to `n`.
+	/// 
+	/// # Examples
+	/// ```rust, no_run
+	/// # tokio_test::block_on(async {
+	/// # use std::pin::pin;
+	/// # use civx::{models::{Model, Page}, queries::ListModels};
+	/// # use futures::TryStreamExt;
+	/// # let page: Page<'_, Model, ListModels<'_>> = unsafe { std::mem::zeroed() };
+	/// let mut stream = pin!(page.stream_n(15));
+	/// assert_eq!(stream.try_collect::<Vec<_>>().await?.len(), 15);
+	/// # Ok::<(), Box<dyn std::error::Error>>(())
+	/// # });
+	pub fn stream_n(self, n: usize) -> impl TryStream<Ok = T, Error = Error, Item = Result<T>> {
+		try_stream! {
+			let mut current_page = Some(self);
+			let mut count = 0;
+
+			while let Some(mut page) = current_page.take() {
+				for item in page.items() {
+					yield item;
+
+					count += 1;
+					if count >= n {
+						return;
+					}
+				}
+
+				current_page = page.next().await?;
+			}
+		}
+	}
+
 	/// Returns a stream of all items across pages, using [`Page::next`] under the hood to 
 	/// automatically fetch the next page of results.
 	/// 
@@ -252,23 +285,14 @@ impl<'c, T, M: Method<'c, Output = Self>> Page<'c, T, M> where M::Input: Paginat
 	/// # use futures::TryStreamExt;
 	/// # let page: Page<'_, Model, ListModels<'_>> = unsafe { std::mem::zeroed() };
 	/// let mut stream = pin!(page.stream());
+	/// 
 	/// while let Some(model) = stream.try_next().await? {
 	///     // will automatically request more cursors
 	/// }
 	/// # Ok::<(), Box<dyn std::error::Error>>(())
 	/// # });
 	pub fn stream(self) -> impl TryStream<Ok = T, Error = Error, Item = Result<T>> {
-		try_stream! {
-			let mut current_page = Some(self);
-
-			while let Some(mut page) = current_page.take() {
-				for item in page.items() {
-					yield item;
-				}
-
-				current_page = page.next().await?;
-			}
-		}
+		self.stream_n(usize::MAX)
 	}
 
 	/// Returns a draining iterator over the items in the current page.
