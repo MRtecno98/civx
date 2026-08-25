@@ -131,7 +131,7 @@ fn generate_enum(name: &str, variants: &[&str]) -> TokenStream {
 		.collect::<Vec<_>>();
 
 	quote! {
-		#[derive(Debug, Clone, PartialEq, Eq)]
+		#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 		pub enum #name_ident {
 			#(#variants_ident_deduped,)*
 			Unknown(String)

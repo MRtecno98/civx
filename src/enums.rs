@@ -42,7 +42,7 @@
 //! let resource_type: ResourceType = "SomeCoolResourceType".parse().unwrap();
 //! ```
 
-use std::str::FromStr;
+use std::{hash::Hash, str::FromStr};
 
 use bitmask_enum::bitmask;
 use serde::{Deserialize, Serialize};
@@ -52,7 +52,7 @@ use crate::error::Error;
 include!(concat!(env!("OUT_DIR"), "/enums.rs"));
 
 #[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 pub enum CheckpointType {
 	Standard,
 	Trained,
@@ -60,7 +60,7 @@ pub enum CheckpointType {
 }
 
 #[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 pub enum Period {
 	AllTime,
 	Month,
@@ -69,7 +69,7 @@ pub enum Period {
 }
 
 #[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 #[serde(into = "&str", try_from = "&str")]
 pub enum SortKind {
 	HighestRated,
@@ -78,7 +78,7 @@ pub enum SortKind {
 }
 
 #[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 #[serde(into = "&str", try_from = "&str")]
 pub enum ArticleSortKind {
 	Newest,
@@ -90,7 +90,7 @@ pub enum ArticleSortKind {
 }
 
 #[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 #[serde(into = "&str", try_from = "&str")]
 pub enum CollectionSortKind {
 	Newest,
@@ -98,7 +98,7 @@ pub enum CollectionSortKind {
 }
 
 #[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 #[serde(into = "&str", try_from = "&str")]
 pub enum ImageSortKind {
 	MostReactions,
@@ -120,7 +120,7 @@ pub enum NsfwLevel {
 }
 
 #[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 pub enum Usage {
 	Image,
 	Rent,
@@ -130,7 +130,7 @@ pub enum Usage {
 }
 
 #[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 #[serde(rename_all = "lowercase")]
 pub enum MediaType {
 	Image,
@@ -139,7 +139,7 @@ pub enum MediaType {
 }
 
 #[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
-#[derive(Serialize, Deserialize, Default, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Default, Debug, Clone, PartialEq, Eq, Hash)]
 pub enum Availability {
 	#[default]
 	Public,
@@ -147,7 +147,7 @@ pub enum Availability {
 }
 
 #[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
-#[derive(Serialize, Deserialize, Default, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Default, Debug, Clone, PartialEq, Eq, Hash)]
 pub enum ModerationStatus {
 	#[default]
 	Healthy,
@@ -156,28 +156,29 @@ pub enum ModerationStatus {
 }
 
 #[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 pub enum ScanResult {
 	Success,
+	Pending,
 	// TODO: Doc doesn't say others
 }
 
 #[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 pub enum PublishingStatus {
 	Published,
 	// TODO: Doc doesn't say others
 }
 
 #[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 pub enum UploadType {
 	Created,
 	// TODO: Doc doesn't say others
 }
 
 #[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 #[serde(into = "&str", try_from = "&str")]
 pub enum ResourceType {
 	Model,
@@ -188,7 +189,7 @@ pub enum ResourceType {
 }
 
 #[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
-#[derive(Serialize, Deserialize, Default, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Default, Debug, Clone, PartialEq, Eq, Hash)]
 #[serde(rename_all = "lowercase")]
 pub enum MembershipTier {
 	#[default]
@@ -200,7 +201,7 @@ pub enum MembershipTier {
 }
 
 #[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 #[serde(rename_all = "lowercase")]
 pub enum UserStatus {
 	Active,
