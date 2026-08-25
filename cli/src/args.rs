@@ -3,23 +3,26 @@ use std::path::PathBuf;
 use civx::{AIR, queries::{ListCollections, ListCreators, ListImages, ListModels, ListTags, LookupUsers}};
 use clap::{Parser, Subcommand};
 
-#[derive(Parser)]
+#[derive(Parser, Debug)]
 #[command(version, about, name = "civx", bin_name = "civx", styles = crate::clap_styles())]
 pub struct Args {
 	#[command(subcommand)]
-	command: Command
+	pub command: Command,
+
+	#[arg(long, global = true, default_value_t = false)]
+	pub raw: bool,
 }
 
-#[derive(Subcommand)]
+#[derive(Subcommand, Debug)]
 pub enum Command {
 	Articles {
 		#[command(subcommand)]
-		command: ArticleAction
+		action: ArticleAction
 	},
 
 	Collections {
 		#[command(subcommand)]
-		command: CollectionAction
+		action: CollectionAction
 	},
 
 	Creators(ListCreators<'static>),
@@ -37,12 +40,12 @@ pub enum Command {
 
 	Images {
 		#[command(subcommand)]
-		command: ImageAction
+		action: ImageAction
 	},
 
 	Models {
 		#[command(subcommand)]
-		command: ModelAction
+		action: ModelAction
 	},
 
 	Tags(ListTags<'static>),
@@ -50,14 +53,16 @@ pub enum Command {
 	Users(LookupUsers<'static>),
 
 	Whoami,
+
+	Login,
 }
 
 #[allow(clippy::large_enum_variant)]
-#[derive(Subcommand)]
+#[derive(Subcommand, Debug)]
 pub enum ModelAction {
 	Search {
 		#[clap(flatten)]
-		query: Option<ListModels<'static>>,
+		query: ListModels<'static>,
 
 		#[clap(long)]
 		hash: Option<String>,
@@ -81,19 +86,19 @@ pub enum ModelAction {
 	},
 }
 
-#[derive(Subcommand)]
+#[derive(Subcommand, Debug)]
 pub enum ImageAction {
 	Search(ListImages<'static>),
 }
 
-#[derive(Subcommand)]
+#[derive(Subcommand, Debug)]
 pub enum ArticleAction {
 	Search,
 	Save { id: i64, },
 	Get { id: i64, },
 }
 
-#[derive(Subcommand)]
+#[derive(Subcommand, Debug)]
 pub enum CollectionAction {
 	Search(ListCollections<'static>),
 	List { id: u32 },
