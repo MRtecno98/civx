@@ -44,8 +44,11 @@ pub fn civx(attr: proc_macro::TokenStream, item: proc_macro::TokenStream) -> pro
 				if _field.ty == syn::parse_quote!(Option<bool>) {
 					_field.attrs.push(syn::parse_quote!(
 						#[arg(
-							long, 
-							action = clap::ArgAction::Set, 
+							long,
+							require_equals = true,
+							num_args = 0..=1,
+							default_missing_value = "true",
+							action = clap::ArgAction::Set,
 							value_parser = clap::builder::BoolishValueParser::new()
 						)]
 					));
