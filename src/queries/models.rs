@@ -1,10 +1,11 @@
 use bon::Builder;
 use civx_derive::civx;
 use serde::Serialize;
-use crate::{Body, CivitAI, Method, Path, Query, enums::{CheckpointType, ModelType, Period, SortKind}, models::{Model, ModelVersion, ModelVersionHashLookup, ModelVersionMinimal, Page}, queries::{Pagination, impl_builder_send, impl_pagination, paginated_post_req}};
+use crate::{Body, CivitAI, Method, Path, Query, enums::{BaseModel, CheckpointType, ModelType, Period, SortKind}, models::{Model, ModelVersion, ModelVersionHashLookup, ModelVersionMinimal, Page}, queries::{Pagination, impl_builder_send, impl_pagination, paginated_post_req}};
 
 #[civx(clap)]
-#[derive(Serialize, Builder)]
+#[derive(Serialize, Builder, Debug)]
+#[serde(rename_all = "camelCase")]
 #[builder(on(String, into))]
 pub struct ListModels<'c> {
 	#[serde(skip)]
@@ -24,7 +25,7 @@ pub struct ListModels<'c> {
 
 	pub types: Option<Vec<ModelType>>,
 
-	pub base_models: Option<Vec<String>>,
+	pub base_models: Option<Vec<BaseModel>>,
 
 	pub checkpoint_type: Option<CheckpointType>,
 	pub sort: Option<SortKind>,

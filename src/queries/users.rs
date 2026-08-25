@@ -17,7 +17,8 @@ impl<'c> Method<'c> for GetMe {
 }
 
 #[civx(clap)]
-#[derive(Serialize, Builder)]
+#[derive(Serialize, Builder, Debug)]
+#[serde(rename_all = "camelCase")]
 #[builder(on(String, into))]
 pub struct LookupUsers<'c> {
 	#[serde(skip)]

@@ -8,7 +8,8 @@ use crate::{CivitAI, Method, Path, Query, enums::ArticleSortKind, models::{Artic
 /// changelog, or announcement. These endpoints expose the same public article feed 
 /// that powers the website.
 #[civx(clap)]
-#[derive(Serialize, Builder)]
+#[derive(Serialize, Builder, Debug)]
+#[serde(rename_all = "camelCase")]
 #[builder(on(String, into))]
 pub struct ListArticles<'c> {
 	#[serde(skip)]

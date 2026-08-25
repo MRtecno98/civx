@@ -18,9 +18,9 @@ impl<'c> Method<'c> for GetVault {
 }
 
 #[civx(clap)]
-#[derive(Serialize, Builder)]
-#[builder(on(String, into))]
+#[derive(Serialize, Builder, Debug)]
 #[serde(rename_all = "camelCase")]
+#[builder(on(String, into))]
 pub struct ListVault<'c> {
 	#[serde(skip)]
 	#[builder(field)]
@@ -62,9 +62,9 @@ impl<'c> Method<'c> for ListVault<'c> {
 }
 
 #[civx(clap)]
-#[derive(Serialize, Builder)]
-#[builder(on(String, into))]
+#[derive(Serialize, Builder, Debug)]
 #[serde(rename_all = "camelCase")]
+#[builder(on(String, into))]
 pub struct CheckInVault<'c> {
 	#[serde(skip)]
 	#[builder(field)]
@@ -88,9 +88,9 @@ impl<'c> Method<'c> for CheckInVault<'c> {
 }
 
 #[civx(clap)]
-#[derive(Serialize, Builder)]
-#[builder(on(String, into))]
+#[derive(Serialize, Builder, Debug)]
 #[serde(rename_all = "camelCase")]
+#[builder(on(String, into))]
 pub struct ToggleVaultVersion<'c> {
 	#[serde(skip)]
 	#[builder(field)]

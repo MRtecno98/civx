@@ -5,7 +5,8 @@ use serde::Serialize;
 use crate::{CivitAI, Method, Query, models::{Creator, Page}, queries::{Paginate, PaginationView, impl_builder_send, paginated_post_req}};
 
 #[civx(clap)]
-#[derive(Serialize, Builder)]
+#[derive(Serialize, Builder, Debug)]
+#[serde(rename_all = "camelCase")]
 #[builder(on(String, into))]
 pub struct ListCreators<'c> {
 	#[serde(skip)]
