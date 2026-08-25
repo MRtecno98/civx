@@ -3,6 +3,10 @@ name = "civx-cli"
 version = "0.1.0"
 edition = "2024"
 
+[[bin]]
+name = "civx"
+path = "src/main.rs"
+
 [dependencies]
 civx = { workspace = true, features = ["clap"] }
 clap = { version = "4.6.6", features = ["derive"] }
