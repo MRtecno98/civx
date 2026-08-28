@@ -32,15 +32,17 @@ while pages support seeking and are better suited for user interfaces.
 Note that when using page navigation the requested page number times the request element limit *must be less than 1000*. Consider using
 cursors if you require deeper iteration.
 
+Using cursors (and streams),
 ```rust
-// ===== Using cursors (and streams)
 let stream = pin!(models.stream());
 
 while let Some(model) = stream.try_next().await? {
     // automatically requests more cursors
 }
+```
 
-// ===== Using pages
+Using pages,
+```rust
 let (current_page, page_count) = models.index()
     .ok_or("Request doesn't support page iteration");
 
@@ -54,7 +56,7 @@ for model in models.items() {
 // When you need to, you can request a new page.
 // This consumes the old one so be sure to drain
 // the items by iterating it first!
-let new_page = models.seek_page(current_page + 1).await?
+let new_page = models.next_page().await?
     .unwrap_or("No more pages left"); 
 ```
 
