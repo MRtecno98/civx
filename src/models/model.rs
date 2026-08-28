@@ -11,7 +11,7 @@ use crate::{AIR, Ecosystem, AirIdent, Source, enums::{Availability, BaseModel, B
 pub struct Model {
 	pub id: i64,
 	pub name: String,
-	pub description: String,
+	pub description: Option<String>,
 
 	#[serde(rename = "type")]
 	pub model_type: ModelType,
