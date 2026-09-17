@@ -67,6 +67,7 @@ use crate::{Method, Result, error::Error, queries::Paginate};
 /// # use std::pin::pin;
 /// # use civx::{models::{Model, Page}, queries::ListModels};
 /// # use futures::TryStreamExt;
+/// # let client = civx::CivitAI::new()?;
 /// let models = client.list_models().send().await?;
 /// let mut stream = pin!(models.stream());
 ///
@@ -86,6 +87,7 @@ use crate::{Method, Result, error::Error, queries::Paginate};
 /// # use std::pin::pin;
 /// # use civx::{models::{Model, Page}, queries::ListModels};
 /// # use futures::TryStreamExt;
+/// # let client = civx::CivitAI::new()?;
 /// let mut page = client.list_models().send().await?;
 /// let (current_page, page_count) = page.index()
 ///     .expect("Request doesn't support page iteration");
