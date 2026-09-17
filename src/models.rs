@@ -58,23 +58,16 @@ use crate::{Method, Result, error::Error, queries::Paginate};
 /// you require deeper iteration.
 /// 
 /// # Examples
-/// ```rust, no_run
-/// # tokio_test::block_on(async {
-/// # use std::pin::pin;
-/// # let client = civx::CivitAI::new()?;
-/// let models = client.list_models().send().await?;
-/// # Ok::<(), Box<dyn std::error::Error>>(())
-/// # });
-/// ```
+/// 
 /// 
 /// Using cursors (and streams)
+/// 
 /// ```rust, no_run
 /// # tokio_test::block_on(async {
 /// # use std::pin::pin;
 /// # use civx::{models::{Model, Page}, queries::ListModels};
 /// # use futures::TryStreamExt;
-/// # let models: Page<'_, Model, ListModels<'_>> = unsafe { std::mem::zeroed() };
-/// // Using cursors (and streams)
+/// let models = client.list_models().send().await?;
 /// let mut stream = pin!(models.stream());
 ///
 /// while let Some(model) = stream.try_next().await? {
@@ -84,13 +77,16 @@ use crate::{Method, Result, error::Error, queries::Paginate};
 /// # });
 /// ```
 /// 
+/// ---
+/// 
 /// Using pages, note that limit*page must be less than 1000.
+/// 
 /// ```rust, no_run
 /// # tokio_test::block_on(async {
 /// # use std::pin::pin;
 /// # use civx::{models::{Model, Page}, queries::ListModels};
 /// # use futures::TryStreamExt;
-/// # let mut page: Page<'_, Model, ListModels<'_>> = unsafe { std::mem::zeroed() };
+/// let mut page = client.list_models().send().await?;
 /// let (current_page, page_count) = page.index()
 ///     .expect("Request doesn't support page iteration");
 /// 
