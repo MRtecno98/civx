@@ -55,6 +55,7 @@
     "SDXL Lightning",
     "SDXL Hyper",
     "Reve",
+    "Muse Image",
     "Wan Video 1.3B t2v",
     "Wan Video 14B t2v",
     "Wan Video 14B i2v 480p",
@@ -70,7 +71,8 @@
     "ZImageTurbo",
     "ZImageBase",
     "MiniMax H3",
-    "ACE Audio"
+    "ACE Audio",
+    "MiniMax Music 3"
   ],
   "BaseModel": [
     "Anima",
@@ -146,6 +148,7 @@
     "SDXL Turbo",
     "SDXL Distilled",
     "Reve",
+    "Muse Image",
     "Seedream",
     "SVD",
     "SVD XT",
@@ -171,9 +174,12 @@
     "Kling",
     "Seedance",
     "ACE Audio",
+    "MiniMax Music 3",
     "PolyGen",
     "Tripo",
-    "Hunyuan3D"
+    "Hunyuan3D",
+    "Pixal3D",
+    "Trellis.2"
   ],
   "BaseModelType": [
     "Standard",
