@@ -1,3 +1,5 @@
+#![allow(linker_messages)]
+
 use std::{env, path::PathBuf};
 
 use itertools::Itertools;

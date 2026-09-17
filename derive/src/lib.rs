@@ -1,3 +1,5 @@
+#![allow(linker_messages)]
+
 use std::collections::HashSet;
 
 use quote::{format_ident, quote};
