@@ -54,23 +54,26 @@ impl Hashes {
 
 	pub fn check_reader(&self, reader: impl AsyncRead + Unpin, content_length: Option<u64>) 
 		-> crate::Result<VerifyingReader<impl AsyncRead + Unpin, Box<dyn HasherDyn + Unpin>>> {
-		let (hash, hasher) = if let Some(hash) = self.get::<Blake3, _>() {
-			(hash.to_dyn(), Box::new(Blake3::new()) as Box<dyn HasherDyn + Unpin>)
-		} else if let Some(hash) = self.get::<Sha256, _>() {
-			(hash.to_dyn(), Box::new(Sha256::new()) as Box<dyn HasherDyn + Unpin>)
-		} else if let Some(hash) = self.get::<Crc32, _>() {
-			(hash.to_dyn(), Box::new(Crc32::new()) as Box<dyn HasherDyn + Unpin>)
-		} else {
-			return Err(Error::MissingHash);
-		};
+
+		let (hash, hasher) = 
+			if let Some(hash) = self.get::<Blake3, _>() {
+				(hash.to_dyn(), Box::new(Blake3::new()) as Box<dyn HasherDyn + Unpin>)
+			} else if let Some(hash) = self.get::<Sha256, _>() {
+				(hash.to_dyn(), Box::new(Sha256::new()) as Box<dyn HasherDyn + Unpin>)
+			} else if let Some(hash) = self.get::<Crc32, _>() {
+				(hash.to_dyn(), Box::new(Crc32::new()) as Box<dyn HasherDyn + Unpin>)
+			} else {
+				return Err(Error::MissingHash);
+			};
 
 		Ok(VerifyingReader::new_hasher(reader, hasher, hash, content_length))
 	}
 	
 	#[allow(private_bounds)]
 	pub fn check_reader_hash<H, const N: usize>(&self, reader: impl AsyncRead + Unpin, content_length: Option<u64>) 
-		-> crate::Result<VerifyingReader<impl AsyncRead + Unpin, H>>
-	where Self: HashGetter<H>, H: HasherExt<N> + Unpin {
+			-> crate::Result<VerifyingReader<impl AsyncRead + Unpin, H>> 
+		where Self: HashGetter<H>, H: HasherExt<N> + Unpin {
+		
 		let hash = self.get::<H, N>().ok_or(Error::MissingHash)?;
 
 		Ok(VerifyingReader::new(reader, &hash, content_length))

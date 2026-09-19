@@ -15,7 +15,7 @@ pub struct CivitAI {
 }
 
 macro_rules! impl_method {
-	($method:ty, $name:ident, noargs) => {
+	($method:ty, $name:ident) => {
 		#[inline]
 		#[doc = concat!("See [`", stringify!($method), "`](crate::queries::", stringify!($method), ") for more details.")]
 		pub async fn $name(&self) -> $crate::Result<<$method as Method<'_>>::Output> {
@@ -31,7 +31,7 @@ macro_rules! impl_method {
 		}
 	};
 
-	($method:ty, $builder:ident, $name:ident) => {
+	($method:ty, $name:ident, builder($builder:ident)) => {
 		#[inline]
 		#[doc = concat!("See [`", stringify!($method), "`](crate::queries::", stringify!($method), ") for more details.")]
 		pub fn $name(&self) -> $builder<'_> {
@@ -181,7 +181,7 @@ impl CivitAI {
 		}
 	}
 
-	impl_method!(ListModels, ListModelsBuilder, list_models);
+	impl_method!(ListModels, list_models, builder(ListModelsBuilder));
 	impl_method!(GetModel, get_model, args(id));
 	impl_method!(GetModelVersion, get_model_version, args(version_id));
 	impl_method!(GetModelVersionMinimal, get_model_version_minimal, args(version_id));
@@ -189,28 +189,28 @@ impl CivitAI {
 	impl_method!(GetByHashBulk, get_by_hash_bulk, args(hashes));
 	impl_method!(GetIdsByHashBulk, get_ids_by_hash, args(hashes));
 
-	impl_method!(ListImages, ListImagesBuilder, list_images);
+	impl_method!(ListImages, list_images, builder(ListImagesBuilder));
 	
-	impl_method!(ListArticles, ListArticlesBuilder, list_articles);
+	impl_method!(ListArticles, list_articles, builder(ListArticlesBuilder));
 	impl_method!(GetArticle, get_article, args(id));
 
-	impl_method!(ListCollections, ListCollectionsBuilder, list_collections);
+	impl_method!(ListCollections, list_collections, builder(ListCollectionsBuilder));
 	impl_method!(GetCollection, get_collection, args(id));
 
-	impl_method!(ListCreators, ListCreatorsBuilder, list_creators);
-	impl_method!(GetEnums, get_enums, noargs);
+	impl_method!(ListCreators, list_creators, builder(ListCreatorsBuilder));
+	impl_method!(GetEnums, get_enums);
 
-	impl_method!(ListTags, ListTagsBuilder, list_tags);
+	impl_method!(ListTags, list_tags, builder(ListTagsBuilder));
 
-	impl_method!(GetMe, get_me, noargs);
-	impl_method!(LookupUsers, LookupUsersBuilder, lookup_users);
+	impl_method!(GetMe, get_me);
+	impl_method!(LookupUsers, lookup_users, builder(LookupUsersBuilder));
 
-	impl_method!(CheckPermissions, CheckPermissionsBuilder, check_permissions);
+	impl_method!(CheckPermissions, check_permissions, builder(CheckPermissionsBuilder));
 
-	impl_method!(GetVault, get_vault, noargs);
-	impl_method!(ListVault, ListVaultBuilder, list_vault);
-	impl_method!(CheckInVault, CheckInVaultBuilder, check_in_vault);
-	impl_method!(ToggleVaultVersion, ToggleVaultVersionBuilder, toggle_vault_version);
+	impl_method!(GetVault, get_vault);
+	impl_method!(ListVault, list_vault, builder(ListVaultBuilder));
+	impl_method!(CheckInVault, check_in_vault, builder(CheckInVaultBuilder));
+	impl_method!(ToggleVaultVersion, toggle_vault_version, builder(ToggleVaultVersionBuilder));
 }
 
 #[cfg(test)]
