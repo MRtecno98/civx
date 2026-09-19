@@ -127,6 +127,7 @@ pub enum Usage {
 	Sell,
 	RentCivit,
 	Download,
+	SellMerge,
 }
 
 #[cfg_attr(feature = "clap", derive(clap::ValueEnum))]
@@ -431,19 +432,31 @@ impl Default for NsfwLevel {
 }
 
 impl BaseModel {
-	/// Returns true if the base model is an active base model (i.e. not unknown).
+	/// Returns true if the base model is an active base model.
 	/// 
-	/// Note that if the enum list is outdated, this will return false for any new 
-	/// active base models that are not yet in the enum list.
+	/// Note that if the enum list is outdated, this will return *true* for any new 
+	/// active but unknown base models that are not yet in the enum list.
+	/// 
+	/// This allows for forward compatibility with new models until the enums list is updated,
+	/// it's generally assumable as well that a new model will be active at the time of release.
 	/// 
 	/// # Examples
 	/// ```rust
 	/// # use civx::enums::{BaseModel, ActiveBaseModel};
-	/// let base_model: BaseModel = "SDXL".parse().unwrap();
-	/// assert!(base_model.is_active());
+	/// # use std::assert_matches;
+	/// assert!(BaseModel::SDXL10.is_active());
+	/// assert!(!BaseModel::PolyGen.is_active());
+	/// 
+	/// // let's say a new base model "AmazingModel" is released, which is
+	/// // not yet in the enums list.
+	/// let base_model: BaseModel = "AmazingModel".parse().unwrap();
+	/// assert_matches!(base_model, BaseModel::Unknown(_));
+	/// 
+	/// assert!(base_model.is_active()); // Unknown models default to active!
 	/// ```
 	#[must_use]
 	pub fn is_active(&self) -> bool {
-		matches!(ActiveBaseModel::from(self.to_string()), ActiveBaseModel::Unknown(_))
+		matches!(self, BaseModel::Unknown(_)) 
+			|| !matches!(ActiveBaseModel::from(self.to_string()), ActiveBaseModel::Unknown(_))
 	}
 }
