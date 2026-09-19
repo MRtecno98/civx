@@ -37,6 +37,7 @@
 //!   compilation. *Requires a network connection at compile time.*
 //! 
 //! Other feature flags are used for development and not a concern for library consumers.
+#![cfg_attr(test, allow(linker_messages))]
 
 pub mod queries;
 pub mod models;
