@@ -33,7 +33,7 @@ jobs:
         run: cargo test --verbose -- --show-output
 
       - name: Run tests with all features (no online)
-        run: cargo test --features enums --verbose -- --show-output
+        run: cargo test --features enums,clap --verbose -- --show-output
 
   build:
     name: Build for all platforms
