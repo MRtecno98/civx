@@ -36,6 +36,9 @@
 //!   guarantees having an up-to-date enum list at the cost of a network call for each 
 //!   compilation. *Requires a network connection at compile time.*
 //! 
+//! - `clap`: Add [clap](https://docs.rs/clap/latest/clap/) derive macros to all
+//!    queries structs, allowing them to be used in argument structs for CLI tools
+//! 
 //! Other feature flags are used for development and not a concern for library consumers.
 #![cfg_attr(test, allow(linker_messages))]
 

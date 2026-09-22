@@ -1,6 +1,6 @@
 [package]
 name = "civx"
-version = "0.1.3"
+version = "0.1.4"
 license = "MIT"
 description = "A Rust client for the new CivitAI site API."
 repository = "https://github.com/MRtecno98/civx"
@@ -44,7 +44,7 @@ tokio-util = "0.7.19"
 futures = "0.3.34"
 futures-util = "0.3.34"
 async-stream = "0.3.6"
-civx-derive = { path = "derive" }
+civx-derive = { path = "derive", version = "0.1.0" }
 clap = { version = "4.6.6", optional = true, features = ["derive"] }
 
 [dev-dependencies]

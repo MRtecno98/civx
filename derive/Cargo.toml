@@ -1,6 +1,9 @@
 [package]
 name = "civx-derive"
 version = "0.1.0"
+license = "MIT"
+description = "Procedural macros for the civx crate"
+repository = "https://github.com/MRtecno98/civx"
 edition = "2024"
 
 [lib]
