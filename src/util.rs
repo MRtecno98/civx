@@ -37,7 +37,7 @@ impl<'a, V> FileExt<'a, V> {
 impl Model {
 	pub fn version_entries(&self) -> impl Iterator<Item = VersionEntryExt<'_>> {
 		self.model_versions.iter().map(move |version| VersionEntryExt {
-			version: version,
+			version,
 			model: self,
 		})
 	}

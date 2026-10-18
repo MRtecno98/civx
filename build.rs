@@ -103,7 +103,7 @@ async fn generate_enums() -> Result<TokenStream, Box<dyn std::error::Error>> {
 			.iter()
 			.map(|v| v.as_str()
 				.ok_or(format!("Expected string in array for enum '{name}'"))
-				.map(&str::to_string))
+				.map(str::to_string))
 			.collect::<Result<Vec<String>, String>>()?
 			.iter()
 			.map(&String::as_str)
