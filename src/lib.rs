@@ -51,6 +51,7 @@ mod method;
 mod client;
 mod air;
 mod files;
+mod util;
 
 pub use method::*;
 pub use air::*;

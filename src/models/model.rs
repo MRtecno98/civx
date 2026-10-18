@@ -4,7 +4,7 @@ use chrono::{DateTime, Utc};
 use serde::Deserialize;
 use url::Url;
 
-use crate::{AIR, Ecosystem, AirIdent, Source, enums::{Availability, BaseModel, BaseModelType, ModelFileType, ModelType, ModerationStatus, NsfwLevel, PublishingStatus, ResourceType, UploadType, Usage}, models::{GenerationMetadata, files::{File, Hashes}}};
+use crate::{AIR, Result, AirIdent, CivitAI, Ecosystem, Source, enums::{Availability, BaseModel, BaseModelType, ModelFileType, ModelType, ModerationStatus, NsfwLevel, PublishingStatus, ResourceType, UploadType, Usage}, models::{GenerationMetadata, files::{File, Hashes}}};
 
 #[derive(Deserialize, Debug, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
@@ -99,6 +99,12 @@ pub struct ModelVersionEntry {
 	pub trained_words: Option<Vec<String>>,
 	pub vae_id: Option<u64>,
 	pub paid_access: Option<PaidAccessInfo>,
+}
+
+impl ModelVersionEntry {
+	pub async fn request_full(&self, client: &CivitAI) -> Result<ModelVersion> {
+		client.get_model_version(self.id).await
+	}
 }
 
 #[derive(Deserialize, Debug, Clone, PartialEq)]
