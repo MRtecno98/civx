@@ -68,6 +68,8 @@ back to page iteration if none are present. Most of the time this means using cu
   from the API itself at compile time and generates Rust wrappers to use them in requests. For library consumers this
   guarantees having an up-to-date enum list at the cost of a network call for each compilation.
   *Requires a network connection at compile time.*
+- `clap`: Enables clap integration for queries, allowing the structs in the `queries` module to be used as command line argument groups,
+  in a command line tool, avoiding excessive wrappers.
 - `testing`: Enables execution of API tests against the actual servers, requires a network connection.
 
 ## Development
