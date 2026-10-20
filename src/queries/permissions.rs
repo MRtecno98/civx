@@ -47,7 +47,7 @@ mod tests {
 	use crate::tests::*;
 
 	#[tokio::test]
-	#[cfg(feature = "network-tests")]
+	#[cfg(feature = "testing")]
 	async fn online_check_permissions() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.check_permissions()
 			.entity_ids(vec![2731187])

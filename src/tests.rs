@@ -46,7 +46,7 @@ impl<T> DerefMut for ApiBaseGuard<T> {
 	}
 }
 
-#[cfg(feature = "network-tests")]
+#[cfg(feature = "testing")]
 macro_rules! auth_token {
 	() => {
 		option_env!("TEST_TOKEN").expect(
@@ -110,7 +110,7 @@ macro_rules! mock_client {
 	};
 }
 
-#[cfg(feature = "network-tests")]
+#[cfg(feature = "testing")]
 pub(crate) use auth_token;
 pub(crate) use fixture;
 pub(crate) use fixture_response;

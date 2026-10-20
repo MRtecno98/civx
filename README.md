@@ -68,7 +68,7 @@ back to page iteration if none are present. Most of the time this means using cu
   from the API itself at compile time and generates Rust wrappers to use them in requests. For library consumers this
   guarantees having an up-to-date enum list at the cost of a network call for each compilation.
   *Requires a network connection at compile time.*
-- `network-tests`: Enables execution of API tests against the actual servers, requires a network connection.
+- `testing`: Enables execution of API tests against the actual servers, requires a network connection.
 
 ## Development
 To build and run tests
@@ -79,14 +79,14 @@ cargo test
 To run online tests (against the real servers)
 
 ```
-cargo test --features network-tests
+cargo test --features testing
 ```
 
 To run authenticated tests, first create a `test_token` containing the token an nothing 
 else (check for newlines) and put it in the `tests` folder, then run
 
 ```
-cargo test --features network-tests -- --include-ignored
+cargo test --features testing -- --include-ignored
 ```
 
 In all the above commands you can enable the `enums` feature to also download the latests enums from CivitAI (see above)

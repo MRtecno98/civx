@@ -58,7 +58,7 @@ mod tests {
 	use crate::tests::*;
 
 	#[tokio::test]
-	#[cfg(feature = "network-tests")]
+	#[cfg(feature = "testing")]
 	async fn online_list_tags() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.list_tags()
 			.limit(10)

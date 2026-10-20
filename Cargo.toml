@@ -19,7 +19,7 @@ exclude = [
 [features]
 enums = []
 clap = ["dep:clap", "civx-derive/clap"]
-network-tests = []
+testing = []
 
 [workspace]
 resolver = "3"

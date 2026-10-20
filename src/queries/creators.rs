@@ -47,7 +47,7 @@ mod tests {
 	use crate::tests::*;
 
 	#[tokio::test]
-	#[cfg(feature = "network-tests")]
+	#[cfg(feature = "testing")]
 	async fn online_list_creators() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.list_creators()
 			.limit(10)

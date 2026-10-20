@@ -7,8 +7,9 @@ use proc_macro2::TokenStream;
 use quote::{format_ident, quote};
 use serde_json::Value;
 
-const ENUMS_FILENAME: &str = "enums.rs";
+#[allow(unused)]
 const ENUMS_URL: &str = "https://civitai.com/api/v1/enums";
+const ENUMS_FILENAME: &str = "enums.rs";
 const JSON_FILENAME: &str = "enums.json";
 
 #[tokio::main]
@@ -46,35 +47,28 @@ async fn fetch_enums() -> Result<Value, Box<dyn std::error::Error>> {
 		.timeout(std::time::Duration::from_secs(3)).send().await;
 
 	if let Err(err) = &response && err.is_timeout() {
-		if std::fs::exists(JSON_FILENAME)? {
-			let json = std::fs::read_to_string(JSON_FILENAME)?;
-			Ok(serde_json::from_str(&json)?)
-		} else {
-			Err("Failed to fetch enums and no cached JSON file found".into())
-		}
+		fetch_cached_enums().await
 	} else {
 		let value = response?.error_for_status()?.json().await?;
 
-		std::fs::write(JSON_FILENAME, 
-			serde_json::to_string_pretty(&value)?)?;
+		if cfg!(feature = "testing") {
+			std::fs::write(JSON_FILENAME, 
+				serde_json::to_string_pretty(&value)?)?;
+		}
 
 		Ok(value)
 	}
 }
 
+#[inline]
 #[cfg(not(feature = "enums"))]
 async fn fetch_enums() -> Result<Value, Box<dyn std::error::Error>> {
-	Ok(if std::fs::exists(JSON_FILENAME)? {
-		let json = std::fs::read_to_string(JSON_FILENAME)?;
-		serde_json::from_str(&json)?
-	} else {
-		let value: Value = reqwest::get(ENUMS_URL).await?.json().await?;
+	fetch_cached_enums().await
+}
 
-		std::fs::write(JSON_FILENAME,
-			serde_json::to_string_pretty(&value)?)?;
-
-		value
-	})
+async fn fetch_cached_enums() -> Result<Value, Box<dyn std::error::Error>> {
+	let json = std::fs::read_to_string(JSON_FILENAME)?;
+	Ok(serde_json::from_str(&json)?)
 }
 
 fn fix_enums(value: &mut Value) {

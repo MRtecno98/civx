@@ -133,7 +133,7 @@ mod tests {
 	use crate::tests::*;
 
 	#[tokio::test]
-	#[cfg(feature = "network-tests")]
+	#[cfg(feature = "testing")]
 	async fn online_list_models() -> Result<(), Box<dyn Error>> {
 		use crate::enums::SortKind;
 		
@@ -146,7 +146,7 @@ mod tests {
 	}
 
 	#[tokio::test]
-	#[cfg(feature = "network-tests")]
+	#[cfg(feature = "testing")]
 	async fn online_get_model() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.get_model(2731187).await?;
 
@@ -154,7 +154,7 @@ mod tests {
 	}
 
 	#[tokio::test]
-	#[cfg(feature = "network-tests")]
+	#[cfg(feature = "testing")]
 	async fn online_get_model_version() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.get_model_version(135867).await?;
 
@@ -162,7 +162,7 @@ mod tests {
 	}
 
 	#[tokio::test]
-	#[cfg(feature = "network-tests")]
+	#[cfg(feature = "testing")]
 	async fn online_get_model_version_by_hash() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.get_by_hash("0D9BD1B873A7863E128B4672E3E245838858F71469A3CEC58123C16C06F83BD7".into()).await?;
 
@@ -170,7 +170,7 @@ mod tests {
 	}
 
 	#[tokio::test]
-	#[cfg(feature = "network-tests")]
+	#[cfg(feature = "testing")]
 	async fn online_get_model_version_by_hash_bulk() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.get_by_hash_bulk(vec![
 			"A5E5A941A3217247DBCECEEE5B67F8D6B1EF2514260E08A5757436BEC7035F93".into(),
@@ -181,7 +181,7 @@ mod tests {
 	}
 
 	#[tokio::test]
-	#[cfg(feature = "network-tests")]
+	#[cfg(feature = "testing")]
 	async fn online_get_ids_by_hash() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.get_ids_by_hash(vec![
 			"A5E5A941A3217247DBCECEEE5B67F8D6B1EF2514260E08A5757436BEC7035F93".into(),
@@ -192,7 +192,7 @@ mod tests {
 	}
 
 	#[tokio::test]
-	#[cfg(feature = "network-tests")]
+	#[cfg(feature = "testing")]
 	async fn online_get_model_version_minimal() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.get_model_version_minimal(135867).await?;
 

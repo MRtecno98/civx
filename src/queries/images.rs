@@ -66,7 +66,7 @@ mod tests {
 	use crate::enums::ImageSortKind;
 
 	#[tokio::test]
-	#[cfg(feature = "network-tests")]
+	#[cfg(feature = "testing")]
 	async fn online_list_images() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.list_images()
 			.pagination(Some(10), None, None)

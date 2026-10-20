@@ -69,7 +69,7 @@ mod tests {
 	use crate::tests::*;
 
 	#[tokio::test]
-	#[cfg(feature = "network-tests")]
+	#[cfg(feature = "testing")]
 	async fn online_list_articles() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.list_articles()
 			.nsfw(true)
@@ -80,7 +80,7 @@ mod tests {
 	}
 
 	#[tokio::test]
-	#[cfg(feature = "network-tests")]
+	#[cfg(feature = "testing")]
 	async fn online_get_article() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.get_article(33738).await?;
 

@@ -57,7 +57,7 @@ mod tests {
 	use crate::tests::*;
 
 	#[tokio::test]
-	#[cfg(feature = "network-tests")]
+	#[cfg(feature = "testing")]
 	async fn online_lookup_users() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.lookup_users()
 			.ids(vec![123, 456, 789])
@@ -67,7 +67,7 @@ mod tests {
 	}
 
 	#[tokio::test]
-	#[cfg(feature = "network-tests")]
+	#[cfg(feature = "testing")]
 	#[ignore = "requires a token file"]
 	async fn online_get_me() -> Result<(), Box<dyn Error>> {
 		CivitAI::new_auth(auth_token!())?.get_me().await?;

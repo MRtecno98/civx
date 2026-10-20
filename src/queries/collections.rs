@@ -57,7 +57,7 @@ mod tests {
 	use crate::tests::*;
 
 	#[tokio::test]
-	#[cfg(feature = "network-tests")]
+	#[cfg(feature = "testing")]
 	async fn online_list_collections() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.list_collections()
 			.sort(CollectionSortKind::MostFollowers)
@@ -68,7 +68,7 @@ mod tests {
 	}
 
 	#[tokio::test]
-	#[cfg(feature = "network-tests")]
+	#[cfg(feature = "testing")]
 	async fn online_get_collection() -> Result<(), Box<dyn Error>> {
 		CivitAI::new()?.get_collection(10505430).await?;
 
