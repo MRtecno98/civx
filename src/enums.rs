@@ -42,7 +42,7 @@
 //! let resource_type: ResourceType = "SomeCoolResourceType".parse().unwrap();
 //! ```
 
-use std::{hash::Hash, str::FromStr};
+use std::{fmt::Display, hash::Hash, str::FromStr};
 
 use bitmask_enum::bitmask;
 use serde::{Deserialize, Serialize};
@@ -399,6 +399,22 @@ impl FromStr for NsfwLevel {
 	}
 }
 
+impl Display for NsfwLevel {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		if self.contains(NsfwLevel::None) {
+			write!(f, "None")
+		} else if self.contains(NsfwLevel::Soft) {
+			write!(f, "Soft")
+		} else if self.contains(NsfwLevel::Mature) {
+			write!(f, "Mature")
+		} else if self.contains(NsfwLevel::X) {
+			write!(f, "X")
+		} else {
+			write!(f, "None") // Default to None if unknown
+		}
+	}
+}
+
 #[cfg(feature = "clap")]
 impl clap::ValueEnum for NsfwLevel {
 	fn value_variants<'a>() -> &'a [Self] {
@@ -428,6 +444,45 @@ impl clap::ValueEnum for NsfwLevel {
 impl Default for NsfwLevel {
 	fn default() -> Self {
 		NsfwLevel::None
+	}
+}
+
+impl Display for Availability {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		match self {
+			Availability::Public => write!(f, "public"),
+		}
+	}
+}
+
+impl Display for ScanResult {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		match self {
+			ScanResult::Success => write!(f, "Success"),
+			ScanResult::Pending => write!(f, "Pending"),
+		}
+	}
+}
+
+impl Display for UserStatus {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		match self {
+			UserStatus::Active => write!(f, "active"),
+			UserStatus::Muted => write!(f, "muted"),
+			UserStatus::Banned => write!(f, "banned"),
+		}
+	}
+}
+
+impl Display for MembershipTier {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		match self {
+			MembershipTier::Free => write!(f, "free"),
+			MembershipTier::Founder => write!(f, "founder"),
+			MembershipTier::Bronze => write!(f, "bronze"),
+			MembershipTier::Silver => write!(f, "silver"),
+			MembershipTier::Gold => write!(f, "gold"),
+		}
 	}
 }
 

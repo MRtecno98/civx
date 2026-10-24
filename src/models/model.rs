@@ -168,6 +168,27 @@ impl ModelVersion {
 	}
 }
 
+impl From<ModelVersion> for ModelVersionEntry {
+	fn from(version: ModelVersion) -> Self {
+		Self {
+			id: version.id,
+			index: 0, // Not present in ModelVersion, defaulting to 0
+			name: version.name,
+			base_model: version.base_model,
+			base_model_type: version.base_model_type,
+			published_at: Some(version.published_at),
+			stats: version.stats,
+			download_url: version.download_url,
+			files: version.files,
+			availability: version.availability,
+			description: version.description,
+			trained_words: Some(version.trained_words),
+			vae_id: None, // Not present in ModelVersion, defaulting to None
+			paid_access: None, // Not present in ModelVersion, defaulting to None
+		}
+	}
+}
+
 #[derive(Deserialize, Debug, Clone, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct VersionModelInfo {
