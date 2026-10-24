@@ -91,7 +91,7 @@ pub fn print_model(model: &Model) {
 	table.add_row(vec![
 		"NSFW".to_string(), 
 		if model.nsfw { 
-			format!("true ({})", model.nsfw_level.to_string()) 
+			format!("true ({})", model.nsfw_level) 
 		} else { "false".to_string() },
 
 		"Tipped Amount".to_string(), model.stats.tipped_amount_count.map_or("N/A".to_string(), |c| c.to_string())
