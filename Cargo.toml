@@ -25,6 +25,11 @@ testing = []
 resolver = "3"
 members = [".", "cli", "derive"]
 
+# Only relevant for civx-cli, which is a binary
+[profile.release]
+opt-level = 3
+lto = "fat"
+
 [dependencies]
 bitmask-enum = "2.2.5"
 blake3 = "1.8.6"
