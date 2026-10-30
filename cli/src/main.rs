@@ -21,13 +21,14 @@ pub(crate) fn clap_styles() -> Styles {
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
 	let cli = args::Args::parse();
+	let auth_client = auth::AuthClient::new();
 
-	let token = match auth::login().await {
+	let token = match auth_client.login().await {
 		Ok(token) => Some(token.into_secret()),
 
 		Err(AuthError::NotLoggedIn | AuthError::TokenRequest(_)) => None,
 
-		Err(err) => return Err(err)?
+		Err(err) => Err(err)?
 	};
 	
 	let client = match token {
@@ -85,16 +86,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 		},
 
 		Command::Login => {
-			if auth::session_present()? {
+			if auth_client.is_session_present()? {
 				println!("Already logged in, use `civx logout` to log out first");
 			} else {
-				match auth::login_session().await {
+				match auth_client.login_session().await {
 					Err(AuthError::CannotOpenURL) => {
 						println!("Cannot open URL in browser, login from a headless shell is not supported yet.");
 					},
 
 					_ => {
-						if auth::session_present()? {
+						if auth_client.is_session_present()? {
 							println!("Login successful");
 						} else {
 							println!("Login failed, no token was received from the server");
@@ -105,7 +106,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 		},
 
 		Command::Logout => {
-			auth::logout()?;
+			auth_client.logout()?;
 			println!("Logout successful");
 		},
 

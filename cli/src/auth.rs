@@ -4,7 +4,7 @@ use axum::{Router, extract::{Query, State}, routing::get};
 use chrono::Utc;
 use civx::oauth::CivitAIOAuth;
 use keyring::Entry;
-use oauth2::{AccessToken, AuthorizationCode, CsrfToken, HttpClientError, PkceCodeChallenge, RedirectUrl, RefreshToken, RequestTokenError, Scope, StandardErrorResponse, TokenResponse, basic::BasicErrorResponseType, reqwest};
+use oauth2::{AccessToken, AuthorizationCode, ConfigurationError, CsrfToken, HttpClientError, PkceCodeChallenge, RedirectUrl, RefreshToken, RequestTokenError, Scope, StandardErrorResponse, StandardRevocableToken, TokenResponse, basic::BasicErrorResponseType, reqwest};
 use serde::Deserialize;
 use text_io::read;
 use tokio::{net::TcpListener, sync::mpsc};
@@ -28,6 +28,7 @@ pub enum AuthError {
 		HttpClientError<reqwest::Error>, 
 		StandardErrorResponse<BasicErrorResponseType>
 	>),
+	Revoke(ConfigurationError),
 	NotLoggedIn,
 	CannotOpenURL,
 	Keyring(keyring::Error),
@@ -53,6 +54,12 @@ impl From<RequestTokenError<HttpClientError<reqwest::Error>, StandardErrorRespon
 	}
 }
 
+impl From<ConfigurationError> for AuthError {
+	fn from(err: ConfigurationError) -> Self {
+		AuthError::Revoke(err)
+	}
+}
+
 impl std::fmt::Display for AuthError {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
@@ -63,6 +70,7 @@ impl std::fmt::Display for AuthError {
 			AuthError::CsrfMismatch => write!(f, "CSRF token mismatch"),
 			AuthError::NotLoggedIn => write!(f, "No refresh token found. Please log in first."),
 			AuthError::CannotOpenURL => write!(f, "Cannot open URL in browser. Please open it manually."),
+			AuthError::Revoke(err) => write!(f, "Token revoke error: {}", err),
 		}
 	}
 }
@@ -91,165 +99,194 @@ impl RedirectType {
 	}
 }
 
-pub fn http_client() -> reqwest::Client {
-	reqwest::Client::builder()
-		.redirect(reqwest::redirect::Policy::none())
-		.build()
-		.unwrap()
+pub struct AuthClient {
+	oauth: CivitAIOAuth,
+	redirect: RedirectType,
+	http_client: reqwest::Client,
+
+	refresh_entry: Entry,
+	access_entry: Entry,
+	expiry_entry: Entry,
 }
 
-pub fn oauth_client() -> CivitAIOAuth {
-	civx::oauth::new_client_id(CLIENT_ID)
-		.set_redirect_uri(RedirectType::select().get_url())
-}
+impl AuthClient {
+	pub fn new() -> Self {
+		Self {
+			oauth: civx::oauth::new_client_id(CLIENT_ID)
+				.set_redirect_uri(RedirectType::select().get_url()),
 
-pub async fn login_session() -> Result<(), AuthError> {
-	let (refresh, access) = secrets()?;
-	let expiry = expiry()?;
+			http_client: reqwest::Client::builder()
+				.redirect(reqwest::redirect::Policy::none())
+				.build()
+				.unwrap(),
 
-	let oauth = oauth_client();
+			redirect: RedirectType::select(),
 
-	let redirect = RedirectType::select();
-
-	let (challenge, verifier) = PkceCodeChallenge::new_random_sha256();
-
-	let (url, csrf) = oauth
-		.authorize_url(CsrfToken::new_random)
-		.set_pkce_challenge(challenge)
-		.set_redirect_uri(Cow::Owned(redirect.get_url()))
-		.add_scopes([
-			Scope::new("10701093".to_string()), // Read Only Preset
-		]).url();
-		
-	open::that(url.as_str())?;
-	println!("Please complete the login in your browser.");
-
-	match redirect {
-		RedirectType::Local => {
-			let callback = create_server_and_wait().await?;
-
-			if &callback.state != csrf.secret() {
-				return Err(AuthError::CsrfMismatch);
-			}
-
-			let code = AuthorizationCode::new(callback.code);
-
-			let token = oauth.exchange_code(code)
-				.set_pkce_verifier(verifier)
-				.request_async(&http_client()).await?;
-
-			if let Some(refresh_token) = token.refresh_token() {
-				refresh.set_password(refresh_token.secret())?;
-			}
-			
-			access.set_password(token.access_token().secret())?;
-			expiry.delete_credential().ok();
-
-			if let Some(expires_in) = token.expires_in() {
-				expiry.set_password(&string_expiration(expires_in)?)?;
-			}
-		},
-
-		RedirectType::Public => {
-			if !PUBLIC_REDIRECT_ENABLED {
-				return Err(AuthError::CannotOpenURL);
-			}
-
-			println!("Insert the token: ");
-			let token: String = read!("{}\n");
-
-			refresh.set_password(&token)?;
-			access.delete_credential().ok();
-			expiry.delete_credential().ok();
+			refresh_entry: Entry::new(SECRET_SERVICE, SECRET_REFRESH).unwrap(),
+			access_entry: Entry::new(SECRET_SERVICE, SECRET_ACCESS).unwrap(),
+			expiry_entry: Entry::new(SECRET_SERVICE, SECRET_EXPIRY).unwrap(),
 		}
 	}
 
-	Ok(())
+	pub async fn login_session(&self) -> Result<(), AuthError> {
+		let (challenge, verifier) = PkceCodeChallenge::new_random_sha256();
+
+		let (url, csrf) = self.oauth
+			.authorize_url(CsrfToken::new_random)
+			.set_pkce_challenge(challenge)
+			.set_redirect_uri(Cow::Owned(self.redirect.get_url()))
+			.add_scopes([
+				Scope::new("10701093".to_string()), // Read Only Preset
+			]).url();
+			
+		open::that(url.as_str())?;
+		println!("Please complete the login in your browser.");
+
+		match self.redirect {
+			RedirectType::Local => {
+				let callback = create_server_and_wait().await?;
+
+				if &callback.state != csrf.secret() {
+					return Err(AuthError::CsrfMismatch);
+				}
+
+				let code = AuthorizationCode::new(callback.code);
+
+				let token = self.oauth.exchange_code(code)
+					.set_pkce_verifier(verifier)
+					.request_async(&self.http_client).await?;
+
+				if let Some(refresh_token) = token.refresh_token() {
+					self.refresh_entry.set_password(refresh_token.secret())?;
+				}
+				
+				self.access_entry.set_password(token.access_token().secret())?;
+				self.expiry_entry.delete_credential().ok();
+
+				if let Some(expires_in) = token.expires_in() {
+					self.expiry_entry.set_password(&string_expiration(expires_in)?)?;
+				}
+			},
+
+			RedirectType::Public => {
+				if !PUBLIC_REDIRECT_ENABLED {
+					return Err(AuthError::CannotOpenURL);
+				}
+
+				println!("Insert the token: ");
+				let token: String = read!("{}\n");
+
+				self.refresh_entry.set_password(&token)?;
+				self.access_entry.delete_credential().ok();
+				self.expiry_entry.delete_credential().ok();
+			}
+		}
+
+		Ok(())
+	}
+
+	pub async fn login(&self) -> Result<AccessToken, AuthError> {
+		match self.access_token_not_expired()? {
+			Some(token) => Ok(token),
+
+			None => {
+				let refresh_token = self.refresh_token()?.ok_or(AuthError::NotLoggedIn)?;
+
+				let token = self.oauth.exchange_refresh_token(&refresh_token)
+					.request_async(&self.http_client).await?;
+
+				self.access_entry.set_password(token.access_token().secret())?;
+				self.expiry_entry.delete_credential().ok();
+
+				if let Some(expires_in) = token.expires_in() {
+					self.expiry_entry.set_password(&string_expiration(expires_in)?)?;
+				}
+
+				Ok(token.access_token().clone())
+			},
+		}
+	}
+
+	pub fn access_token(&self) -> Result<Option<AccessToken>, AuthError> {
+		match self.access_entry.get_password() {
+			Ok(token) => Ok(Some(AccessToken::new(token))),
+			Err(keyring::Error::NoEntry) => Ok(None),
+			Err(err) => Err(AuthError::Keyring(err)),
+		}
+	}
+
+	pub fn refresh_token(&self) -> Result<Option<RefreshToken>, AuthError> {
+		match self.refresh_entry.get_password() {
+			Ok(token) => Ok(Some(RefreshToken::new(token))),
+			Err(keyring::Error::NoEntry) => Ok(None),
+			Err(err) => Err(AuthError::Keyring(err)),
+		}
+	}
+
+	pub fn access_expired(&self) -> Result<bool, AuthError> {
+		let expired = self.expiry_entry.get_password().ok().as_ref()
+			.and_then(|e| chrono::DateTime::parse_from_rfc3339(e).ok())
+			.map(|dt| dt < Utc::now())
+			.unwrap_or(true);
+
+		Ok(expired)
+	}
+
+	pub fn access_token_not_expired(&self) -> Result<Option<AccessToken>, AuthError> {
+		if self.access_expired()? {
+			Ok(None)
+		} else {
+			self.access_token()
+		}
+	}
+
+	pub fn is_session_present(&self) -> Result<bool, AuthError> {
+		Ok(self.refresh_token()?.is_some())
+	}
+
+	#[expect(unused)]
+	pub fn is_access_present(&self) -> Result<bool, AuthError> {
+		Ok(self.access_token()?.is_some())
+	}
+
+	pub fn delete_session(&self) -> Result<(), AuthError> {
+		self.refresh_entry.delete_credential().ok();
+		self.delete_access().ok();
+
+		Ok(())
+	}
+
+	pub fn delete_access(&self) -> Result<(), AuthError> {
+		self.access_entry.delete_credential().ok();
+		self.expiry_entry.delete_credential().ok();
+
+		Ok(())
+	}
+
+	#[expect(unused)]
+	pub fn revoke_access(&self) -> Result<(), AuthError> {
+		if let Some(access_token) = self.access_token()? {
+			self.oauth.revoke_token(StandardRevocableToken::AccessToken(access_token))?;
+		}
+
+		self.delete_access()?;
+		Ok(())
+	}
+
+	// a.k.a. revoke_session
+	pub fn logout(&self) -> Result<(), AuthError> {
+		if let Some(refresh_token) = self.refresh_token()? {
+			self.oauth.revoke_token(StandardRevocableToken::RefreshToken(refresh_token))?;
+		}
+
+		self.delete_session()?;
+		Ok(())
+	}
 }
 
 fn string_expiration(duration: Duration) -> Result<String, AuthError> {
 	let expiry_time = Utc::now() + chrono::Duration::from_std(duration).unwrap();
 	Ok(expiry_time.to_rfc3339())
-}
-
-pub fn secrets() -> Result<(Entry, Entry), AuthError> {
-	let refresh = Entry::new(SECRET_SERVICE, SECRET_REFRESH)?;
-	let access = Entry::new(SECRET_SERVICE, SECRET_ACCESS)?;
-
-	Ok((refresh, access))
-}
-
-pub fn expiry() -> Result<Entry, AuthError> {
-	let expiry = Entry::new(SECRET_SERVICE, SECRET_EXPIRY)?;
-
-	Ok(expiry)
-}
-
-pub async fn login() -> Result<AccessToken, AuthError> {
-	let oauth = oauth_client();
-
-	let (refresh, access) = secrets()?;
-	let expiry = expiry()?;
-
-	let expired = expiry.get_password().ok().as_ref()
-		.and_then(|e| chrono::DateTime::parse_from_rfc3339(e).ok())
-		.map(|dt| dt < Utc::now())
-		.unwrap_or(true);
-
-	match access.get_password() {
-		Ok(token) if !expired => Ok(AccessToken::new(token)),
-
-		Err(keyring::Error::NoEntry) | Ok(_) => {
-			let refresh_token = match refresh.get_password() {
-				Ok(token) => RefreshToken::new(token),
-
-				Err(keyring::Error::NoEntry) => return Err(AuthError::NotLoggedIn),
-				Err(err) => return Err(AuthError::Keyring(err)),
-			};
-
-			let token = oauth.exchange_refresh_token(&refresh_token)
-				.request_async(&http_client()).await?;
-
-			access.set_password(token.access_token().secret())?;
-			expiry.delete_credential().ok();
-
-			if let Some(expires_in) = token.expires_in() {
-				expiry.set_password(&string_expiration(expires_in)?)?;
-			}
-
-			Ok(token.access_token().clone())
-		},
-		
-		Err(err) => Err(AuthError::Keyring(err)),
-	}
-}
-
-pub fn session_present() -> Result<bool, AuthError> {
-	let (refresh, _) = secrets()?;
-
-	match refresh.get_password() {
-		Ok(_) => Ok(true),
-		Err(keyring::Error::NoEntry) => Ok(false),
-		Err(err) => Err(AuthError::Keyring(err)),
-	}
-}
-
-#[allow(unused)]
-pub fn delete_session() -> Result<(), AuthError> {
-	let (_, access) = secrets()?;
-
-	access.delete_credential().ok();
-
-	Ok(())
-}
-
-pub fn logout() -> Result<(), AuthError> {
-	let (refresh, access) = secrets()?;
-
-	refresh.delete_credential().ok();
-	access.delete_credential().ok();
-
-	Ok(())
 }
 
 #[derive(Debug, Deserialize)]
