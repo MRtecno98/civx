@@ -60,7 +60,7 @@ pub use method::*;
 pub use air::*;
 
 pub use client::CivitAI;
-pub use error::Result;
+pub use error::{Result, Error};
 pub use files::hashes;
 
 pub const API_BASE: &str = "https://civitai.com/";
@@ -81,7 +81,8 @@ mod error {
 	pub enum Error {
 		/// An error returned by the CivitAI API.
 		/// see [ApiError](crate::error::ApiError) for more details.
-		Api(ApiError),
+		// boxed to avoid large enum size
+		Api(Box<ApiError>),
 
 		/// An error raised by the underlying HTTP client.
 		Request(reqwest::Error),
@@ -190,7 +191,7 @@ mod error {
 
 	impl From<ApiError> for Error {
 		fn from(err: ApiError) -> Self {
-			Error::Api(err)
+			Error::Api(Box::new(err))
 		}
 	}
 	

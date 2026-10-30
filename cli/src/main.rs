@@ -1,13 +1,14 @@
 use civx::{CivitAI, queries::ListModels};
 use clap::{Parser, builder::{Styles, styling::{AnsiColor, Effects}}};
 
-use crate::{args::{Command, ModelAction}, auth::AuthError};
+use crate::{args::{Command, ModelAction}, auth::AuthError, error::Error};
 
 use futures::TryStreamExt;
 
 mod args;
 mod tables;
 mod auth;
+mod error;
 
 pub const DEFAULT_LIMIT: u32 = 10;
 
@@ -19,7 +20,13 @@ pub(crate) fn clap_styles() -> Styles {
 }
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+async fn main() {
+	if let Err(err) = entry().await {
+		error::handle_error(err);
+	}
+}
+
+async fn entry() -> Result<(), Error> {
 	let cli = args::Args::parse();
 	let auth_client = auth::AuthClient::new();
 

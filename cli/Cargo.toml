@@ -18,6 +18,7 @@ itertools = "0.15.0"
 keyring = { version = "4.2.0", features = ["apple-native-keyring-store", "cli"] }
 oauth2 = "5.0.0"
 open = "5.4.5"
+owo-colors = "4.4.0"
 serde = { version = "1.0.229", features = ["derive"] }
 super-table = "1.1.1"
 text_io = "0.1.13"
