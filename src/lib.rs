@@ -47,6 +47,9 @@ pub mod models;
 pub mod enums;
 pub mod reader;
 
+#[cfg(feature = "oauth")]
+pub mod oauth;
+
 mod method;
 mod client;
 mod air;

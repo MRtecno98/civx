@@ -19,6 +19,7 @@ exclude = [
 [features]
 enums = []
 clap = ["dep:clap", "civx-derive/clap"]
+oauth = ["dep:oauth2"]
 testing = []
 
 [workspace]
@@ -51,6 +52,7 @@ futures-util = "0.3.34"
 async-stream = "0.3.6"
 civx-derive = { path = "derive", version = "0.1.0" }
 clap = { version = "4.6.6", optional = true, features = ["derive"] }
+oauth2 = { version = "5.0.0", optional = true }
 
 [dev-dependencies]
 futures = "0.3.34"

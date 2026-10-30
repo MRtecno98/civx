@@ -55,6 +55,7 @@ pub enum Command {
 	Whoami,
 
 	Login,
+	Logout,
 }
 
 #[allow(clippy::large_enum_variant)]

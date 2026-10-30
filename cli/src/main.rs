@@ -1,12 +1,13 @@
 use civx::{CivitAI, queries::ListModels};
 use clap::{Parser, builder::{Styles, styling::{AnsiColor, Effects}}};
 
-use crate::args::{Command, ModelAction};
+use crate::{args::{Command, ModelAction}, auth::AuthError};
 
 use futures::TryStreamExt;
 
 mod args;
 mod tables;
+mod auth;
 
 pub const DEFAULT_LIMIT: u32 = 10;
 
@@ -21,7 +22,18 @@ pub(crate) fn clap_styles() -> Styles {
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
 	let cli = args::Args::parse();
 
-	let client = CivitAI::new()?;
+	let token = match auth::login().await {
+		Ok(token) => Some(token.into_secret()),
+
+		Err(AuthError::NotLoggedIn | AuthError::TokenRequest(_)) => None,
+
+		Err(err) => return Err(err)?
+	};
+	
+	let client = match token {
+		Some(token) => CivitAI::new_auth(token)?,
+		None => CivitAI::new()?
+	};
 
 	match cli.command {
 		Command::Models { action: ModelAction::Search {
@@ -70,6 +82,31 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 		Command::Whoami => {
 			tables::print_whoami(&client.get_me().await?);
+		},
+
+		Command::Login => {
+			if auth::session_present()? {
+				println!("Already logged in, use `civx logout` to log out first");
+			} else {
+				match auth::login_session().await {
+					Err(AuthError::CannotOpenURL) => {
+						println!("Cannot open URL in browser, login from a headless shell is not supported yet.");
+					},
+
+					_ => {
+						if auth::session_present()? {
+							println!("Login successful");
+						} else {
+							println!("Login failed, no token was received from the server");
+						}
+					}
+				}				
+			}
+		},
+
+		Command::Logout => {
+			auth::logout()?;
+			println!("Logout successful");
 		},
 
 		_ => todo!()
